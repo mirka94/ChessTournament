@@ -3,7 +3,7 @@ package chessTournament;
 //klasa odpowiada za uruchomienie programu
 public class MainProgram {
   Window window = new Window();
-  Database DB = new Database();
+  Database DB;
 
   public static void main (String[]args){
       MainProgram main = new MainProgram();
@@ -13,7 +13,7 @@ public class MainProgram {
       Database DB = new Database();
       
       Competitor cm = new Competitor(null, "Mirkaa", "Pelc", 21, 1, false);
-      Competitor cm2 = new Competitor(null, "Pietrek", "Jab³oñski", 20, 1, false);
+      Competitor cm2 = new Competitor(null, "Pietrek", "Jabï¿½oï¿½ski", 20, 1, false);
       Competitor cm3 = new Competitor(null, "Maryjusz", "Lorek", 99, 0, false);
       DB.insertOrUpdateCompetitor(cm, 0);
       DB.insertOrUpdateCompetitor(cm2, 0);

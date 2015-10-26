@@ -1,6 +1,6 @@
 package chessTournament;
 
-//klasa odpowiada za obs³ugê okna (intersejsu)
+//klasa odpowiada za obsÅ‚ugÄ™ okna (intersejsu)
 
 import javax.swing.*;
 
@@ -9,7 +9,7 @@ public class Window extends JFrame {
   
   MenuBarForWindow menuBarW = new MenuBarForWindow();
 
-  //okreœlam wymiary okna
+  //okreÅ›lam wymiary okna
   public Window() {
       setSize(500, 500);
       setLayout(null);

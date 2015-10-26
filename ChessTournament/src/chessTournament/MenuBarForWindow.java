@@ -3,7 +3,7 @@ package chessTournament;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//klasa odpowiadaj¹ca za rozwijane menu
+//klasa odpowiadajÄ…ca za rozwijane menu
 
 import javax.swing.*;
 

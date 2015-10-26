@@ -14,7 +14,7 @@ public class AddCompetitorWindow {
 	
 	public void addCompetitor() {
 	      Window window = new Window();
-	      //tworzenie i formatowanie etykiet oraz pól tekstowych
+	      //tworzenie i formatowanie etykiet oraz pÃ³l tekstowych
 	      lName = new JLabel("Imie: ");
 	      lName.setBounds(20, 20, 100, 30);
 
@@ -42,7 +42,7 @@ public class AddCompetitorWindow {
 	      dodaj = new JButton("Dodaj");
 	      dodaj.setBounds(150, 220, 100, 30);
 
-	      //dodawanie do okna etykiet i pól tekstowych
+	      //dodawanie do okna etykiet i pÃ³l tekstowych
 	      window.add(lName);
 	      window.add(tName);
 	      window.add(lSurname);
@@ -53,13 +53,13 @@ public class AddCompetitorWindow {
 	      window.add(tCategory);
 	      window.add(dodaj);
 
-	      //zapisuje do zmiennych pobrany z pól tekstowych tekst
+	      //zapisuje do zmiennych pobrany z pÃ³l tekstowych tekst
 
 	      dodaj.addActionListener(new ActionListener() {
 	          public void actionPerformed(ActionEvent e) {
 	              Object source = e.getSource();
 
-	              //jeœli guzik zostanie naciœniêty
+	              //jeÅ›li guzik zostanie naciÅ›niÄ™ty
 		            if (source == dodaj) {
 		            }
 	          }
