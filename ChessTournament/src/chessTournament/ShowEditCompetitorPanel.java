@@ -1,45 +1,45 @@
 package chessTournament;
 
 import java.awt.BorderLayout;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 @SuppressWarnings("serial")
-public class ShowCompetitorTableWindow extends JFrame{
-	
+public class ShowEditCompetitorPanel extends JPanel{
+
 	private JTable table;
-	//private List<Competitor> competitorList;
 	private DefaultTableModel model;
-	//private Competitor c;
 	private Database db;
+	private Object[] columnNames={
+			"ID",
+			"Imie",
+			"Nazwisko",
+			"Wiek",
+			"Kategoria"
+		};
+	private Object[] rowData = new Object[5];;
 	
-	public ShowCompetitorTableWindow() {
-	    setSize(1000,600);
+	public ShowEditCompetitorPanel(){
+		setSize(700,700);
 	    setVisible(true);
-    }
-
-
-	public void play(){
-		
-		Object[] columnNames={
-				"ID",
-				"Imie",
-				"Nazwisko",
-				"Wiek",
-				"Kategoria"
-			};
-                       
-        model = new DefaultTableModel();
+	    
+		                       
+        model = new DefaultTableModel(){
+        	@Override
+        	public boolean isCellEditable(int row, int column) {
+        		if(column==0) return false;
+        		return super.isCellEditable(row, column);
+        	}
+        };
+        
         model.setColumnIdentifiers(columnNames);
         
-        Object[] rowData = new Object[5];
+        
         table = new JTable();
         db = new Database();
-        for(Competitor c : db.getCompetitors(2)){
+        for(Competitor c : db.getCompetitors(1)){
             
             rowData[0] = c.getId();
              rowData[1] = c.getName();
@@ -49,18 +49,18 @@ public class ShowCompetitorTableWindow extends JFrame{
                
                model.addRow(rowData);
         }
-        db.close();
+        
         table.setModel(model);
+        model.fireTableDataChanged();
+        db.close();
         
-        //System.out.println(getUsers().size());
-        
-        MenuBarForWindow window = new MenuBarForWindow();
-        JPanel panel = new JPanel();
         JScrollPane scrollPane = new JScrollPane(table);
 	    add(scrollPane, BorderLayout.CENTER);
 	    setLayout(new BorderLayout());        
         JScrollPane pane = new JScrollPane(table);
         add(pane,BorderLayout.CENTER);
-        window.setContentPane(panel);
+        
 	}
+	
+	
 }
