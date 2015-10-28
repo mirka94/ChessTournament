@@ -65,7 +65,7 @@ public class AddCompetitorPanel extends JPanel{
 	          public void actionPerformed(ActionEvent e) {
 	        	  Database db = new Database();
 	        	  Competitor c = new Competitor(null, tName.getText(), tSurname.getText(), Integer.parseInt(tAge.getText()), Integer.parseInt(tCategory.getText()), false);
-	        	  db.insertOrUpdateCompetitor(c, null);
+	        	  db.insertOrUpdateCompetitor(c, 2);
 	        	  db.close();
 	          }
 	      });

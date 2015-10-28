@@ -39,7 +39,7 @@ public class ShowEditCompetitorPanel extends JPanel{
         
         table = new JTable();
         db = new Database();
-        for(Competitor c : db.getCompetitors(1)){
+        for(Competitor c : db.getCompetitors(2)){
             
             rowData[0] = c.getId();
              rowData[1] = c.getName();
