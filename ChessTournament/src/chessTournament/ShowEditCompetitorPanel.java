@@ -38,21 +38,7 @@ public class ShowEditCompetitorPanel extends JPanel{
         
         
         table = new JTable();
-        db = new Database();
-        for(Competitor c : db.getCompetitors(2)){
-            
-            rowData[0] = c.getId();
-             rowData[1] = c.getName();
-              rowData[2] = c.getSurname();
-               rowData[3] = c.getAge();
-               	rowData[4] = c.getChessCategory();
-               
-               model.addRow(rowData);
-        }
-        
-        table.setModel(model);
-        model.fireTableDataChanged();
-        db.close();
+        setData();
         
         JScrollPane scrollPane = new JScrollPane(table);
 	    add(scrollPane, BorderLayout.CENTER);
@@ -63,4 +49,21 @@ public class ShowEditCompetitorPanel extends JPanel{
 	}
 	
 	
+	public void setData() {
+		db = new Database();
+		model.setRowCount(0);
+        for(Competitor c : db.getCompetitors(2)){
+            rowData[0] = c.getId();
+            rowData[1] = c.getName();
+            rowData[2] = c.getSurname();
+            rowData[3] = c.getAge();
+            rowData[4] = c.getChessCategory();
+               
+            model.addRow(rowData);
+        }
+        
+        table.setModel(model);
+        model.fireTableDataChanged();
+        db.close();
+	}
 }

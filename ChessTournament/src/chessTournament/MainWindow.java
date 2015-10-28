@@ -14,6 +14,7 @@ public class MainWindow extends JFrame{
 	public MainWindow(){
 		setSize(700,700);
 		setResizable(false);
+		setLayout(null);
 		setVisible(true);
 		
 		bCompetitors = new JButton("Uczestnicy");
