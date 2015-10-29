@@ -63,8 +63,7 @@ public class Database {
 			Statement statement = connection.createStatement();
 			if(c.getId()==null) {
 				statement.executeUpdate("insert into gracze " +
-						"(id, turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany) VALUES (" +
-						""+c.getId() 				+ ", " + 
+						"(turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany) VALUES (" +
 						""+turniej	 				+ ", " + 
 						"'"+c.getName() 			+ "', " + 
 						"'"+c.getSurname() 			+ "', " + 
@@ -80,7 +79,63 @@ public class Database {
 						"wiek=" 					+ c.getAge() 			+ ", " + 
 						"kategoria=" 				+ c.getChessCategory() 	+ ", " + 
 						"czy_zdyskwalifikowany=" 	+ (c.getIsDisqualified()?1:0) + " " 	+ 
-						"where id='" 				+ c.getId() 			+ "'"
+						"where id=" 				+ c.getId() 			+ ""
+						);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void insertOrUpdateTournament(Tournament t) {
+		try {
+			Statement statement = connection.createStatement();
+			if(t.getId()==null) {
+				statement.executeUpdate("insert into turnieje" +
+						"(nazwa, rok, szachownic, rund, rozegranych) VALUES (" +
+						"'"+t.getName() 			+ "', " + 
+						"'"+t.getYear() 			+ "', " + 
+						"" +t.getBoards()			+ ", " + 
+						"" +t.getRounds()		 	+ ", " + 
+						"" +t.getRoundsCompleted()	+ ")"
+						);
+			}
+			else {
+				statement.executeUpdate("update turnieje set " + 
+						"nazwa='" 		+ t.getName() 			+ "', " + 
+						"rok='" 		+ t.getYear() 			+ "', " + 
+						"szachownic="	+ t.getBoards()			+ ", " + 
+						"rund=" 		+ t.getRounds()	 		+ ", " + 
+						"rozegranych=" 	+ t.getRoundsCompleted() + " " 	+ 
+						"where id=" 	+ t.getId() 			+ ""
+						);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void insertOrUpdateSingleGame(SingleGame g) {
+		try {
+			Statement statement = connection.createStatement();
+			if(g.getId()==null) {
+				//id_gr1 INTEGER, id_gr2 INTEGER, wynik TINYINT, " +
+	      		//czyrozgrywana BOOLEAN, czywtrakcie BOOLEAN)
+				statement.executeUpdate("insert into rozgrywki" +
+						"(id_gr1, id_gr2, wynik, czyrozgrywana, czywtrakcie) VALUES (" +
+						"" +g.getCompetitor1() 		+ ", " + 
+						"" +g.getCompetitor2()		+ ", " + 
+						"" +g.getScore()			+ ", " + 
+						"" +(g.getWasPlayed()?1:0) 	+ ", " + 
+						"" +(g.isInProgress()?1:0)	+ ")"
+						);
+			}
+			else {
+				statement.executeUpdate("update rozgrywki set " + 
+						"id_gr1='" 		+ g.getCompetitor1() 			+ "', " + 
+						"id_gr2='" 		+ g.getCompetitor2()			+ "', " + 
+						"wynik="		+ g.getScore()					+ ", " + 
+						"czyrozgrywana="+ (g.getWasPlayed()?1:0)	 	+ ", " + 
+						"czywtrakcie=" 	+ (g.isInProgress()?1:0) + " " 	+ 
+						"where id='" 	+ g.getId() 			+ "'"
 						);
 			}
 		} catch (SQLException e) {
@@ -100,6 +155,48 @@ public class Database {
 		    			rs.getInt("wiek"),
 		    			rs.getInt("kategoria"),
 		    			rs.getBoolean("czy_zdyskwalifikowany")
+		    		));
+		    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public List<Tournament> getTournaments() {
+		List<Tournament> result = new ArrayList<Tournament>();
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("select * from turnieje");
+			//nteger id, String name, String year, int boards, int rounds, int roundsCompleted
+		    while(rs.next()) {
+		    	result.add(new Tournament(
+		    			rs.getInt("id"),
+		    			rs.getString("nazwa"),
+		    			rs.getString("rok"),
+		    			rs.getInt("szachownic"),
+		    			rs.getInt("rund"),
+		    			rs.getInt("rozegranych")
+		    		));
+		    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public List<SingleGame> getSingleGames() {
+		List<SingleGame> result = new ArrayList<SingleGame>();
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("select * from rozgrywki");
+			//nteger id, String name, String year, int boards, int rounds, int roundsCompleted
+		    while(rs.next()) {
+		    	result.add(new SingleGame(
+		    			rs.getInt("id"),
+		    			rs.getInt("id_gr1"),
+		    			rs.getInt("id_gr2"),
+		    			rs.getInt("wynik"),
+		    			rs.getBoolean("czyrozgrywana"),
+		    			rs.getBoolean("czywtrakcie")
 		    		));
 		    }
 		} catch (SQLException e) {
