@@ -1,0 +1,70 @@
+\pdfinfo{
+/ModDate (\pdfcreationdate)                                   
+/Producer (pdfLaTeX)                                    
+}
+
+
+\documentclass[fleqn,oneside,openany,a4paper,11pt]{book}
+
+\usepackage{color}
+\usepackage[utf8]{inputenc}
+\usepackage[breaklinks]{hyperref} %
+\usepackage{pracadok}
+\usepackage{longtable}
+%\usepackage{array}
+%\usepackage{geometry}
+%\usepackage{fancyhdr}
+\usepackage{float}
+
+\pdfcompresslevel=9
+
+\def\uwaga#1{}
+
+\begin{document}
+\let\s\lstinline
+\lstset{inputencoding=utf8, extendedchars=true,literate={ą}{{\k{a}}}1 {ć}{{\'c}}1 {ę}{{\k{e}}}1 {ł}{{\l{}}}1 {ń}{{\'n}}1 {ó}{{\'o}}1 {ś}{{\'s}}1 {ż}{{\.z}}1 {ź}{{\'z}}1 {Ą}{{\k{A}}}1 {Ć}{{\'C}}1 {Ę}{{\k{E}}}1 {Ł}{{\L{}}}1 {Ń}{{\'N}}1 {Ó}{{\'O}}1 {Ś}{{\'S}}1 {Ż}{{\.Z}}1 {Ź}{{\'Z}}1}
+
+% Tytuł
+\input {tytul.tex}
+\definecolor{tlo}{rgb}{.7,.7,.7} 
+\lstset{language=bash,commentstyle=\scriptsize,backgroundcolor=\color{tlo},%
+basicstyle=\scriptsize}
+
+%spis tresci
+{\footnotesize\tableofcontents}
+
+\setcounter{chapter}{0}
+%Opis wykonywanego zadania
+%Cel
+%Zakres prac
+%Interesariusze
+
+\input{czlonkowie/1/main.tex}%Piotr Jabłoński - kierownik zespołu
+\input{czlonkowie/2/main.tex}%Mariusz Lorek		
+\input{czlonkowie/3/main.tex}%Mirosława Pelc
+\input{bibrystab.tex} %Każdy członek zespołu musi dołożyć minimum 5 pozycji bibliograficzny, które posłużyły mu do opracowania zadanego fragmentu projektu.
+\end{document}
+
+To robi tylko kierownik projektu:
+Wprowadź polecenie ze swoimi danymi
+svn co https://riouxsvn.com/svn/zpi2014 --username aligeza
+
+w bieżącym katalogu zostanie utworzony katalog z nazwą repozytorium, u mnie zpi2014
+
+Skopiuj do niego całą zawartość projektu do katalogu zpi2014
+przejdź do niego i wprowadź
+svn add * --force
+to polecenie dodało wszystkie pliki i podkatalogu do lokalnej kopii repozytorium.
+
+
+Poniższe polecenie wyśle dane na serwer svn
+svn commit -m "inicjacja dokumentacji projektu"
+
+
+Teraz każdy członek z zespołu wykonuje polecnie ze swoim loginem!!!!!!!
+Wprowadź polecenie ze swoimi danymi
+svn co https://riouxsvn.com/svn/zpi2014 --username aligeza
+Już każdy posiada swoje repozytorium do kompilacji.
+Zmiany nanosić w swoim pliku i po porawnej kompilacji
+trzeba przesłać na serwer z adekwatnym komentarzem
+svn commit -m "Model stanowiska do zobrazowań"
