@@ -2,13 +2,10 @@ package chessTournament;
 
 
 //klasa odpowiada za uruchomienie programu
-public class MainProgram {
-	
-  Database DB = new Database();
+public class MainProgram {  
 
   public static void main (String[]args){
-      
-	  new MainWindow();
-      
+	  new CompetitorTabbedPane();
+      System.out.print(Simulator.Simulate(13, 5));
   }
 }
