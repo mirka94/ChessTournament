@@ -9,6 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -31,7 +32,7 @@ public class CompetitorTabbedPane extends JFrame{
 	    setVisible(true);
 	    
 	    tabbedPane.addTab("Pokaż lub edytuj dodanych uczestników", showPanel);
-	    tabbedPane.add("Usuń wybranego uczestnika", removePanel);
+	    tabbedPane.add("Turniej", removePanel);
 	    tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -53,6 +54,12 @@ public class CompetitorTabbedPane extends JFrame{
 		about = new JMenu("O programie");
 		addC = new JMenuItem("Dodaj");
 		rndC = new JMenuItem("Dodaj losowego gracza");
+		addC.setAccelerator(KeyStroke.getKeyStroke(
+		        java.awt.event.KeyEvent.VK_N, 
+		        java.awt.Event.CTRL_MASK));
+		rndC.setAccelerator(KeyStroke.getKeyStroke(
+		        java.awt.event.KeyEvent.VK_L, 
+		        java.awt.Event.CTRL_MASK));
 		authors = new JMenuItem("Autorzy");
 		manual = new JMenuItem("Pomoc");
 		comp.add(addC);
