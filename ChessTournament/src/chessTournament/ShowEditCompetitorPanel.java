@@ -23,44 +23,62 @@ import javax.swing.text.PlainDocument;
 
 @SuppressWarnings("serial")
 public class ShowEditCompetitorPanel extends JPanel{
-
+	private final int turniej;
+	private final Database DB;
 	private JTable table;
 	private DefaultTableModel model;
-	private Database db;
-	private Object[] columnNames={
-			"ID",
-			"Imie",
-			"Nazwisko",
-			"Wiek",
-			"Kategoria"
-		};
-	private Object[] rowData = new Object[5];;
 	
-	public ShowEditCompetitorPanel(){
+	/**
+	 * @param t - id turnieju
+	 * @param db - baza danych
+	 */
+	public ShowEditCompetitorPanel(int t, Database db){
+		this.turniej = t;
+		this.DB = db;
 		setSize(700,700);
 		setLayout(new BorderLayout()); 
 	    setVisible(true);
 	    
-		                       
-        model = new DefaultTableModel(){
+	    model = new DefaultTableModel(){
+        	// w kolumny wiek i kategoria można wprowadzać tylko liczby
         	@Override
-        	public boolean isCellEditable(int row, int column) {
-        		if(column==0) return false;
-        		return super.isCellEditable(row, column);
-        	}
-        	@Override
-        	public Class<?> getColumnClass(int columnIndex) {
-        		if(columnIndex==3 || columnIndex==4) return Integer.class;
-        		return super.getColumnClass(columnIndex);
+        	public Class<?> getColumnClass(int cInd) { 
+        		return (cInd==2 || cInd==3) ? Integer.class : super.getColumnClass(cInd);
         	}
         };
-        
-        model.setColumnIdentifiers(columnNames);
-        table = new JTable();
-        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        setData();
-        
-        JTextField jtf = new JTextField();
+        model.setColumnIdentifiers(new String[]{"Imię", "Nazwisko", "Wiek", "Kategoria"});
+        // przy edycji tabeli - zapis do bazy
+        model.addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				int row = e.getFirstRow();
+				int column = e.getColumn();
+				if(column>=0 && row>=0 && model.getRowCount()>row) {
+					Object value = model.getValueAt(row, column); 
+					Competitor c = DB.getCompetitors(turniej).get(row);
+					try {
+						switch(column) {
+							case 0: c.setName((String)value); 			break;
+							case 1: c.setSurname((String)value); 		break;
+							case 2: c.setAge((int)value); 				break;
+							case 3: c.setChessCategory((int)value); 	break;
+						}
+					} catch(ValidatorException exc) {
+						System.out.print("Błąd walidacji\n");
+					}
+					DB.insertOrUpdateCompetitor(c, turniej);
+				}
+			}
+		});
+
+
+	    // USTAWIENIA TABELI;
+	    table = new JTable();
+        table.setModel(model);
+	    // zaznaczanie tylko jednego wiersza (mamy proste usuwanie)
+        table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION); 
+        // pole tekstowe akceptujące tylko znaki a-Z, - i spację
+        final JTextField jtf = new JTextField();
         jtf.setDocument(new PlainDocument() {
         	@Override
         	public void insertString(int offs, String str, AttributeSet a)
@@ -70,69 +88,35 @@ public class ShowEditCompetitorPanel extends JPanel{
         		super.insertString(offs, str, a);
         	}
         });
+        // dla pól imię i nazwisko ustawiony edytor na podstawie powyższego pola tekstowego 
+        table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jtf));
         table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(jtf));
-        table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(jtf));
-        
-        JComboBox<Integer> comboBox = new JComboBox<Integer>();
-        comboBox.addItem(1);
-        comboBox.addItem(2);
-        comboBox.addItem(3);
-        comboBox.addItem(4);
-        comboBox.addItem(5);
-        comboBox.addItem(6);
-        table.getColumnModel().getColumn(4).setCellEditor(new DefaultCellEditor(comboBox));
-        
-        model.addTableModelListener(new TableModelListener() {
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				int row = e.getFirstRow();
-				int column = e.getColumn();
-				if(column>=0 && row>=0 && model.getRowCount()>row) {
-					Database db = new Database();
-					Object value = model.getValueAt(row, column); 
-					System.out.print(
-						value + "\n"
-					);
-					Competitor c = db.getCompetitors(2).get(row);
-					try {
-					switch(column) {
-						case 1: c.setName((String)value); 			break;
-						case 2: c.setSurname((String)value); 		break;
-						case 3: c.setAge((int)value); 				break;
-						case 4: c.setChessCategory((int)value); 	break;
-					}
-					} catch(ValidatorException exc) {
-						System.out.print("Błąd walidacji");
-					}
-					db.insertOrUpdateCompetitor(c, 2);
-					db.close();
-				}
-			}
-		});
-        
+        // dla kategorii szachowej wybór z listy wartości
+        table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(
+        		new JComboBox<Integer>(new Integer[]{1,2,3,4,5,6})
+        ));
+        // po klikinęciu prawym na tabelę - pokazanie opcji "usuń"
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
                 int r = table.rowAtPoint(e.getPoint());
-                if (r >= 0 && r < table.getRowCount()) {
+                if(r >= 0 && r < table.getRowCount()) 
                     table.setRowSelectionInterval(r, r);
-                } else {
-                    table.clearSelection();
-                }
+                else 
+                	table.clearSelection();
 
                 final int rowindex = table.getSelectedRow();
-                if (rowindex < 0)
-                    return;
-                if (e.isPopupTrigger() && e.getComponent() instanceof JTable ) {
+                if(rowindex < 0) return;
+                if(e.isPopupTrigger() && e.getComponent() instanceof JTable ) {
                     JPopupMenu popup = new JPopupMenu();
                     JMenuItem jmi = new JMenuItem("Usuń");
+                    // akcja po kliknięciu na "Usuń"
                     jmi.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							Database db = new Database();
-							Competitor c = db.getCompetitors(2).get(rowindex);
-							db.removeCompetitor(c.getId());
-							db.close();
+							Competitor c = DB.getCompetitors(turniej).get(rowindex);
+							DB.removeCompetitor(c.getId());
+							model.fireTableRowsDeleted(rowindex, rowindex);
 							setData();
 						}
 					});
@@ -141,26 +125,25 @@ public class ShowEditCompetitorPanel extends JPanel{
                 }
             }
         });
-               
-        JScrollPane pane = new JScrollPane(table);
-        add(pane,BorderLayout.CENTER);
+         
+        setData();      
+        add(new JScrollPane(table),BorderLayout.CENTER);
 	}
 	
+	/**
+	 * odświeża widok tabeli danymi pobranymi z bazy
+	 */
 	public void setData() {
-		db = new Database();
 		model.setRowCount(0);
-        for(Competitor c : db.getCompetitors(2)){
-            rowData[0] = c.getId();
-            rowData[1] = c.getName();
-            rowData[2] = c.getSurname();
-            rowData[3] = c.getAge();
-            rowData[4] = c.getChessCategory();
-               
-            model.addRow(rowData);
+        for(Competitor c : DB.getCompetitors(turniej)){
+        	model.addRow(new Object[]{
+        		c.getName(),
+            	c.getSurname(),
+            	c.getAge(),
+            	c.getChessCategory()
+            });
         }
         
-        table.setModel(model);
-        model.fireTableDataChanged();
-        db.close();
+        model.fireTableDataChanged();        
 	}
 }

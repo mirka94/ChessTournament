@@ -10,8 +10,32 @@ import be.md.swiss.Player;
 import be.md.swiss.pairing.Round;
 
 public class Simulator {
+	static void rozgrywek_finaly(int zawodnikow, int izg) {
+		System.out.print("Finały: zawodnikow - "+zawodnikow+", "
+				+izg*(izg-1)+" rozgrywek odbylo sie juz w fazie eliminacji, pozostalo rozgrywek "+
+				(zawodnikow*(zawodnikow-1)-(zawodnikow/izg)*izg*(izg-1)));
+	}
+	static void rozgrywek_eliminacje(int zawodnikow, int grup) {
+		List<Integer> grupy = new ArrayList<Integer>();
+		while(zawodnikow>0) {
+			int t = zawodnikow/grup;
+			grupy.add(t);
+			zawodnikow-=t;
+			grup--;
+		}
+		int rozgrywek = 0;
+		for(Integer i : grupy) {
+			System.out.print("Grupa: zawodnikow - "+i+", rozgrywek - "+(i*(i-1))+"\n");
+			rozgrywek+=i*(i-1);
+		}
+		System.out.print("Łącznie rozgrywek: "+rozgrywek+"\n");
+	}
+	
+	
+	
 	static String Simulate(int players, int rounds) {
-		if(rounds+1>players) return "Nie da się rozegrać takiego turnieju z zastosowaniem reguły \"Dani dwaj gracze mogą spotkać się tylko raz\"";
+		if(rounds+1>players) return "Nie da się rozegrać takiego turnieju " +
+				"z zastosowaniem reguły \"Dani dwaj gracze mogą spotkać się tylko raz\"";
 		if(rounds+1==players) return "Ta liczba rund dla tylu graczy wymaga rozgrywki systemem kolowym";
 		String toOutput="";
 		be.md.swiss.Tournament t = be.md.swiss.Tournament.createTournament(rounds);
@@ -38,12 +62,13 @@ public class Simulator {
 			toOutput+="Gracz: "+pl.getFirstname()+" "+pl.getLastname()+"\n";
 		}
 		for(int i=0; i<rounds; ++i) {
-			System.out.print("Symulowanie rundy "+(i+1)+"\n");
+			//System.out.print("Symulowanie rundy "+(i+1)+"\n");
 			toOutput+="\n \n Rozpoczyna się runda "+(i+1)+"\n";
 			toOutput+="Aktualne statystyki: \n";
 			playersL.sort(playersLComp);
 			for(Player pl : playersL) {
-				toOutput+=pad(pl.getFirstname())+"\t"+pad(pl.getLastname())+"\t"+pl.getPoints()/10f+"\t"+pl.getSonnebornBerner()+"\n";
+				toOutput+=pad(pl.getFirstname())+"\t"+pad(pl.getLastname())+"\t"
+						+pl.getPoints()/10f+"\t"+pl.getSonnebornBerner()+"\n";
 			}
 			Round round = t.pairNextRound();
 			for(Pairing pairing : round.pairings) {
@@ -70,7 +95,8 @@ public class Simulator {
 		toOutput+="Statystyki koncowe: Gracz - punkty - SB \n";
 		playersL.sort(playersLComp);
 		for(Player pl : playersL) {
-			toOutput+=pad(pl.getFirstname())+"\t"+pad(pl.getLastname())+"\t"+pl.getPoints()/10f+"\t"+pl.getSonnebornBerner()+"\n";
+			toOutput+=pad(pl.getFirstname())+"\t"+pad(pl.getLastname())+"\t"
+					+pl.getPoints()/10f+"\t"+pl.getSonnebornBerner()+"\n";
 		}
 		return toOutput;
 	}

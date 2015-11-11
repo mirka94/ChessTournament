@@ -1,5 +1,8 @@
 package chessTournament;
 
+/**
+ * Przechowuje dane o pojedynczej rozgrywce - id graczy, wynik, czy była rozgrywana
+ */
 public class SingleGame {
 	private Integer id;
 	private int competitor1, competitor2;
@@ -19,10 +22,6 @@ public class SingleGame {
 
 	public Integer getId() {
 		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public int getCompetitor1() {

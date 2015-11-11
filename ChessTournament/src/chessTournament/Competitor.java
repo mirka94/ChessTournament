@@ -2,8 +2,10 @@
 
 package chessTournament;
 
+/**
+ * Przechowuje dane o uczestniku
+ */
 public class Competitor {
-
     private String name;
     private String surname;
     private int age;
@@ -22,10 +24,6 @@ public class Competitor {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {

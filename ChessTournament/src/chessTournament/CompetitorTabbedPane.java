@@ -2,6 +2,8 @@ package chessTournament;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -13,25 +15,30 @@ import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-@SuppressWarnings("serial")
-public class CompetitorTabbedPane extends JFrame{
+public class CompetitorTabbedPane extends JFrame implements WindowListener {
+	private static final long serialVersionUID = -1732368493930988952L;
+	final int turniej;
+	Database DB;
 	JMenuBar menuBar;
 	JMenu comp, about;
 	JMenuItem addC, rndC, authors, manual;
-	JPanel removePanel = new JPanel();
-	ShowEditCompetitorPanel showPanel = new ShowEditCompetitorPanel();
-	
+	ShowEditCompetitorPanel showPanel;
+	JPanel removePanel;	
 	JTabbedPane tabbedPane = new JTabbedPane();
 	
-	public CompetitorTabbedPane(){
+	public CompetitorTabbedPane(int turniej){
+		this.turniej = turniej;
+		this.DB = new Database();
+		showPanel = new ShowEditCompetitorPanel(turniej, DB);
+		removePanel = new JPanel();
 		setSize(700,700);
 		setResizable(false);
-		setTitle("Uczestnicy");
+		setTitle("ChessTournament alpha v0.01");
 		setMenu();
-		
-	    setVisible(true);
 	    
-	    tabbedPane.addTab("Pokaż lub edytuj dodanych uczestników", showPanel);
+	    addWindowListener(this);
+	    
+	    tabbedPane.add("Pokaż lub edytuj dodanych uczestników", showPanel);
 	    tabbedPane.add("Turniej", removePanel);
 	    tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
@@ -46,22 +53,26 @@ public class CompetitorTabbedPane extends JFrame{
 		});
 	    	    	    
 	    add(tabbedPane);
+	    setVisible(true);
 	}
 	
+	/**
+	 * Tworzy i dodaje elementy menu, akcje po ich wywołaniu i skróty
+	 */
 	private void setMenu() {
-		menuBar = new JMenuBar();
-		comp = new JMenu("Uczestnicy");
-		about = new JMenu("O programie");
-		addC = new JMenuItem("Dodaj");
-		rndC = new JMenuItem("Dodaj losowego gracza");
+		menuBar	= new JMenuBar();
+		comp 	= new JMenu("Uczestnicy");
+		about 	= new JMenu("O programie");
+		addC 	= new JMenuItem("Dodaj");
+		rndC 	= new JMenuItem("Dodaj losowego gracza");
 		addC.setAccelerator(KeyStroke.getKeyStroke(
 		        java.awt.event.KeyEvent.VK_N, 
 		        java.awt.Event.CTRL_MASK));
 		rndC.setAccelerator(KeyStroke.getKeyStroke(
 		        java.awt.event.KeyEvent.VK_L, 
 		        java.awt.Event.CTRL_MASK));
-		authors = new JMenuItem("Autorzy");
-		manual = new JMenuItem("Pomoc");
+		authors	= new JMenuItem("Autorzy");
+		manual	= new JMenuItem("Pomoc");
 		comp.add(addC);
 		comp.add(rndC);
 		about.add(authors);
@@ -71,24 +82,29 @@ public class CompetitorTabbedPane extends JFrame{
 		setJMenuBar(menuBar);
 		addC.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
-				 System.out.print("Dodaj");
-				 Database DB = new Database();
 				 Competitor c = new Competitor(null, "Imie", "Nazwisko", 0, 0, false);
-				 DB.insertOrUpdateCompetitor(c, 2);
-				 DB.close();
+				 DB.insertOrUpdateCompetitor(c, turniej);
 				 showPanel.setData();
 			}
 		});
 		rndC.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.print("Dodaj");
-				 Database DB = new Database();
 				 Competitor c = Simulator.RandomPlayer();
-				 DB.insertOrUpdateCompetitor(c, 2);
-				 DB.close();
+				 DB.insertOrUpdateCompetitor(c, turniej);
 				 showPanel.setData();
 			}
 		});
 	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		DB.close();
+	}
+	@Override public void windowOpened(WindowEvent e)		{}
+	@Override public void windowActivated(WindowEvent e)	{}
+	@Override public void windowClosed(WindowEvent e)		{}
+	@Override public void windowDeactivated(WindowEvent e)	{}
+	@Override public void windowDeiconified(WindowEvent e)	{}
+	@Override public void windowIconified(WindowEvent e)	{}
 }
