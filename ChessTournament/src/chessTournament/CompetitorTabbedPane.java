@@ -1,5 +1,6 @@
 package chessTournament;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -17,29 +18,30 @@ import javax.swing.event.ChangeListener;
 
 public class CompetitorTabbedPane extends JFrame implements WindowListener {
 	private static final long serialVersionUID = -1732368493930988952L;
-	final int turniej;
+	final Tournament turniej;
 	Database DB;
 	JMenuBar menuBar;
 	JMenu comp, about;
 	JMenuItem addC, rndC, authors, manual;
 	ShowEditCompetitorPanel showPanel;
-	JPanel removePanel;	
+	JPanel tournamentPanel;	
 	JTabbedPane tabbedPane = new JTabbedPane();
 	
-	public CompetitorTabbedPane(int turniej){
+	public CompetitorTabbedPane(Tournament turniej){
 		this.turniej = turniej;
 		this.DB = new Database();
-		showPanel = new ShowEditCompetitorPanel(turniej, DB);
-		removePanel = new JPanel();
-		setSize(700,700);
-		setResizable(false);
+		showPanel = new ShowEditCompetitorPanel(turniej.getId(), DB);
+		tournamentPanel = new TournamentPanel(turniej, DB);
+		setMinimumSize(new Dimension(400,300));
+		setSize(700,500);
+		//setResizable(false);
 		setTitle("ChessTournament alpha v0.01");
 		setMenu();
 	    
 	    addWindowListener(this);
 	    
 	    tabbedPane.add("Pokaż lub edytuj dodanych uczestników", showPanel);
-	    tabbedPane.add("Turniej", removePanel);
+	    tabbedPane.add("Turniej", tournamentPanel);
 	    tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -83,7 +85,7 @@ public class CompetitorTabbedPane extends JFrame implements WindowListener {
 		addC.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				 Competitor c = new Competitor(null, "Imie", "Nazwisko", 0, 0, false);
-				 DB.insertOrUpdateCompetitor(c, turniej);
+				 DB.insertOrUpdateCompetitor(c, turniej.getId());
 				 showPanel.setData();
 			}
 		});
@@ -91,7 +93,7 @@ public class CompetitorTabbedPane extends JFrame implements WindowListener {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				 Competitor c = Simulator.RandomPlayer();
-				 DB.insertOrUpdateCompetitor(c, turniej);
+				 DB.insertOrUpdateCompetitor(c, turniej.getId());
 				 showPanel.setData();
 			}
 		});

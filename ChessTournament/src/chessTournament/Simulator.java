@@ -15,7 +15,7 @@ public class Simulator {
 				+izg*(izg-1)+" rozgrywek odbylo sie juz w fazie eliminacji, pozostalo rozgrywek "+
 				(zawodnikow*(zawodnikow-1)-(zawodnikow/izg)*izg*(izg-1)));
 	}
-	static void rozgrywek_eliminacje(int zawodnikow, int grup) {
+	static int rozgrywek_eliminacje(int zawodnikow, int grup) {
 		List<Integer> grupy = new ArrayList<Integer>();
 		while(zawodnikow>0) {
 			int t = zawodnikow/grup;
@@ -29,6 +29,7 @@ public class Simulator {
 			rozgrywek+=i*(i-1);
 		}
 		System.out.print("Łącznie rozgrywek: "+rozgrywek+"\n");
+		return rozgrywek;
 	}
 	
 	

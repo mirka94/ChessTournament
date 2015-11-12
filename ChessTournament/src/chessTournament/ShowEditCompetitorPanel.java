@@ -79,15 +79,7 @@ public class ShowEditCompetitorPanel extends JPanel{
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION); 
         // pole tekstowe akceptujące tylko znaki a-Z, - i spację
         final JTextField jtf = new JTextField();
-        jtf.setDocument(new PlainDocument() {
-        	@Override
-        	public void insertString(int offs, String str, AttributeSet a)
-        			throws BadLocationException {
-        		if(str.length()>50-offs) str = str.substring(0, 50-offs);
-        		str = str.replaceAll("[^a-zA-ZżółćęśąźńŻÓŁĆĘŚĄŹŃ\\- ]+", "");
-        		super.insertString(offs, str, a);
-        	}
-        });
+        jtf.setDocument(new MainProgram.MyPlainDocument());
         // dla pól imię i nazwisko ustawiony edytor na podstawie powyższego pola tekstowego 
         table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jtf));
         table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(jtf));
