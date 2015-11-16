@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  10 NOV 2015 07:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  16 NOV 2015 22:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -839,17 +839,102 @@ Overfull \hbox (2.14482pt too wide) in paragraph at lines 173--174
 [][][][][][][][][][][][][][] 
  []
 
-[7]
+<fig/rejestracja.png, id=173, 507.39563pt x 494.59781pt>
+File: fig/rejestracja.png Graphic file (type png)
+
+<use fig/rejestracja.png>
+Package pdftex.def Info: fig/rejestracja.png used on input line 185.
+(pdftex.def)             Requested size: 507.3944pt x 494.59659pt.
+
+Overfull \hbox (91.32996pt too wide) in paragraph at lines 185--186
+ [][] 
+ []
+
+<fig/new_project.png, id=174, 256.70906pt x 127.97812pt>
+File: fig/new_project.png Graphic file (type png)
+
+<use fig/new_project.png>
+Package pdftex.def Info: fig/new_project.png used on input line 192.
+(pdftex.def)             Requested size: 256.70842pt x 127.9778pt.
+
+<fig/new_project_2.png, id=175, 752.8125pt x 578.91281pt>
+File: fig/new_project_2.png Graphic file (type png)
+
+<use fig/new_project_2.png>
+Package pdftex.def Info: fig/new_project_2.png used on input line 200.
+(pdftex.def)             Requested size: 752.81065pt x 578.91139pt.
+
+Overfull \hbox (336.74622pt too wide) in paragraph at lines 200--201
+ [][] 
+ []
+
+<fig/collaborator.png, id=176, 194.22563pt x 213.04594pt>
+File: fig/collaborator.png Graphic file (type png)
+
+<use fig/collaborator.png>
+Package pdftex.def Info: fig/collaborator.png used on input line 208.
+(pdftex.def)             Requested size: 194.22514pt x 213.04541pt.
+
+<fig/add_collaborator.png, id=177, 720.44156pt x 76.78688pt>
+File: fig/add_collaborator.png Graphic file (type png)
+
+<use fig/add_collaborator.png>
+Package pdftex.def Info: fig/add_collaborator.png used on input line 214.
+(pdftex.def)             Requested size: 720.43979pt x 76.78668pt.
+
+Overfull \hbox (304.37535pt too wide) in paragraph at lines 214--215
+ [][] 
+ []
+
+LaTeX Font Info:    External font `plex10' loaded for size
+(Font)              <10> on input line 215.
+LaTeX Font Info:    External font `plex10' loaded for size
+(Font)              <7> on input line 215.
+) (./czlonkowie/2/main.tex [7] [8pdfTeX warning (ext4): destination with the sa
+me identifier (name{figure.1.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jabłoński} <./fig/rejestracja.png>] [9pdfTeX warning (ext4
+): destination with the same identifier (name{figure.1.2}) has been already use
+d, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jabłoński} <./fig/new_project.png>] [10pdfTeX warning (ext
+4): destination with the same identifier (name{figure.1.3}) has been already us
+ed, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jabłoński} <./fig/new_project_2.png>] [11pdfTeX warning (e
+xt4): destination with the same identifier (name{figure.1.4}) has been already 
+used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jabłoński}pdfTeX warning (ext4): destination with the same
+ identifier (name{figure.1.5}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jabłoński} <./fig/collaborator.png> <./fig/add_collaborato
+r.png>]
  2.
-) (./czlonkowie/2/main.tex [8
+) (./czlonkowie/3/main.tex [12
 
 ]
  3.
-) (./czlonkowie/3/main.tex [9
+) (./czlonkowie/5/main.tex [13
 
 ]
  4.
-) (./bibrystab.tex [10
+) (./bibrystab.tex [14
 
 ]
 Underfull \hbox (badness 1789) in paragraph at lines 26--27
@@ -865,15 +950,15 @@ Nu-me-rycz-na al-ge-bra li-nio-wa\OT4/cmr/m/n/10.95 , War-sza-wa,
 
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 35.
-[11
+[15
 
-] [12] (./dokumentacja.lof)
+] [16] (./dokumentacja.lof)
 \tf@lof=\write5
 \openout5 = `dokumentacja.lof'.
 
 )
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 46.
- [13
+ [17
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 46.
@@ -881,17 +966,17 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 46.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 46.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 46.
 Package rerunfilecheck Info: File `dokumentacja.out' has not changed.
-(rerunfilecheck)             Checksum: A9DDF8B34662617080FBBA3B9F20B009;1290.
+(rerunfilecheck)             Checksum: E7EF13E90C5AEE331FA45CE078F2767E;1299.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 46.
  ) 
 Here is how much of TeX's memory you used:
- 9279 strings out of 493054
- 127832 string characters out of 6138326
- 248913 words of memory out of 5000000
- 12519 multiletter control sequences out of 15000+600000
- 18379 words of font info for 55 fonts, out of 8000000 for 9000
+ 9339 strings out of 493054
+ 128843 string characters out of 6138326
+ 251266 words of memory out of 5000000
+ 12557 multiletter control sequences out of 15000+600000
+ 21027 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,11n,52p,642b,1523s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,11n,52p,638b,1523s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2015/texmf-dist/fonts/enc/dvips/pl/plit.enc}{c:/texlive/2015/texm
 f-dist/fonts/enc/dvips/pl/plrm.enc}{c:/texlive/2015/texmf-dist/fonts/enc/dvips/
 pl/plms.enc}{c:/texlive/2015/texmf-dist/fonts/enc/dvips/pl/pltt.enc}<c:/texlive
@@ -905,10 +990,10 @@ ic/pl/plr8.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/pl/plr9.pfb><c:/t
 exlive/2015/texmf-dist/fonts/type1/public/pl/plsy8.pfb><c:/texlive/2015/texmf-d
 ist/fonts/type1/public/pl/plti10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/pu
 blic/pl/pltt10.pfb>
-Output written on dokumentacja.pdf (13 pages, 138286 bytes).
+Output written on dokumentacja.pdf (17 pages, 193435 bytes).
 PDF statistics:
- 312 PDF objects out of 1000 (max. 8388607)
- 282 compressed objects within 3 object streams
- 108 named destinations out of 1000 (max. 500000)
- 153 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 350 PDF objects out of 1000 (max. 8388607)
+ 308 compressed objects within 4 object streams
+ 117 named destinations out of 1000 (max. 500000)
+ 178 words of extra memory for PDF output out of 10000 (max. 10000000)
 
