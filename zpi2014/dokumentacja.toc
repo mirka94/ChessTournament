@@ -11,9 +11,9 @@
 \contentsline {subsection}{\numberline {1.9.1}Harmonogram prac poszczeg\IeC {\'o}lnych cz\IeC {\l }onk\IeC {\'o}w zespo\IeC {\l }u}{6}{subsection.1.9.1}
 \contentsline {section}{\numberline {1.10}Dokumentacja}{8}{section.1.10}
 \contentsline {subsection}{\numberline {1.10.1}Edycja plik\IeC {\'o}w dokumentacyjnych}{8}{subsection.1.10.1}
-\contentsline {subsubsection}{\numberline {1.10.1.1}Obs\IeC {\l }uga GitHuba}{8}{subsubsection.1.10.1.1}
-\contentsline {chapter}{\numberline {2}Piotr Jab\IeC {\l }o\IeC {\'n}ski}{13}{chapter.2}
-\contentsline {chapter}{\numberline {3}Miros\IeC {\l }awa Pelc}{14}{chapter.3}
-\contentsline {chapter}{\numberline {4}Mariusz Lorek}{15}{chapter.4}
-\contentsline {chapter}{Bibliografia}{16}{chapter*.2}
-\contentsline {chapter}{Spis rysunk\'ow}{18}{chapter*.3}
+\contentsline {subsubsection}{\numberline {1.10.1.1}Obs\IeC {\l }uga GitHuba}{9}{subsubsection.1.10.1.1}
+\contentsline {chapter}{\numberline {2}Piotr Jab\IeC {\l }o\IeC {\'n}ski}{14}{chapter.2}
+\contentsline {chapter}{\numberline {3}Miros\IeC {\l }awa Pelc}{15}{chapter.3}
+\contentsline {chapter}{\numberline {4}Mariusz Lorek}{16}{chapter.4}
+\contentsline {chapter}{Bibliografia}{17}{chapter*.2}
+\contentsline {chapter}{Spis rysunk\'ow}{19}{chapter*.3}
