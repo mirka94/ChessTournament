@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  17 NOV 2015 08:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  17 NOV 2015 08:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -874,12 +874,12 @@ Overfull \hbox (11.5945pt too wide) in paragraph at lines 168--169
 File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 196.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 197.
 
 (c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 )
-Overfull \hbox (24.79799pt too wide) in paragraph at lines 199--200
+Overfull \hbox (24.79799pt too wide) in paragraph at lines 200--201
 []\OT4/cmr/m/n/10.95 Kaªde dzia-™a-nie-/za-da-nie na-le-ªy DO-KäAD-NIE opi-sa¢ 
 po-da-j°c w po-le-ce-niu [][][][]
  []
@@ -887,66 +887,72 @@ po-da-j°c w po-le-ce-niu [][][][]
 (c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 )
-Overfull \hbox (68.44629pt too wide) in paragraph at lines 210--212
+Overfull \hbox (68.44629pt too wide) in paragraph at lines 211--213
 [][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (2.14482pt too wide) in paragraph at lines 218--219
+Overfull \hbox (2.14482pt too wide) in paragraph at lines 219--220
 [][][][][][][][][][][][][][] 
  []
 
-<fig/rejestracja.png, id=201, 507.39563pt x 494.59781pt>
+<fig/rejestracja.png, id=202, 507.39563pt x 494.59781pt>
 File: fig/rejestracja.png Graphic file (type png)
 
 <use fig/rejestracja.png>
-Package pdftex.def Info: fig/rejestracja.png used on input line 230.
+Package pdftex.def Info: fig/rejestracja.png used on input line 231.
 (pdftex.def)             Requested size: 507.3944pt x 494.59659pt.
 
-Overfull \hbox (91.32996pt too wide) in paragraph at lines 230--231
+Overfull \hbox (91.32996pt too wide) in paragraph at lines 231--232
  [][] 
  []
 
-<fig/new_project.png, id=202, 256.70906pt x 127.97812pt>
+<fig/new_project.png, id=203, 256.70906pt x 127.97812pt>
 File: fig/new_project.png Graphic file (type png)
 
 <use fig/new_project.png>
-Package pdftex.def Info: fig/new_project.png used on input line 237.
+Package pdftex.def Info: fig/new_project.png used on input line 238.
 (pdftex.def)             Requested size: 256.70842pt x 127.9778pt.
  [8]
-<fig/new_project_2.png, id=228, 752.8125pt x 578.91281pt>
+<fig/new_project_2.png, id=229, 752.8125pt x 578.91281pt>
 File: fig/new_project_2.png Graphic file (type png)
 
 <use fig/new_project_2.png>
-Package pdftex.def Info: fig/new_project_2.png used on input line 245.
+Package pdftex.def Info: fig/new_project_2.png used on input line 246.
 (pdftex.def)             Requested size: 752.81065pt x 578.91139pt.
 
-Overfull \hbox (336.74622pt too wide) in paragraph at lines 245--246
+Overfull \hbox (336.74622pt too wide) in paragraph at lines 246--247
  [][] 
  []
 
-<fig/collaborator.png, id=229, 194.22563pt x 213.04594pt>
+<fig/collaborator.png, id=230, 194.22563pt x 213.04594pt>
 File: fig/collaborator.png Graphic file (type png)
 
 <use fig/collaborator.png>
-Package pdftex.def Info: fig/collaborator.png used on input line 253.
+Package pdftex.def Info: fig/collaborator.png used on input line 254.
 (pdftex.def)             Requested size: 194.22514pt x 213.04541pt.
 
-<fig/add_collaborator.png, id=230, 720.44156pt x 76.78688pt>
+<fig/add_collaborator.png, id=231, 720.44156pt x 76.78688pt>
 File: fig/add_collaborator.png Graphic file (type png)
 
 <use fig/add_collaborator.png>
-Package pdftex.def Info: fig/add_collaborator.png used on input line 259.
+Package pdftex.def Info: fig/add_collaborator.png used on input line 260.
 (pdftex.def)             Requested size: 720.43979pt x 76.78668pt.
 
-Overfull \hbox (304.37535pt too wide) in paragraph at lines 259--260
+Overfull \hbox (304.37535pt too wide) in paragraph at lines 260--261
  [][] 
  []
 
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <10> on input line 260.
+(Font)              <10> on input line 261.
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <7> on input line 260.
+(Font)              <7> on input line 261.
+<fig/gitdownload.png, id=233, 331.2375pt x 57.96657pt>
+File: fig/gitdownload.png Graphic file (type png)
+
+<use fig/gitdownload.png>
+Package pdftex.def Info: fig/gitdownload.png used on input line 274.
+(pdftex.def)             Requested size: 331.23668pt x 57.96642pt.
 ) (./czlonkowie/2/main.tex [9] [10pdfTeX warning (ext4): destination with the s
 ame identifier (name{figure.1.1}) has been already used, duplicate ignored
 
@@ -980,8 +986,14 @@ l.1 \chapter
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.1 \chapter
+            {Piotr Jab≈Ço≈Ñski}pdfTeX warning (ext4): destination with the same
+ identifier (name{figure.1.6}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
             {Piotr Jab≈Ço≈Ñski} <./fig/collaborator.png> <./fig/add_collaborato
-r.png>]
+r.png> <./fig/gitdownload.png>]
  2.
 ) (./czlonkowie/3/main.tex [14
 
@@ -1027,10 +1039,10 @@ Package rerunfilecheck Info: File `dokumentacja.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 46.
  ) 
 Here is how much of TeX's memory you used:
- 9366 strings out of 493054
- 129032 string characters out of 6138326
- 251268 words of memory out of 5000000
- 12557 multiletter control sequences out of 15000+600000
+ 9377 strings out of 493054
+ 129197 string characters out of 6138326
+ 251337 words of memory out of 5000000
+ 12562 multiletter control sequences out of 15000+600000
  21027 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  34i,11n,52p,468b,1523s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1047,10 +1059,10 @@ ic/pl/plr8.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/pl/plr9.pfb><c:/t
 exlive/2015/texmf-dist/fonts/type1/public/pl/plsy8.pfb><c:/texlive/2015/texmf-d
 ist/fonts/type1/public/pl/plti10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/pu
 blic/pl/pltt10.pfb>
-Output written on dokumentacja.pdf (19 pages, 198477 bytes).
+Output written on dokumentacja.pdf (19 pages, 201268 bytes).
 PDF statistics:
- 388 PDF objects out of 1000 (max. 8388607)
- 344 compressed objects within 4 object streams
- 144 named destinations out of 1000 (max. 500000)
- 178 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 399 PDF objects out of 1000 (max. 8388607)
+ 353 compressed objects within 4 object streams
+ 149 named destinations out of 1000 (max. 500000)
+ 183 words of extra memory for PDF output out of 10000 (max. 10000000)
 
