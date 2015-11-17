@@ -9,7 +9,10 @@ import javax.swing.text.PlainDocument;
 public class MainProgram {  
 
   public static void main (String[]args){
-	  new CompetitorTabbedPane(new Tournament(2, "Nowy", "2015-2016", 8, 9, 1));
+	  Database DB = new Database();
+	  	new CompetitorTabbedPane(DB.getTournaments().get(0));
+	  DB.close();
+	  //
 	  //Simulator.rozgrywek_eliminacje(23, 5);
 	  //System.out.print(Simulator.Simulate(13, 5));
   }

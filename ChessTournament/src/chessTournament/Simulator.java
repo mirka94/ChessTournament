@@ -25,8 +25,8 @@ public class Simulator {
 		}
 		int rozgrywek = 0;
 		for(Integer i : grupy) {
-			System.out.print("Grupa: zawodnikow - "+i+", rozgrywek - "+(i*(i-1))+"\n");
-			rozgrywek+=i*(i-1);
+			System.out.print("Grupa: zawodnikow - "+i+", rozgrywek - "+(i*(i-1)/2)+"\n");
+			rozgrywek+=i*(i-1)/2;
 		}
 		System.out.print("Łącznie rozgrywek: "+rozgrywek+"\n");
 		return rozgrywek;
