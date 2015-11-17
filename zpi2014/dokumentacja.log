@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  16 NOV 2015 22:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  17 NOV 2015 07:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -818,16 +818,62 @@ Overfull \hbox (6.24104pt too wide) in paragraph at lines 102--103
 z kaª-dym []$\OT4/cmtt/m/n/10.95 http : / / www . pzszach .
  []
 
-[5] [6] (c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
+
+ []
+
+
+Overfull \hbox (0.7381pt too wide) in paragraph at lines 140--141
+[]\OT4/cmr/m/n/10.95 Przygotowanie klas od-po-wia-da-j°-cych za uczest-ni-ka, t
+ur-niej, roz-gryw-k¶ - 20.10.2015 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--142
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--146
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--149
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--155
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--163
+
+ []
+
+[7] (c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 158.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 194.
 
 (c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 )
-Overfull \hbox (24.79799pt too wide) in paragraph at lines 161--162
+Overfull \hbox (24.79799pt too wide) in paragraph at lines 197--198
 []\OT4/cmr/m/n/10.95 Kaªde dzia-™a-nie-/za-da-nie na-le-ªy DO-KäAD-NIE opi-sa¢ 
 po-da-j°c w po-le-ce-niu [][][][]
  []
@@ -835,87 +881,87 @@ po-da-j°c w po-le-ce-niu [][][][]
 (c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 )
-Overfull \hbox (68.44629pt too wide) in paragraph at lines 172--174
+Overfull \hbox (68.44629pt too wide) in paragraph at lines 208--210
 [][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (2.14482pt too wide) in paragraph at lines 180--181
+Overfull \hbox (2.14482pt too wide) in paragraph at lines 216--217
 [][][][][][][][][][][][][][] 
  []
 
-<fig/rejestracja.png, id=175, 507.39563pt x 494.59781pt>
+<fig/rejestracja.png, id=201, 507.39563pt x 494.59781pt>
 File: fig/rejestracja.png Graphic file (type png)
 
 <use fig/rejestracja.png>
-Package pdftex.def Info: fig/rejestracja.png used on input line 192.
+Package pdftex.def Info: fig/rejestracja.png used on input line 228.
 (pdftex.def)             Requested size: 507.3944pt x 494.59659pt.
 
-Overfull \hbox (91.32996pt too wide) in paragraph at lines 192--193
+Overfull \hbox (91.32996pt too wide) in paragraph at lines 228--229
  [][] 
  []
 
-<fig/new_project.png, id=176, 256.70906pt x 127.97812pt>
+<fig/new_project.png, id=202, 256.70906pt x 127.97812pt>
 File: fig/new_project.png Graphic file (type png)
 
 <use fig/new_project.png>
-Package pdftex.def Info: fig/new_project.png used on input line 199.
+Package pdftex.def Info: fig/new_project.png used on input line 235.
 (pdftex.def)             Requested size: 256.70842pt x 127.9778pt.
 
-<fig/new_project_2.png, id=177, 752.8125pt x 578.91281pt>
+<fig/new_project_2.png, id=203, 752.8125pt x 578.91281pt>
 File: fig/new_project_2.png Graphic file (type png)
 
 <use fig/new_project_2.png>
-Package pdftex.def Info: fig/new_project_2.png used on input line 207.
+Package pdftex.def Info: fig/new_project_2.png used on input line 243.
 (pdftex.def)             Requested size: 752.81065pt x 578.91139pt.
 
-Overfull \hbox (336.74622pt too wide) in paragraph at lines 207--208
+Overfull \hbox (336.74622pt too wide) in paragraph at lines 243--244
  [][] 
  []
 
-<fig/collaborator.png, id=178, 194.22563pt x 213.04594pt>
+<fig/collaborator.png, id=204, 194.22563pt x 213.04594pt>
 File: fig/collaborator.png Graphic file (type png)
 
 <use fig/collaborator.png>
-Package pdftex.def Info: fig/collaborator.png used on input line 215.
+Package pdftex.def Info: fig/collaborator.png used on input line 251.
 (pdftex.def)             Requested size: 194.22514pt x 213.04541pt.
 
-<fig/add_collaborator.png, id=179, 720.44156pt x 76.78688pt>
+<fig/add_collaborator.png, id=205, 720.44156pt x 76.78688pt>
 File: fig/add_collaborator.png Graphic file (type png)
 
 <use fig/add_collaborator.png>
-Package pdftex.def Info: fig/add_collaborator.png used on input line 221.
+Package pdftex.def Info: fig/add_collaborator.png used on input line 257.
 (pdftex.def)             Requested size: 720.43979pt x 76.78668pt.
 
-Overfull \hbox (304.37535pt too wide) in paragraph at lines 221--222
+Overfull \hbox (304.37535pt too wide) in paragraph at lines 257--258
  [][] 
  []
 
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <10> on input line 222.
+(Font)              <10> on input line 258.
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <7> on input line 222.
-) (./czlonkowie/2/main.tex [7] [8pdfTeX warning (ext4): destination with the sa
+(Font)              <7> on input line 258.
+) (./czlonkowie/2/main.tex [8] [9pdfTeX warning (ext4): destination with the sa
 me identifier (name{figure.1.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.1 \chapter
-            {Piotr Jab≈Ço≈Ñski} <./fig/rejestracja.png>] [9pdfTeX warning (ext4
-): destination with the same identifier (name{figure.1.2}) has been already use
-d, duplicate ignored
+            {Piotr Jab≈Ço≈Ñski} <./fig/rejestracja.png>] [10pdfTeX warning (ext
+4): destination with the same identifier (name{figure.1.2}) has been already us
+ed, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.1 \chapter
-            {Piotr Jab≈Ço≈Ñski} <./fig/new_project.png>] [10pdfTeX warning (ext
+            {Piotr Jab≈Ço≈Ñski} <./fig/new_project.png>] [11pdfTeX warning (ext
 4): destination with the same identifier (name{figure.1.3}) has been already us
 ed, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.1 \chapter
-            {Piotr Jab≈Ço≈Ñski} <./fig/new_project_2.png>] [11pdfTeX warning (e
+            {Piotr Jab≈Ço≈Ñski} <./fig/new_project_2.png>] [12pdfTeX warning (e
 xt4): destination with the same identifier (name{figure.1.4}) has been already 
 used, duplicate ignored
 
@@ -931,15 +977,15 @@ l.1 \chapter
             {Piotr Jab≈Ço≈Ñski} <./fig/collaborator.png> <./fig/add_collaborato
 r.png>]
  2.
-) (./czlonkowie/3/main.tex [12
+) (./czlonkowie/3/main.tex [13
 
 ]
  3.
-) (./czlonkowie/5/main.tex [13
+) (./czlonkowie/5/main.tex [14
 
 ]
  4.
-) (./bibrystab.tex [14
+) (./bibrystab.tex [15
 
 ]
 Underfull \hbox (badness 1789) in paragraph at lines 26--27
@@ -955,15 +1001,15 @@ Nu-me-rycz-na al-ge-bra li-nio-wa\OT4/cmr/m/n/10.95 , War-sza-wa,
 
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 35.
-[15
+[16
 
-] [16] (./dokumentacja.lof)
+] [17] (./dokumentacja.lof)
 \tf@lof=\write5
 \openout5 = `dokumentacja.lof'.
 
 )
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 46.
- [17
+ [18
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 46.
@@ -975,9 +1021,9 @@ Package rerunfilecheck Info: File `dokumentacja.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 46.
  ) 
 Here is how much of TeX's memory you used:
- 9340 strings out of 493054
- 128850 string characters out of 6138326
- 251266 words of memory out of 5000000
+ 9363 strings out of 493054
+ 129011 string characters out of 6138326
+ 252267 words of memory out of 5000000
  12557 multiletter control sequences out of 15000+600000
  21027 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -995,10 +1041,10 @@ ic/pl/plr8.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/pl/plr9.pfb><c:/t
 exlive/2015/texmf-dist/fonts/type1/public/pl/plsy8.pfb><c:/texlive/2015/texmf-d
 ist/fonts/type1/public/pl/plti10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/pu
 blic/pl/pltt10.pfb>
-Output written on dokumentacja.pdf (17 pages, 192650 bytes).
+Output written on dokumentacja.pdf (18 pages, 197561 bytes).
 PDF statistics:
- 351 PDF objects out of 1000 (max. 8388607)
- 309 compressed objects within 4 object streams
- 118 named destinations out of 1000 (max. 500000)
+ 381 PDF objects out of 1000 (max. 8388607)
+ 338 compressed objects within 4 object streams
+ 141 named destinations out of 1000 (max. 500000)
  178 words of extra memory for PDF output out of 10000 (max. 10000000)
 
