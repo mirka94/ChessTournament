@@ -98,22 +98,18 @@ Program wspomagający przeprowadzenie turneju szachowego
 
 \section{Regulamin turnieju}
 \begin{enumerate}
-	\item Obowiązują PRZEPISY GRY MIĘDZYNARODOWEJ FEDERACJI SZACHOWEJ (FIDE).
-	\item Podczas turnieju obowiązuje system szwajcarski \url{http://www.pzszach.org.pl/index.php?idm=4&idm2=125&idm3=217}
+	\item Obowiązują przepisy gry miedzynarodowej federacji szchowej (FIDE).
+	\item Podczas turnieju obowiązuje system kołowy, każdy z każdym \url{http://www.pzszach.org.pl/index.php?idm=4&idm2=125&idm3=217}
 	\begin{enumerate}
-		\item Podstawowe zasady rozgrywania turnie-jów systemem szwajcarskim
+		\item Podstawowe zasady rozgrywania turnieju
 		\\Podstawowe zasady prowadzenia turniejów są następujące:
 \begin{enumerate}
-\item Liczba rund w turnieju musi być podana do wiadomości przed jego rozpoczęciem.
-\item Zawodnicy mogą grać przeciwko sobie tylko jeden raz w trakcie turnieju.
-\item Należy kojarzyć zawodników z tą samą, lub najbardziej zbliżoną liczbą punktów. 
+\item Zawodnicy dzieleni są na grupy według wybranych kryteriów
+\item Zawodnicy mogą grać przeciwko sobie tylko jeden raz w trakcie turnieju. 
 \item Jeśli jest to możliwe, to zawodnik powinien grać tę samą liczbę partii białymi i czarnymi bierkami. 
-\item Jeśli jest to możliwe, to zawodnik powinien zachować prze-mienność kolorów bierek w kolejnych rundach
+\item Jeśli jest to możliwe, to zawodnik powinien zachować prze-mienność kolorów bierek w kolejnych rozgrywkach
 \item Końcowa klasyfikacja turnieju wynika z sumy uzyskanych punktów, licząc 1 punkt za zwycięstwo, 0,5 punktu za remis i 0 punktów za przegraną. Zawodnik, którego przeciwnik nie stawił się do gry, otrzymuje 1 punkt.
 \end{enumerate}
-\item Ogólne zasady kojarzenia par
-\textbf{Numery startowe uczestników}\\
-Przed przystąpieniem do kojarzenia par w pierwszej rundzie, należy przygotować listę uczestników i przyznać zawodnikom numery startowe, zgodnie z ich pozycją na liście. Nr 1 otrzymuje zawodnik z najwyższym rankingiem. Zawodnicy, mający taki sam ranking (lub bez rankingu), powinni być uszeregowani według tytułów FIDE, według rankingu lokalnego względnie w drodze losowania. Karty startowe zawodników powinny zawierać dane z listy rankingowej FIDE oraz inne wymagane przepisami (vide Przepisy Rankingowe, FIDE Handbook B.02).
 \item \textbf{Pauzowanie}
 \begin{enumerate}
 	\item W przypadku nieparzystej liczby uczestników w jakiejkolwiek rundzie, powinien pauzować zawodnik z najniższym numerem startowym, w najniższej grupie punktowej
@@ -137,7 +133,57 @@ Diagram sieciowy ukazuje zależności czasowe, węzły (aktywności), krawędzie
 
 \section{Harmonogram}
 \subsection{Harmonogram prac poszczególnych członków zespołu}
-WBS, lub diagram Gantta.
+\textbf{Mirosława Pelc oraz Piotr Jabłoński wspólna praca programistyczna\\
+Mirosława Pelc - Odpowiedzialna w głównej mierze za interfejs graficzny\\
+Piotr Jabłoński - Programowanie, algorytmy\\}
+\begin{enumerate}
+\item Przygotowanie klas odpowiadających za uczestnika, turniej, rozgrywkę - 20.10.2015
+\item wyszukikawanie możliwych do wykorzystania elementów dostępnych w bibliotekach graficznych dla języka JAVA 20.10.2015 - zadanie ciągłe wykonywane przez cały czas trwania projektu\\
+
+\item integracja z bazą danych SQLite do przechowywania uczestników - 27.10.2015
+\item integracja z bazą danych SQLite do przechowywania turniejów - 27.10.2015
+\item integracja z bazą danych SQLite do przechowywania wyników pojedynczych rozgrywek - 27.10.2015\\
+
+\item tabela - lista uczestników - 3.11.2015
+\item dodawanie nowego uczestnika - 3.11.2015\\
+
+\item usuwanie uczestnika - 10.11.2015
+\item edycja uczestnika - 10.11.2015\\
+
+\item dodawanie losowego uczestnika - 17.11.2015
+\item symulacja ilości rozgrywek dla danej liczby uczestników, typu turnieju (systemem szwajcarskim / eliminacje grup) - 17.11.2015\\
+
+
+\textbf{DO ZROBIENIA\\}
+
+\item podział graczy na grupy wg listy sortowanej po ustalanych przez prowadzącego turniej (dynamicznie w programie) warunkach 
+takich, jak: kategoria zawodnika, wiek, nazwisko, imię lub przydział manualny - 24.11.2015
+\item tworzenie początkowej listy graczy (sortowanie) do turnieju rozgrywanego systemem szwajcarskim 
+(sortowanie po kategorii, wieku, nazwisko, imię) - 24.11.2015\\
+
+\item dobieranie zawodników w pary dla systemu kołowego z eliminacjami w grupach - eliminacje
+wybór zawodników przechodzących do finałów w rozgrywkach z eliminacjami
+dobieranie zawodników w pary dla systemu kołowego z eliminacjami w grupach - finały - 1.12.2015
+\item dobór zawodników w systemie kołowym (4 tyg!) 
+\item lista wyników dla turnieju rozgrywanego systemem kołowym z eliminacjami 8.12.2015
+\item lista wyników dla turnieju rozgrywanego systemem szwajcarskim 
+\item zastosowanie programu do prowadzednia kilku turniejów jednocześnie
+\item usprawnienia ergonomii interfejsu - praca ciągła do końca trwania projektu
+\item usprawnienia estetyczne interfejsu - praca ciągła do końca trwania projektu
+\end{enumerate}
+
+\textbf{Mariusz Lorek:}
+\begin{enumerate}
+	\item Przygotowanie dokumentacji dla projektu - cały czas trwania projektu
+	\item Rozmowa ze zleceniodawcą na temat projektu 20.10.2015
+	\item Wybór systemu w którym przeprowadzany będzie turniej 27.10.2015
+	\item Okreslenie regulaminu turnieju (czas trwania,  system rozgrywego, określenie zasad uczestnictwa w turnieju, powody do dyskwalifikacji) 3.11.2015
+	\item Opis repozytorium GitHub wykorzystywanego do pracy w projekcie 17.11.2015
+	\item Przygotowywanie kolejnych części dokumentacji na podstawie informacji dostarczonych przez pozostałych członków zespołu
+	\item Testowanie kolejnych wersji  programu, wyszukiwanie błędów sugestie na temat usprawnień - praca ciągła, do końca trwania projektu
+	\item Konsultację ze zleceniodawcą na temat ewentualnych poprawek, dodawania nowych funkcjonalności wymaganych przez zleceniodawcę. 
+
+\end{enumerate}
 
 
 \section{Dokumentacja}
@@ -177,12 +223,55 @@ Poniżej opisujemy całe zadanie zgodnie z konwencją poznaną na NI.
 \end{lstlisting}
 
 
-\subsubsection{Obsługa SVN}
-Precyzyjne instrukcje jak obsługiwać repozytorium i wgrywać zmiany prze poszczególnych członków zespołu.
+\subsubsection{Obsługa GitHuba}
+Repozytorium wykorzystywane w projekcie to "GitHub" aby zacząć korzystać z tego repozytorium należy najpierw założyć konto w serwisie \href{https://github.com}{https://github.com}
+Wybieramy opcję "Sing up" i wypełnamy formularz rejestracyjny
+\begin{figure}
+	\centering
+	\includegraphics {fig/rejestracja}
+	\caption{Formularz rejestracyjny repozytorium GitHub}
+	\label{fig:rejestracja}
+\end{figure}
+Nastepnie z menu na górze po prawej stronie wybieramy opcję "New repository"
+\begin{figure}
+	\centering
+	\includegraphics{fig/new_project}
+	\caption{Tworzenie nowego repozytorium}
+	\label{fig:new_project}
+\end{figure}
+Uzupełniamy dane dotyczące projektu. Musimy mu nadać nazwę, możemy opcjonalnie dodać opis tworzonego repozytorium, oraz zdecydować czy projekt będzie publiczny czy prywatny
 
-
-\osoba{Jan Iksiński}%opis kierownika
-
-sdsds
-
-dsds
+\begin{figure}
+	\centering
+	\includegraphics{fig/new_project_2}
+	\caption{Uzupełniamy dane na temat projektu}
+	\label{fig:new_project2}
+\end{figure}
+Teraz możemy dodać kolejnych uczestników projektu wybierając z menu opcję "New collaborator"
+Uczestników możemy wyszukiwać  według róznych kryteriów
+\begin{figure}
+	\centering
+	\includegraphics{fig/collaborator}
+	\caption{Dodawanie nowego uczestnika projektu}
+	\label{fig:collaborator}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics{fig/add_collaborator}
+	\caption{Mamy możliwość wyszukiwania nowych członków według różnych kryteriów}
+	\label{fig:add_collaborator}
+\end{figure}
+Aby mieć możliwość wysyłania plików do repozytorium musimy zainstalować program na swoim systemie w tym celu wchodzimy na stronę \href{https://desktop.github.com/}{https://desktop.github.com/}.\\ Program możemy zainstalować w systemach:
+\begin{enumerate}
+\item Windows 7
+\item Windows 8/8.1
+\item Windows 10
+\end{enumerate}
+Starsze wersję systemów operacyjnych nie są wspierane\\
+Dostępna jest również wersja dla komputerów MAC z systemem OS X 10.9 lub nowszym
+\begin{figure}
+	\centering
+	\includegraphics{fig/gitdownload}
+	\caption{Przycisk umożliwiający pobranie programu}
+	\label {fig:gitdownload} 
+\end{figure}

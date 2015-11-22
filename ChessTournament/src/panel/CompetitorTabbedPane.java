@@ -38,9 +38,9 @@ public class CompetitorTabbedPane extends JFrame implements WindowListener {
 		showPanel = new ShowEditCompetitorPanel(turniej.getId(), DB);
 		tournamentPanel = new TournamentPanel(turniej, DB);
 		groupsPanel = new GroupsPanel(turniej, DB);
-		setMinimumSize(new Dimension(400,300));
+		//setMinimumSize(new Dimension(400,300));
 		setSize(700,500);
-		//setResizable(false);
+		setResizable(false);
 		setTitle("ChessTournament alpha v0.01");
 		setMenu();
 	    

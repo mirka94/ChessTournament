@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  10 NOV 2015 07:03
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  17 NOV 2015 08:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -812,17 +812,74 @@ LaTeX Font Info:    External font `plex10' loaded for size
 (Font)              <10.95> on input line 102.
 LaTeX Font Info:    External font `plex10' loaded for size
 (Font)              <8> on input line 102.
- [5] [6]
-(c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
+
+Overfull \hbox (6.24104pt too wide) in paragraph at lines 102--103
+[]\OT4/cmr/m/n/10.95 Podczas tur-nie-ju obo-wi°-zu-je sys-tem ko-™o-wy, kaª-dy 
+z kaª-dym []$\OT4/cmtt/m/n/10.95 http : / / www . pzszach .
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
+
+ []
+
+
+Overfull \hbox (0.7381pt too wide) in paragraph at lines 140--141
+[]\OT4/cmr/m/n/10.95 Przygotowanie klas od-po-wia-da-j°-cych za uczest-ni-ka, t
+ur-niej, roz-gryw-k¶ - 20.10.2015 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 141--142
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--146
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--149
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 154--155
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--163
+
+ []
+
+
+Overfull \hbox (11.5945pt too wide) in paragraph at lines 168--169
+[]\OT4/cmr/m/n/10.95 lista wy-ni-kÛw dla tur-nie-ju roz-gry-wa-ne-go sys-te-mem
+ ko-™o-wym z eli-mi-na-cja-mi 8.12.2015 
+ []
+
+[7] (c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 151.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 197.
 
 (c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 )
-Overfull \hbox (24.79799pt too wide) in paragraph at lines 154--155
+Overfull \hbox (24.79799pt too wide) in paragraph at lines 200--201
 []\OT4/cmr/m/n/10.95 Kaªde dzia-™a-nie-/za-da-nie na-le-ªy DO-KäAD-NIE opi-sa¢ 
 po-da-j°c w po-le-ce-niu [][][][]
  []
@@ -830,26 +887,123 @@ po-da-j°c w po-le-ce-niu [][][][]
 (c:/texlive/2015/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/09/07 v1.1p UTF-8 support for inputenc
 )
-Overfull \hbox (68.44629pt too wide) in paragraph at lines 165--167
+Overfull \hbox (68.44629pt too wide) in paragraph at lines 211--213
 [][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (2.14482pt too wide) in paragraph at lines 173--174
+Overfull \hbox (2.14482pt too wide) in paragraph at lines 219--220
 [][][][][][][][][][][][][][] 
  []
 
-[7]
+<fig/rejestracja.png, id=202, 507.39563pt x 494.59781pt>
+File: fig/rejestracja.png Graphic file (type png)
+
+<use fig/rejestracja.png>
+Package pdftex.def Info: fig/rejestracja.png used on input line 231.
+(pdftex.def)             Requested size: 507.3944pt x 494.59659pt.
+
+Overfull \hbox (91.32996pt too wide) in paragraph at lines 231--232
+ [][] 
+ []
+
+<fig/new_project.png, id=203, 256.70906pt x 127.97812pt>
+File: fig/new_project.png Graphic file (type png)
+
+<use fig/new_project.png>
+Package pdftex.def Info: fig/new_project.png used on input line 238.
+(pdftex.def)             Requested size: 256.70842pt x 127.9778pt.
+ [8]
+<fig/new_project_2.png, id=229, 752.8125pt x 578.91281pt>
+File: fig/new_project_2.png Graphic file (type png)
+
+<use fig/new_project_2.png>
+Package pdftex.def Info: fig/new_project_2.png used on input line 246.
+(pdftex.def)             Requested size: 752.81065pt x 578.91139pt.
+
+Overfull \hbox (336.74622pt too wide) in paragraph at lines 246--247
+ [][] 
+ []
+
+<fig/collaborator.png, id=230, 194.22563pt x 213.04594pt>
+File: fig/collaborator.png Graphic file (type png)
+
+<use fig/collaborator.png>
+Package pdftex.def Info: fig/collaborator.png used on input line 254.
+(pdftex.def)             Requested size: 194.22514pt x 213.04541pt.
+
+<fig/add_collaborator.png, id=231, 720.44156pt x 76.78688pt>
+File: fig/add_collaborator.png Graphic file (type png)
+
+<use fig/add_collaborator.png>
+Package pdftex.def Info: fig/add_collaborator.png used on input line 260.
+(pdftex.def)             Requested size: 720.43979pt x 76.78668pt.
+
+Overfull \hbox (304.37535pt too wide) in paragraph at lines 260--261
+ [][] 
+ []
+
+LaTeX Font Info:    External font `plex10' loaded for size
+(Font)              <10> on input line 261.
+LaTeX Font Info:    External font `plex10' loaded for size
+(Font)              <7> on input line 261.
+<fig/gitdownload.png, id=233, 331.2375pt x 57.96657pt>
+File: fig/gitdownload.png Graphic file (type png)
+
+<use fig/gitdownload.png>
+Package pdftex.def Info: fig/gitdownload.png used on input line 274.
+(pdftex.def)             Requested size: 331.23668pt x 57.96642pt.
+) (./czlonkowie/2/main.tex [9] [10pdfTeX warning (ext4): destination with the s
+ame identifier (name{figure.1.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jab≈Ço≈Ñski} <./fig/rejestracja.png>] [11pdfTeX warning (ext
+4): destination with the same identifier (name{figure.1.2}) has been already us
+ed, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jab≈Ço≈Ñski} <./fig/new_project.png>] [12pdfTeX warning (ext
+4): destination with the same identifier (name{figure.1.3}) has been already us
+ed, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jab≈Ço≈Ñski} <./fig/new_project_2.png>] [13pdfTeX warning (e
+xt4): destination with the same identifier (name{figure.1.4}) has been already 
+used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jab≈Ço≈Ñski}pdfTeX warning (ext4): destination with the same
+ identifier (name{figure.1.5}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jab≈Ço≈Ñski}pdfTeX warning (ext4): destination with the same
+ identifier (name{figure.1.6}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Piotr Jab≈Ço≈Ñski} <./fig/collaborator.png> <./fig/add_collaborato
+r.png> <./fig/gitdownload.png>]
  2.
-) (./czlonkowie/2/main.tex [8
+) (./czlonkowie/3/main.tex [14
 
 ]
  3.
-) (./czlonkowie/3/main.tex [9
+) (./czlonkowie/5/main.tex [15
 
 ]
  4.
-) (./bibrystab.tex [10
+) (./bibrystab.tex [16
 
 ]
 Underfull \hbox (badness 1789) in paragraph at lines 26--27
@@ -865,15 +1019,15 @@ Nu-me-rycz-na al-ge-bra li-nio-wa\OT4/cmr/m/n/10.95 , War-sza-wa,
 
 LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 35.
-[11
+[17
 
-] [12] (./dokumentacja.lof)
+] [18] (./dokumentacja.lof)
 \tf@lof=\write5
 \openout5 = `dokumentacja.lof'.
 
 )
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 46.
- [13
+ [19
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 46.
@@ -881,17 +1035,17 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 46.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 46.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 46.
 Package rerunfilecheck Info: File `dokumentacja.out' has not changed.
-(rerunfilecheck)             Checksum: A9DDF8B34662617080FBBA3B9F20B009;1290.
+(rerunfilecheck)             Checksum: E7EF13E90C5AEE331FA45CE078F2767E;1299.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 46.
  ) 
 Here is how much of TeX's memory you used:
- 9279 strings out of 493054
- 127832 string characters out of 6138326
- 248913 words of memory out of 5000000
- 12519 multiletter control sequences out of 15000+600000
- 18379 words of font info for 55 fonts, out of 8000000 for 9000
+ 9377 strings out of 493054
+ 129197 string characters out of 6138326
+ 251337 words of memory out of 5000000
+ 12562 multiletter control sequences out of 15000+600000
+ 21027 words of font info for 64 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,11n,52p,642b,1523s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,11n,52p,468b,1523s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2015/texmf-dist/fonts/enc/dvips/pl/plit.enc}{c:/texlive/2015/texm
 f-dist/fonts/enc/dvips/pl/plrm.enc}{c:/texlive/2015/texmf-dist/fonts/enc/dvips/
 pl/plms.enc}{c:/texlive/2015/texmf-dist/fonts/enc/dvips/pl/pltt.enc}<c:/texlive
@@ -905,10 +1059,10 @@ ic/pl/plr8.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/pl/plr9.pfb><c:/t
 exlive/2015/texmf-dist/fonts/type1/public/pl/plsy8.pfb><c:/texlive/2015/texmf-d
 ist/fonts/type1/public/pl/plti10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/pu
 blic/pl/pltt10.pfb>
-Output written on dokumentacja.pdf (13 pages, 138286 bytes).
+Output written on dokumentacja.pdf (19 pages, 201268 bytes).
 PDF statistics:
- 312 PDF objects out of 1000 (max. 8388607)
- 282 compressed objects within 3 object streams
- 108 named destinations out of 1000 (max. 500000)
- 153 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 399 PDF objects out of 1000 (max. 8388607)
+ 353 compressed objects within 4 object streams
+ 149 named destinations out of 1000 (max. 500000)
+ 183 words of extra memory for PDF output out of 10000 (max. 10000000)
 

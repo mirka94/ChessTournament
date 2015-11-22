@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-
 import chessTournament.MainProgram;
 import chessTournament.ValidatorException;
 import model.Competitor;
