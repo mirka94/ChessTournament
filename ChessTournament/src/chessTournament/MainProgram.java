@@ -4,12 +4,16 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+import Window.MainWindow;
+
 
 //klasa odpowiada za uruchomienie programu
 public class MainProgram {  
 
   public static void main (String[]args){
-	  new CompetitorTabbedPane(new Tournament(2, "Nowy", "2015-2016", 8, 9, 1));
+	  
+	  new MainWindow().setVisible(true);
+	  //
 	  //Simulator.rozgrywek_eliminacje(23, 5);
 	  //System.out.print(Simulator.Simulate(13, 5));
   }

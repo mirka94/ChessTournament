@@ -1,4 +1,4 @@
-package chessTournament;
+package model;
 
 /**
  * Przechowuje dane o pojedynczej rozgrywce - id graczy, wynik, czy była rozgrywana

@@ -1,0 +1,68 @@
+package Window;
+
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.SwingConstants;
+
+import model.Database;
+import model.Tournament;
+import panel.CompetitorTabbedPane;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+
+@SuppressWarnings("serial")
+public class AddTPanel extends JPanel {
+	private JTextField textField;
+	private String nazwa;
+	private Database db;
+
+	/**
+	 * Create the panel.
+	 * @throws FileNotFoundException 
+	 */
+
+	public AddTPanel(){
+		
+		setMinimumSize(new Dimension(684, 440));
+		setMaximumSize(new Dimension(684, 440));
+		setLayout(null);
+		
+		JLabel nameTour = new JLabel("Nazwa turnieju");
+		nameTour.setFont(new Font("Consolas", Font.PLAIN, 16));
+		nameTour.setHorizontalTextPosition(SwingConstants.CENTER);
+		nameTour.setHorizontalAlignment(SwingConstants.CENTER);
+		nameTour.setBounds(100, 100, 484, 30);
+		add(nameTour);
+		
+		textField = new JTextField();
+		textField.setBounds(100, 141, 484, 20);
+		add(textField);
+		textField.setColumns(10);
+		
+		JButton addButton = new JButton("Utwórz i przejdź");
+		addButton.setFont(new Font("Consolas", Font.PLAIN, 16));
+		addButton.setBounds(100, 293, 484, 30);
+		addButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nazwa=textField.getText();
+				Tournament t = new Tournament(null,nazwa,"rrrr",0,0,0);
+				db = new Database();
+				db.insertOrUpdateTournament(t);
+				
+				int tId = db.getTournamentId(nazwa);
+				//System.out.println(db.getTournaments());
+				new CompetitorTabbedPane(db.getTournaments().get(tId-1));
+				db.close();
+			}
+		});
+		
+		add(addButton);
+		
+	}
+}

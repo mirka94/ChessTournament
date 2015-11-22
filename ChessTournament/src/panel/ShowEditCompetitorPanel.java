@@ -1,4 +1,4 @@
-package chessTournament;
+package panel;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -17,9 +17,11 @@ import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AttributeSet;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
+
+import chessTournament.MainProgram;
+import chessTournament.ValidatorException;
+import model.Competitor;
+import model.Database;
 
 @SuppressWarnings("serial")
 public class ShowEditCompetitorPanel extends JPanel{
@@ -35,7 +37,7 @@ public class ShowEditCompetitorPanel extends JPanel{
 	public ShowEditCompetitorPanel(int t, Database db){
 		this.turniej = t;
 		this.DB = db;
-		setSize(700,700);
+		setSize(700,500);
 		setLayout(new BorderLayout()); 
 	    setVisible(true);
 	    

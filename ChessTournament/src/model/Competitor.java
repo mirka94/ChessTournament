@@ -1,6 +1,8 @@
 //przechowuje dane użytkowników
 
-package chessTournament;
+package model;
+
+import chessTournament.ValidatorException;
 
 /**
  * Przechowuje dane o uczestniku

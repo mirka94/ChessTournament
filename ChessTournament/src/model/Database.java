@@ -1,4 +1,4 @@
-package chessTournament;
+package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -142,6 +142,8 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	public List<Competitor> getCompetitors(int turniej) {
 		List<Competitor> result = new ArrayList<Competitor>();
 		try {
@@ -204,6 +206,7 @@ public class Database {
 		}
 		return result;
 	}
+	
 	public void removeCompetitor(int id) {
 		try {
 			Statement statement = connection.createStatement();
@@ -228,4 +231,18 @@ public class Database {
 			e.printStackTrace();
 		}
 	}	
+	
+	public int getTournamentId(String name){
+		int tId;
+		try{
+		Statement statement = connection.createStatement();
+		tId= statement.executeQuery("Select id from turnieje where nazwa='"+name+"'").getInt("id");
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+			tId=-1;
+		}
+		return tId;
+	}
+	
 }

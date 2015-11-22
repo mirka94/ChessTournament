@@ -1,4 +1,4 @@
-package chessTournament;
+package panel;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -10,11 +10,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import model.Competitor;
+import model.Database;
+import model.Tournament;
 
 public class CompetitorTabbedPane extends JFrame implements WindowListener {
 	private static final long serialVersionUID = -1732368493930988952L;
@@ -22,9 +25,11 @@ public class CompetitorTabbedPane extends JFrame implements WindowListener {
 	Database DB;
 	JMenuBar menuBar;
 	JMenu comp, about;
-	JMenuItem addC, rndC, authors, manual;
+	JMenuItem addC, rndC;
+	//, authors, manual;
 	ShowEditCompetitorPanel showPanel;
-	JPanel tournamentPanel;	
+	TournamentPanel tournamentPanel;
+	GroupsPanel groupsPanel;
 	JTabbedPane tabbedPane = new JTabbedPane();
 	
 	public CompetitorTabbedPane(Tournament turniej){
@@ -32,6 +37,7 @@ public class CompetitorTabbedPane extends JFrame implements WindowListener {
 		this.DB = new Database();
 		showPanel = new ShowEditCompetitorPanel(turniej.getId(), DB);
 		tournamentPanel = new TournamentPanel(turniej, DB);
+		groupsPanel = new GroupsPanel(turniej, DB);
 		setMinimumSize(new Dimension(400,300));
 		setSize(700,500);
 		//setResizable(false);
@@ -42,15 +48,18 @@ public class CompetitorTabbedPane extends JFrame implements WindowListener {
 	    
 	    tabbedPane.add("Pokaż lub edytuj dodanych uczestników", showPanel);
 	    tabbedPane.add("Turniej", tournamentPanel);
+	    tabbedPane.add("Podział na grupy", groupsPanel);
 	    tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				if(tabbedPane.getSelectedIndex()==0) {
+				int i = tabbedPane.getSelectedIndex();
+				if(i==0) {
 					showPanel.setData();
 					comp.setVisible(true);
 				} else {
 					comp.setVisible(false);
 				}
+				if(i==1) tournamentPanel.setSBBounds();
 			}
 		});
 	    	    	    
@@ -64,7 +73,7 @@ public class CompetitorTabbedPane extends JFrame implements WindowListener {
 	private void setMenu() {
 		menuBar	= new JMenuBar();
 		comp 	= new JMenu("Uczestnicy");
-		about 	= new JMenu("O programie");
+		//about 	= new JMenu("O programie");
 		addC 	= new JMenuItem("Dodaj");
 		rndC 	= new JMenuItem("Dodaj losowego gracza");
 		addC.setAccelerator(KeyStroke.getKeyStroke(
@@ -73,14 +82,14 @@ public class CompetitorTabbedPane extends JFrame implements WindowListener {
 		rndC.setAccelerator(KeyStroke.getKeyStroke(
 		        java.awt.event.KeyEvent.VK_L, 
 		        java.awt.Event.CTRL_MASK));
-		authors	= new JMenuItem("Autorzy");
-		manual	= new JMenuItem("Pomoc");
+		//authors	= new JMenuItem("Autorzy");
+		//manual	= new JMenuItem("Pomoc");
 		comp.add(addC);
 		comp.add(rndC);
-		about.add(authors);
-		about.add(manual);
+		//about.add(authors);
+		//about.add(manual);
 		menuBar.add(comp);
-		menuBar.add(about);
+		//menuBar.add(about);
 		setJMenuBar(menuBar);
 		addC.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){

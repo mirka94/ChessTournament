@@ -1,6 +1,6 @@
 //przechowuje dane użytkowników
 
-package chessTournament;
+package model;
 
 /**
  * Przechowuje dane o turnieju
