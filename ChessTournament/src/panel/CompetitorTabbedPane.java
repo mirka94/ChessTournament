@@ -28,9 +28,11 @@ public class CompetitorTabbedPane extends JFrame {
 	JTabbedPane tabbedPane = new JTabbedPane();
 	
 	public CompetitorTabbedPane(Tournament turniej){
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.turniej = turniej;
 		this.DB = new Database();
 		this.turniej.setRounds(5);
+		this.turniej.setRoundsCompleted(-1);
 		showPanel = new ShowEditCompetitorPanel(turniej, DB);
 		tournamentPanel = new TournamentPanel(turniej, DB);
 		groupsPanel = new GroupsPanel(turniej, DB);

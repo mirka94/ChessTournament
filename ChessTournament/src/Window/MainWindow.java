@@ -36,7 +36,7 @@ public class MainWindow extends JFrame {
 		dodajTurniej.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getContentPane().removeAll();
-				add(new AddTPanel());
+				add(new AddTPanel(MainWindow.this));
 				pack();
 			}
 		});

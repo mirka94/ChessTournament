@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.SwingConstants;
 
 import model.Database;
@@ -26,7 +27,7 @@ public class AddTPanel extends JPanel {
 	 * @throws FileNotFoundException 
 	 */
 
-	public AddTPanel(){
+	public AddTPanel(final JFrame jframe){
 		
 		setMinimumSize(new Dimension(684, 440));
 		setMaximumSize(new Dimension(684, 440));
@@ -50,12 +51,13 @@ public class AddTPanel extends JPanel {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nazwa=textField.getText();
-				Tournament t = new Tournament(null,nazwa,"rrrr",0,0,0);
+				Tournament t = new Tournament(null,nazwa,"rrrr",0,0,-1);
 				Database db = new Database();
 				db.insertOrUpdateTournament(t);
 				
 				new CompetitorTabbedPane(t);
 				db.close();
+				jframe.dispose();
 			}
 		});
 		

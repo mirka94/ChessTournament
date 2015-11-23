@@ -36,7 +36,7 @@ public class Database {
 		    statement.executeUpdate("CREATE TABLE IF NOT EXISTS gracze " +
 		      		"(id INTEGER PRIMARY KEY AUTOINCREMENT, turniej INTEGER, " +
 		      		"imie VARCHAR(50), nazwisko VARCHAR(50), wiek INTEGER, " +
-		      		"kategoria TINYINT, czy_zdyskwalifikowany BOOLEAN)");
+		      		"kategoria TINYINT, czy_zdyskwalifikowany BOOLEAN, grupa INTEGER)");
 		    statement.executeUpdate("CREATE TABLE IF NOT EXISTS rozgrywki " +
 		      		"(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		      		"id_gr1 INTEGER, id_gr2 INTEGER, wynik TINYINT, " +
@@ -60,6 +60,7 @@ public class Database {
 	}
 	public void insertOrUpdateCompetitor(Competitor c, Integer turniej) {
 		try {
+			System.out.println("InsertOrUpdateCompetitor");
 			Statement statement = connection.createStatement();
 			if(c.getId()==null) {
 				statement.executeUpdate("insert into gracze " +
