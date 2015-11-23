@@ -23,7 +23,7 @@ public class MainWindow extends JFrame {
 		
 		setMinimumSize(new Dimension(700, 500));
 		setMaximumSize(new Dimension(700, 500));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -49,7 +49,7 @@ public class MainWindow extends JFrame {
 		wybierzTurniej.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				getContentPane().removeAll();
-				add(new ShowTPanel());
+				add(new ShowTPanel(MainWindow.this));
 				pack();
 			}
 		});

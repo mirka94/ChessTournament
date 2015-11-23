@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,6 +16,9 @@ import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import chessTournament.MainProgram;
 import model.Database;
 import model.Tournament;
@@ -92,19 +96,10 @@ public class TournamentPanel extends JPanel{
 		typeTB.doClick();
 		setSBBounds();
 		recalcStats();
-		
 	}
 	
 	private void setComponentsActions() {
-		
-		nameTF.addActionListener(new ActionListener() {
-		      public void actionPerformed(ActionEvent e) {
-		    	  turniej.setName(nameTF.getText());
-				  DB.insertOrUpdateTournament(turniej);
-		      }
-		    });
-		
-		/*nameTF.getDocument().addDocumentListener(new DocumentListener() {
+		nameTF.getDocument().addDocumentListener(new DocumentListener() {
 			@Override public void removeUpdate(DocumentEvent e) {System.out.print(nameTF.getText()+"\n");}
 			@Override public void insertUpdate(DocumentEvent e) {System.out.print(nameTF.getText()+"\n");}
 			@Override
@@ -113,16 +108,8 @@ public class TournamentPanel extends JPanel{
 				DB.insertOrUpdateTournament(turniej);
 				System.out.print(nameTF.getText());
 			}
-		});*/
-		
-		yearTF.addActionListener(new ActionListener() {
-		      public void actionPerformed(ActionEvent e) {
-		    	  turniej.setYear(yearTF.getText());
-		    	  DB.insertOrUpdateTournament(turniej);
-		      }
-		    });
-		
-		/*yearTF.getDocument().addDocumentListener(new DocumentListener() {
+		});
+		yearTF.getDocument().addDocumentListener(new DocumentListener() {
 			@Override public void removeUpdate(DocumentEvent e) {}
 			@Override public void insertUpdate(DocumentEvent e) {}
 			@Override
@@ -130,9 +117,7 @@ public class TournamentPanel extends JPanel{
 				turniej.setYear(yearTF.getText());
 				DB.insertOrUpdateTournament(turniej);
 			}
-		});*/ 
-		
-		
+		});
 		typeTB.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -175,13 +160,19 @@ public class TournamentPanel extends JPanel{
 				recalcStats();
 			}
 		});
+		startB.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				turniej.setRoundsCompleted(0);
+			}
+		});
 	}
 	
 	public void recalcStats() { // TODO - poprawić przewidywany czas turnieju
 		groupsL.setText(groupsT+groupsSB.getValue());
 		sgTimeL.setText(sgTimeT+(sgTimeSB.getValue()/2f)+" min");
 		int graczy = DB.getCompetitors(turniej.getId()).size();
-		if(turniej.getBoards()<1 || graczy<1) return;
+		if(turniej.getBoards()<1 || graczy<2) return;
 		float czasSG = sgTimeSB.getValue()/2f;
 		if(typeTB.isSelected()) {
 			int grup = groupsSB.getValue();

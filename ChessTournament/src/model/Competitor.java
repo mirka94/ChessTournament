@@ -14,14 +14,16 @@ public class Competitor {
     private int chessCategory;
     private Integer id;
     private boolean isDisqualified;
+    private Integer group;
 
-    public Competitor(Integer id, String name, String surname, int age, int chessCategory, boolean isDisqualified) {
+    public Competitor(Integer id, String name, String surname, int age, int chessCategory, boolean isDisqualified, Integer group) {
     	this.id 			= id;
         this.name 			= name;
         this.surname 		= surname;
         this.age 			= age;
         this.chessCategory 	= chessCategory;
         this.isDisqualified = isDisqualified;
+        this.group			= group;
     }
 
     public Integer getId() {
@@ -74,5 +76,13 @@ public class Competitor {
     
     public void setIsDisqualified(boolean isDisqualified) {
         this.isDisqualified = isDisqualified;
+    }
+    
+    public Integer getGroup() {
+        return group;
+    }
+    
+    public void setGroup(Integer group) {
+    	this.group = group;
     }
 }

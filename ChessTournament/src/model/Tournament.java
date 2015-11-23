@@ -25,6 +25,10 @@ public class Tournament {
     public Integer getId() {
         return id;
     }
+    
+    public void setId(int newId) {
+        id = newId;
+    }
 
     public String getName() {
         return name;

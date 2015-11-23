@@ -33,6 +33,24 @@ public class Simulator {
 		return rozgrywek;
 	}
 	
+	static void roundRobinTable(int g) {
+		int gp = (g%2==1) ? g+1 : g;
+		for(int i=1; i<gp; ++i) {
+			if(i%2==1) {
+				System.out.print((1+i/2)+"-"+gp);
+				for(int j=2; j<=gp/2; ++j) {
+					System.out.print("\t"+(j+i/2)+"-"+((gp-j+i/2)%(gp-1)+1));
+				}
+			}
+			else {
+				System.out.print(gp+"-"+(gp/2+i/2));
+				for(int j=2; j<=gp/2; ++j) {
+					System.out.print("\t"+((gp/2+j+i/2-2)%(gp-1)+1)+"-"+((gp/2-j+i/2)%(gp-1)+1));
+				}
+			}
+			System.out.print("\n");
+		}
+	}
 	
 	
 	static String Simulate(int players, int rounds) {
@@ -114,7 +132,7 @@ public class Simulator {
 			imie = imiona[rn.nextInt(imiona.length)];
 			nazwisko = nazwiska[rn.nextInt(nazwiska.length)];
 		} while(imie.endsWith("a") && nazwisko.endsWith("ki"));
-		return new Competitor(null, imie, nazwisko, a, c, false);
+		return new Competitor(null, imie, nazwisko, a, c, false, null);
 	}
 	private final static int[] ratings = { 2600, 2450, 2300, 2200, 1800, 1600, 1400, 1250, 1200 };
 	private final static String[] nazwiska = {

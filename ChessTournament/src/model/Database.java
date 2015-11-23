@@ -63,13 +63,14 @@ public class Database {
 			Statement statement = connection.createStatement();
 			if(c.getId()==null) {
 				statement.executeUpdate("insert into gracze " +
-						"(turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany) VALUES (" +
+						"(turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany, grupa) VALUES (" +
 						""+turniej	 				+ ", " + 
 						"'"+c.getName() 			+ "', " + 
 						"'"+c.getSurname() 			+ "', " + 
 						"" +c.getAge() 				+ ", " + 
 						"" +c.getChessCategory() 	+ ", " + 
-						"" +(c.getIsDisqualified()?1:0)+ ")"
+						"" +(c.getIsDisqualified()?1:0)+ ", " +
+						"" +c.getGroup() 			+ ")"
 						);
 			}
 			else {
@@ -78,7 +79,8 @@ public class Database {
 						"nazwisko='" 				+ c.getSurname() 		+ "', " + 
 						"wiek=" 					+ c.getAge() 			+ ", " + 
 						"kategoria=" 				+ c.getChessCategory() 	+ ", " + 
-						"czy_zdyskwalifikowany=" 	+ (c.getIsDisqualified()?1:0) + " " 	+ 
+						"czy_zdyskwalifikowany=" 	+ (c.getIsDisqualified()?1:0) + ", " +
+						"grupa=" 					+ c.getGroup() 			+ " " +
 						"where id=" 				+ c.getId() 			+ ""
 						);
 			}
@@ -98,6 +100,8 @@ public class Database {
 						"" +t.getRounds()		 	+ ", " + 
 						"" +t.getRoundsCompleted()	+ ")"
 						);
+				ResultSet rs = statement.executeQuery("select last_insert_rowid() AS id");
+				t.setId(rs.getInt("id"));
 			}
 			else {
 				statement.executeUpdate("update turnieje set " + 
@@ -142,21 +146,22 @@ public class Database {
 			e.printStackTrace();
 		}
 	}
-	
-	
 	public List<Competitor> getCompetitors(int turniej) {
 		List<Competitor> result = new ArrayList<Competitor>();
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from gracze where turniej="+turniej);
 		    while(rs.next()) {
+		    	Integer group = rs.getInt("grupa");
+		        group = rs.wasNull() ? null : group;
 		    	result.add(new Competitor(
 		    			rs.getInt("id"),
 		    			rs.getString("imie"),
 		    			rs.getString("nazwisko"),
 		    			rs.getInt("wiek"),
 		    			rs.getInt("kategoria"),
-		    			rs.getBoolean("czy_zdyskwalifikowany")
+		    			rs.getBoolean("czy_zdyskwalifikowany"),
+		    			group
 		    		));
 		    }
 		} catch (SQLException e) {
@@ -206,7 +211,6 @@ public class Database {
 		}
 		return result;
 	}
-	
 	public void removeCompetitor(int id) {
 		try {
 			Statement statement = connection.createStatement();
@@ -231,18 +235,4 @@ public class Database {
 			e.printStackTrace();
 		}
 	}	
-	
-	public int getTournamentId(String name){
-		int tId;
-		try{
-		Statement statement = connection.createStatement();
-		tId= statement.executeQuery("Select id from turnieje where nazwa='"+name+"'").getInt("id");
-		}
-		catch (SQLException e){
-			e.printStackTrace();
-			tId=-1;
-		}
-		return tId;
-	}
-	
 }

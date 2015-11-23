@@ -3,6 +3,8 @@ package panel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -14,17 +16,17 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+
 import chessTournament.MainProgram;
 import chessTournament.ValidatorException;
 import model.Competitor;
 import model.Database;
+import model.Tournament;
 
 @SuppressWarnings("serial")
 public class ShowEditCompetitorPanel extends JPanel{
-	private final int turniej;
+	private final Tournament turniej;
 	private final Database DB;
 	private JTable table;
 	private DefaultTableModel model;
@@ -33,10 +35,10 @@ public class ShowEditCompetitorPanel extends JPanel{
 	 * @param t - id turnieju
 	 * @param db - baza danych
 	 */
-	public ShowEditCompetitorPanel(int t, Database db){
+	public ShowEditCompetitorPanel(Tournament t, Database db){
 		this.turniej = t;
 		this.DB = db;
-		setSize(700,500);
+		setSize(700,700);
 		setLayout(new BorderLayout()); 
 	    setVisible(true);
 	    
@@ -46,29 +48,30 @@ public class ShowEditCompetitorPanel extends JPanel{
         	public Class<?> getColumnClass(int cInd) { 
         		return (cInd==2 || cInd==3) ? Integer.class : super.getColumnClass(cInd);
         	}
+        	@Override
+        	public boolean isCellEditable(int row, int column) {
+        		return isEditAllowed();
+        	}
         };
         model.setColumnIdentifiers(new String[]{"Imię", "Nazwisko", "Wiek", "Kategoria"});
         // przy edycji tabeli - zapis do bazy
-        model.addTableModelListener(new TableModelListener() {
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				int row = e.getFirstRow();
-				int column = e.getColumn();
-				if(column>=0 && row>=0 && model.getRowCount()>row) {
-					Object value = model.getValueAt(row, column); 
-					Competitor c = DB.getCompetitors(turniej).get(row);
-					try {
-						switch(column) {
-							case 0: c.setName((String)value); 			break;
-							case 1: c.setSurname((String)value); 		break;
-							case 2: c.setAge((int)value); 				break;
-							case 3: c.setChessCategory((int)value); 	break;
-						}
-					} catch(ValidatorException exc) {
-						System.out.print("Błąd walidacji\n");
+        model.addTableModelListener((e) -> {
+			int row = e.getFirstRow();
+			int column = e.getColumn();
+			if(column>=0 && row>=0 && model.getRowCount()>row) {
+				Object value = model.getValueAt(row, column); 
+				Competitor c = DB.getCompetitors(turniej.getId()).get(row);
+				try {
+					switch(column) {
+						case 0: c.setName((String)value); 			break;
+						case 1: c.setSurname((String)value); 		break;
+						case 2: c.setAge((int)value); 				break;
+						case 3: c.setChessCategory((int)value); 	break;
 					}
-					DB.insertOrUpdateCompetitor(c, turniej);
+				} catch(ValidatorException exc) {
+					System.out.print("Błąd walidacji\n");
 				}
+				DB.insertOrUpdateCompetitor(c, turniej.getId());
 			}
 		});
 
@@ -80,6 +83,12 @@ public class ShowEditCompetitorPanel extends JPanel{
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION); 
         // pole tekstowe akceptujące tylko znaki a-Z, - i spację
         final JTextField jtf = new JTextField();
+        jtf.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				jtf.selectAll();
+			}
+		});
         jtf.setDocument(new MainProgram.MyPlainDocument());
         // dla pól imię i nazwisko ustawiony edytor na podstawie powyższego pola tekstowego 
         table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(jtf));
@@ -92,6 +101,7 @@ public class ShowEditCompetitorPanel extends JPanel{
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
+            	if(!isEditAllowed()) return;
                 int r = table.rowAtPoint(e.getPoint());
                 if(r >= 0 && r < table.getRowCount()) 
                     table.setRowSelectionInterval(r, r);
@@ -107,7 +117,7 @@ public class ShowEditCompetitorPanel extends JPanel{
                     jmi.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							Competitor c = DB.getCompetitors(turniej).get(rowindex);
+							Competitor c = DB.getCompetitors(turniej.getId()).get(rowindex);
 							DB.removeCompetitor(c.getId());
 							model.fireTableRowsDeleted(rowindex, rowindex);
 							setData();
@@ -128,7 +138,7 @@ public class ShowEditCompetitorPanel extends JPanel{
 	 */
 	public void setData() {
 		model.setRowCount(0);
-        for(Competitor c : DB.getCompetitors(turniej)){
+        for(Competitor c : DB.getCompetitors(turniej.getId())){
         	model.addRow(new Object[]{
         		c.getName(),
             	c.getSurname(),
@@ -136,7 +146,10 @@ public class ShowEditCompetitorPanel extends JPanel{
             	c.getChessCategory()
             });
         }
-        
         model.fireTableDataChanged();        
+	}
+	
+	public boolean isEditAllowed() {
+		return turniej.getRoundsCompleted()<0;
 	}
 }

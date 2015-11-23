@@ -20,7 +20,6 @@ import java.io.FileNotFoundException;
 public class AddTPanel extends JPanel {
 	private JTextField textField;
 	private String nazwa;
-	private Database db;
 
 	/**
 	 * Create the panel.
@@ -52,12 +51,10 @@ public class AddTPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				nazwa=textField.getText();
 				Tournament t = new Tournament(null,nazwa,"rrrr",0,0,0);
-				db = new Database();
+				Database db = new Database();
 				db.insertOrUpdateTournament(t);
 				
-				int tId = db.getTournamentId(nazwa);
-				//System.out.println(db.getTournaments());
-				new CompetitorTabbedPane(db.getTournaments().get(tId-1));
+				new CompetitorTabbedPane(t);
 				db.close();
 			}
 		});
