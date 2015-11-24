@@ -16,4 +16,5 @@
 \contentsline {chapter}{\numberline {3}Miros\IeC {\l }awa Pelc}{15}{chapter.3}
 \contentsline {chapter}{\numberline {4}Mariusz Lorek}{16}{chapter.4}
 \contentsline {chapter}{Bibliografia}{17}{chapter*.2}
-\contentsline {chapter}{Spis rysunk\'ow}{19}{chapter*.3}
+\contentsline {chapter}{Spis rysunk\'ow}{18}{chapter*.3}
+\contentsline {chapter}{Spis tabel}{19}{chapter*.4}
