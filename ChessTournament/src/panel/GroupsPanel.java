@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +33,12 @@ public class GroupsPanel extends JPanel{
 	private JPanel container;
 	private LinkedHashMap<Integer, JTable> tables;
 	private List<Competitor> competitors;
+	enum SortOption {
+		NAME_ASC, NAME_DESC, 
+		SURNAME_ASC, SURNAME_DESC, 
+		AGE_ASC, AGE_DESC, 
+		CHESSCATEGORY_ASC, CHESSCATEGORY_DESC
+	}
 	/**
 	 * @param t - id turnieju
 	 * @param db - baza danych
@@ -71,6 +79,42 @@ public class GroupsPanel extends JPanel{
 			tables.put(i, table);
 	        table.addMouseListener(new MyMouseListener(table, groups));
 		}
+	}
+	
+	void stableSort(SortOption o) {
+		Comparator<Competitor> comp = null;
+		switch(o) {
+			case AGE_ASC:
+				comp = (c1, c2) -> c1.getAge().compareTo(c2.getAge());
+				break;
+			case AGE_DESC:
+				comp = (c2, c1) -> c1.getAge().compareTo(c2.getAge());
+				break;
+			case CHESSCATEGORY_ASC:
+				comp = (c1, c2) -> c1.getChessCategory().compareTo(c2.getChessCategory());
+				break;
+			case CHESSCATEGORY_DESC:
+				comp = (c2, c1) -> c1.getChessCategory().compareTo(c2.getChessCategory());
+				break;
+			case NAME_ASC:
+				comp = (c1, c2) -> c1.getName().compareTo(c2.getName());
+				break;
+			case NAME_DESC:
+				comp = (c2, c1) -> c1.getName().compareTo(c2.getName());
+				break;
+			case SURNAME_ASC:
+				comp = (c1, c2) -> c1.getSurname().compareTo(c2.getSurname());
+				break;
+			case SURNAME_DESC:
+				comp = (c2, c1) -> c1.getSurname().compareTo(c2.getSurname());
+				break;
+		}
+		if(comp!=null) competitors.sort(comp);
+		tables.values().forEach((t) -> ((AbstractTableModel)t.getModel()).fireTableDataChanged());
+	}
+	void shuffle() {
+		Collections.shuffle(competitors);
+		tables.values().forEach((t) -> ((AbstractTableModel)t.getModel()).fireTableDataChanged());
 	}
 	
 	class MyMouseListener extends MouseAdapter {

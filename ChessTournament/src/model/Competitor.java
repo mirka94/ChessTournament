@@ -57,11 +57,11 @@ public class Competitor {
         this.surname = surname;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public int getChessCategory() {
+    public Integer getChessCategory() {
         return chessCategory;
     }
 
@@ -70,7 +70,7 @@ public class Competitor {
         this.chessCategory = chessCategory;
     }
     
-    public boolean getIsDisqualified() {
+    public Boolean getIsDisqualified() {
         return this.isDisqualified;
     }
     
