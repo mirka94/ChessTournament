@@ -1,20 +1,19 @@
 package Window;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
-import java.awt.Dimension;
-import javax.swing.JMenuBar;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import java.awt.Component;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.awt.event.ActionEvent;
+import javax.swing.KeyStroke;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
@@ -33,25 +32,23 @@ public class MainWindow extends JFrame {
 		menuBar.add(mnTurniej);
 		
 		JMenuItem dodajTurniej = new JMenuItem("Dodaj turniej");
-		dodajTurniej.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		dodajTurniej.addActionListener(e -> {
 				getContentPane().removeAll();
 				add(new AddTPanel(MainWindow.this));
 				pack();
-			}
 		});
-		
+		dodajTurniej.setAccelerator(KeyStroke.getKeyStroke(
+		        java.awt.event.KeyEvent.VK_F2, 0));
 		mnTurniej.add(dodajTurniej);
 		
 		JMenuItem wybierzTurniej = new JMenuItem("Wybierz turniej");
 		mnTurniej.add(wybierzTurniej);
-		
-		wybierzTurniej.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		wybierzTurniej.setAccelerator(KeyStroke.getKeyStroke(
+		        java.awt.event.KeyEvent.VK_F3, 0));
+		wybierzTurniej.addActionListener(e -> {
 				getContentPane().removeAll();
 				add(new ShowTPanel(MainWindow.this));
 				pack();
-			}
 		});
 		
 		JMenu mnOProgramie = new JMenu("O programie");

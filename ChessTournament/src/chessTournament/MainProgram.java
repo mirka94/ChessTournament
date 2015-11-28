@@ -11,11 +11,7 @@ import Window.MainWindow;
 public class MainProgram {  
 
   public static void main (String[]args){
-	  
 	  new MainWindow().setVisible(true);
-	  //
-	  //Simulator.rozgrywek_eliminacje(23, 5);
-	  //System.out.print(Simulator.Simulate(13, 5));
   }
   
   public static class MyPlainDocument extends PlainDocument {

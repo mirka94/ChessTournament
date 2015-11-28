@@ -1,5 +1,0 @@
-Dowiedzieć się, jakie tryby rozgrywki ma wspierać program:
-- pucharowy ?
-- kołowy ?
-- systemem szwajcarskim ?
-Stworzyć interfejs dla wprowadzania uczestników: imię, nazwisko, kategoria szachowa

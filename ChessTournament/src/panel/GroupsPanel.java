@@ -6,14 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -24,97 +27,160 @@ import javax.swing.table.AbstractTableModel;
 
 import model.Competitor;
 import model.Database;
+import model.SingleGame;
 import model.Tournament;
+import tools.Dialogs;
+import tools.Tools;
 
 public class GroupsPanel extends JPanel{
 	private static final long serialVersionUID = 3870936863486240444L;
 	private final Tournament turniej;
 	private final Database DB;
-	private JPanel container;
-	private LinkedHashMap<Integer, JTable> tables;
+	private JPanel container = new JPanel();
+	private JButton startTournament = new JButton("Rozpocznij turniej");
+	private LinkedHashMap<Integer, JTable> tables = new LinkedHashMap<>();
 	private List<Competitor> competitors;
-	enum SortOption {
-		NAME_ASC, NAME_DESC, 
-		SURNAME_ASC, SURNAME_DESC, 
-		AGE_ASC, AGE_DESC, 
-		CHESSCATEGORY_ASC, CHESSCATEGORY_DESC
-	}
+	
 	/**
 	 * @param t - id turnieju
 	 * @param db - baza danych
 	 */
-	public GroupsPanel(Tournament t, Database db){
+	public GroupsPanel(Tournament t, Database db, onTournamentStartListener listener){
 		this.turniej = t;
 		this.DB = db;
 		this.setLayout(new BorderLayout());
-		container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-		//container.setAlignmentX(0.2f);
 		add(new JScrollPane(container));
 		initComponents();
+		startTournament.addActionListener(e -> {
+			if(turniej.isSwiss()) 
+				Dialogs.doZrobienia();
+			else {
+				Tools.checkGroups(turniej.getRounds(), competitors);
+				if(competitors.stream().filter(c->c.getGroup()==null).count()>0)
+					Dialogs.graczBezGrupy();
+				else {
+					competitors.forEach(c->DB.insertOrUpdateCompetitor(c, null)); // słaba wydajność w tym punkcie
+					int min = competitors.size();
+					int max = 0;
+					TreeMap<Integer, List<Competitor>> groupsList = Tools.groupsList(competitors);
+					for(List<Competitor> groupL : groupsList.values() ) {
+						int size = groupL.size();
+						min = Math.min(min, size);
+						max = Math.max(max, size);
+					}
+					if(max>min+1)
+						Dialogs.nierownomiernyPodzial(min, max);
+					else {
+						turniej.setRoundsCompleted(0);
+						listener.onTournamentStart();
+						//DB.insertOrUpdateTournament(turniej); // odkomentować po testach
+						
+						// Od tego miejsca generowanie obsługa gier (będzie nowa zakładka)
+						Map<Integer, Competitor> cm = competitors.stream()
+							.collect(Collectors.toMap(c->c.getId(), c->c));
+						for(SingleGame sg : Tools.generateSingleGames(groupsList)) {
+							System.out.println(
+									"Runda "+sg.getRound()+",\t"+
+									"grają: "+
+									cm.get(sg.getCompetitor1())+"\ti\t"+
+									cm.get(sg.getCompetitor2())
+									);
+						};
+					}
+				}
+			}
+		});
+	}
+	
+	@FunctionalInterface 
+	public interface onTournamentStartListener {
+		public void onTournamentStart();
 	}
 	
 	public void initComponents() {
 		competitors = DB.getCompetitors(turniej.getId());
+		sortDefault();
 		final int groups = turniej.getRounds();
+		Tools.checkGroups(groups, competitors);
 		container.removeAll();
-		tables = new LinkedHashMap<>();
-		JLabel label = new JLabel("Uczestnicy nieprzydzieleni do grup", JLabel.CENTER);
+		tables.clear();
+		JLabel label = new JLabel("Uczestnicy", JLabel.CENTER);
 		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		container.add(label);
 		container.add(Box.createRigidArea(new Dimension(0, 10)));
-		MyTableModel modelNull = new MyTableModel(null);
-		JTable tableN = new JTable(modelNull);
+		JTable tableN = new JTable(new MyTableModel(null));
 		tables.put(null, tableN);
 		tableN.addMouseListener(new MyMouseListener(tableN, groups));
         container.add(tableN.getTableHeader());
         container.add(tableN);
         
-		for(int i=0; i<groups; ++i) {
-			container.add(Box.createRigidArea(new Dimension(0, 20)));
-			container.add(new JLabel("Grupa "+(i+1), JLabel.CENTER));
-			container.add(Box.createRigidArea(new Dimension(0, 10)));
-			JTable table = new JTable(new MyTableModel(i));
-			container.add(table);
-			tables.put(i, table);
-	        table.addMouseListener(new MyMouseListener(table, groups));
-		}
+        if(!turniej.isSwiss()) {
+        	label.setText("Uczestnicy nieprzydzieleni do grup");
+			for(int i=0; i<groups; ++i) {
+				container.add(Box.createRigidArea(new Dimension(0, 20)));
+				container.add(new JLabel("Grupa "+(i+1), JLabel.CENTER));
+				container.add(Box.createRigidArea(new Dimension(0, 10)));
+				JTable table = new JTable(new MyTableModel(i));
+				container.add(table);
+				tables.put(i, table);
+		        table.addMouseListener(new MyMouseListener(table, groups));
+			}
+        }
+        else {
+        	for(Competitor c : competitors) c.setGroup(null);
+        	updateTables();
+        }
+		container.add(Box.createRigidArea(new Dimension(0, 50)));
+		container.add(startTournament);
 	}
 	
-	void stableSort(SortOption o) {
-		Comparator<Competitor> comp = null;
-		switch(o) {
-			case AGE_ASC:
-				comp = (c1, c2) -> c1.getAge().compareTo(c2.getAge());
-				break;
-			case AGE_DESC:
-				comp = (c2, c1) -> c1.getAge().compareTo(c2.getAge());
-				break;
-			case CHESSCATEGORY_ASC:
-				comp = (c1, c2) -> c1.getChessCategory().compareTo(c2.getChessCategory());
-				break;
-			case CHESSCATEGORY_DESC:
-				comp = (c2, c1) -> c1.getChessCategory().compareTo(c2.getChessCategory());
-				break;
-			case NAME_ASC:
-				comp = (c1, c2) -> c1.getName().compareTo(c2.getName());
-				break;
-			case NAME_DESC:
-				comp = (c2, c1) -> c1.getName().compareTo(c2.getName());
-				break;
-			case SURNAME_ASC:
-				comp = (c1, c2) -> c1.getSurname().compareTo(c2.getSurname());
-				break;
-			case SURNAME_DESC:
-				comp = (c2, c1) -> c1.getSurname().compareTo(c2.getSurname());
-				break;
+	void autoGroup() {
+		int groups = turniej.getRounds(), i = groups, n = -1;
+		List<List<Competitor>> groupsLists = new ArrayList<>();
+		for(Competitor c : competitors) {
+			if(++i>=groups) {
+				i = 0;
+				groupsLists.add(new ArrayList<>());
+				n++;
+			}
+			groupsLists.get(n).add(c);
 		}
-		if(comp!=null) competitors.sort(comp);
-		tables.values().forEach((t) -> ((AbstractTableModel)t.getModel()).fireTableDataChanged());
+		while(++i<groups) { // dopełnienie ostatniej grupy wartościami "pustymi"
+			groupsLists.get(n).add(new Competitor(null, "", "", 0, 0, false, 0));
+		}
+		for(List<Competitor> l : groupsLists) {
+			Collections.shuffle(l);
+			int g = 0;
+			for(Competitor c : l) c.setGroup(g++);
+		}
+		updateTables();
 	}
+	
+	void sortDefault() {
+		stableSort(Competitor.SortOption.NAME_ASC);
+		stableSort(Competitor.SortOption.SURNAME_ASC);
+		stableSort(Competitor.SortOption.AGE_DESC);
+		stableSort(Competitor.SortOption.CHESSCATEGORY_ASC);
+	}
+	
+	void stableSort(Competitor.SortOption o) {
+		competitors.sort(Competitor.comparators.get(o));
+		updateTables();
+	}
+	
 	void shuffle() {
 		Collections.shuffle(competitors);
+	}
+	
+	
+	
+	void updateTables() {
 		tables.values().forEach((t) -> ((AbstractTableModel)t.getModel()).fireTableDataChanged());
+	}
+	
+	public boolean isEditAllowed() {
+		return turniej.getRoundsCompleted()<0;
 	}
 	
 	class MyMouseListener extends MouseAdapter {
@@ -127,6 +193,7 @@ public class GroupsPanel extends JPanel{
 		}
 		@Override
         public void mouseReleased(MouseEvent e) {
+			if(!isEditAllowed()) return;
             int r = table.rowAtPoint(e.getPoint());
             if(r >= 0 && r < table.getRowCount()) 
                 table.setRowSelectionInterval(r, r);
@@ -137,8 +204,8 @@ public class GroupsPanel extends JPanel{
             if(rowindex < 0) return;
             if(e.isPopupTrigger() && e.getComponent() instanceof JTable) {
                 JPopupMenu popup = new JPopupMenu();
-                if(((MyTableModel) table.getModel()).competitors().isEmpty()) return;
-                Competitor c = ((MyTableModel) table.getModel()).competitors().get(rowindex);
+                if(((MyTableModel) table.getModel()).competitors.isEmpty()) return;
+                Competitor c = ((MyTableModel) table.getModel()).competitors.get(rowindex);
                 if(c.getGroup()!=null) {
                 	MoveToAnotherGroupMenuItem jmiNull = new MoveToAnotherGroupMenuItem(null, c);
                 	popup.add(jmiNull);
@@ -163,6 +230,7 @@ public class GroupsPanel extends JPanel{
 				public void actionPerformed(ActionEvent e) {
 					Integer oldGroup = c.getGroup();
 					c.setGroup(group);
+					DB.insertOrUpdateCompetitor(c, null);
 					((AbstractTableModel)tables.get(oldGroup)	.getModel()).fireTableDataChanged();
 					((AbstractTableModel)tables.get(group)		.getModel()).fireTableDataChanged();
 				}
@@ -172,10 +240,12 @@ public class GroupsPanel extends JPanel{
 	
 	class MyTableModel extends AbstractTableModel {
 		private static final long serialVersionUID = -7420896389109019010L;
-		private Integer group;
 		final String[] columnNames = {"Imię", "Nazwisko", "Wiek", "Kategoria"};
+		private Integer group;
+		private List<Competitor> competitors;
 		public MyTableModel(Integer group) {
 			this.group = group;
+			setCompetitors();
 		}
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
@@ -192,12 +262,12 @@ public class GroupsPanel extends JPanel{
 		}
 		@Override
 		public int getRowCount() {
-			return Math.max(competitors().size(),1);
+			return Math.max(competitors.size(),1);
 		}
 		@Override
 		public Object getValueAt(int row, int col) {
-			if(competitors().isEmpty()) return "N/A";
-			Competitor c = competitors().get(row);
+			if(competitors.isEmpty()) return "N/A";
+			Competitor c = competitors.get(row);
 			if(col==0) return c.getName();
 			if(col==1) return c.getSurname();
 			if(col==2) return c.getAge();
@@ -210,8 +280,8 @@ public class GroupsPanel extends JPanel{
 			return false;
 		}
 		
-		public List<Competitor> competitors() {
-			return competitors.stream()
+		public void setCompetitors() {
+			competitors = GroupsPanel.this.competitors.stream()
 					.filter(c->c.getGroup()==group)
 					.collect(Collectors.toList());
 		}
@@ -219,6 +289,11 @@ public class GroupsPanel extends JPanel{
 		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 			System.err.print("Do not use setValueAt in "+getClass());
+		}
+		@Override
+		public void fireTableDataChanged() {
+			setCompetitors();
+			super.fireTableDataChanged();
 		}
 	}
 }

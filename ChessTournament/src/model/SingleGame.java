@@ -5,39 +5,47 @@ package model;
  */
 public class SingleGame {
 	private Integer id;
-	private int competitor1, competitor2;
+	private final int competitor1, competitor2;
 	private int score;
 	private boolean wasPlayed;
 	private boolean inProgress;
+	private final int round;
 	
 	public SingleGame(Integer id, int competitor1, int competitor2, int score,
-			boolean wasPlayed, boolean inProgress) {
+			boolean wasPlayed, boolean inProgress, int round) {
 		this.id = id;
 		this.competitor1 = competitor1;
 		this.competitor2 = competitor2;
 		this.score = score;
 		this.wasPlayed = wasPlayed;
 		this.inProgress = inProgress;
+		this.round = round;
+	}
+	
+	public SingleGame(Competitor competitor1, Competitor competitor2, int round) {
+		this.id = null;
+		this.competitor1 = competitor1.getId();
+		this.competitor2 = competitor2.getId();
+		this.score = 0;
+		this.wasPlayed = false;
+		this.inProgress = false;
+		this.round = round;
 	}
 
 	public Integer getId() {
 		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getCompetitor1() {
 		return competitor1;
 	}
 
-	public void setCompetitor1(int competitor1) {
-		this.competitor1 = competitor1;
-	}
-
 	public int getCompetitor2() {
 		return competitor2;
-	}
-
-	public void setCompetitor2(int competitor2) {
-		this.competitor2 = competitor2;
 	}
 
 	public int getScore() {
@@ -62,5 +70,9 @@ public class SingleGame {
 
 	public void setInProgress(boolean inProgress) {
 		this.inProgress = inProgress;
+	}
+
+	public Integer getRound() {
+		return round;
 	}
 }

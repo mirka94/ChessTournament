@@ -32,7 +32,7 @@ public class Database {
 		    statement.executeUpdate("CREATE TABLE IF NOT EXISTS turnieje " +
 		    		"(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		      		"nazwa VARCHAR(50), rok VARCHAR(10), szachownic TINYINT, " +
-		      		"rund TINYINT, rozegranych TINYINT)");
+		      		"rund TINYINT, rozegranych TINYINT, typ BOOLEAN)");
 		    statement.executeUpdate("CREATE TABLE IF NOT EXISTS gracze " +
 		      		"(id INTEGER PRIMARY KEY AUTOINCREMENT, turniej INTEGER, " +
 		      		"imie VARCHAR(50), nazwisko VARCHAR(50), wiek INTEGER, " +
@@ -40,7 +40,7 @@ public class Database {
 		    statement.executeUpdate("CREATE TABLE IF NOT EXISTS rozgrywki " +
 		      		"(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		      		"id_gr1 INTEGER, id_gr2 INTEGER, wynik TINYINT, " +
-		      		"czyrozgrywana BOOLEAN, czywtrakcie BOOLEAN)");
+		      		"czyrozgrywana BOOLEAN, czywtrakcie BOOLEAN, runda INTEGER)");
 	    }
 	    catch(SQLException e) {
 	      // if the error message is "out of memory", 
@@ -60,7 +60,6 @@ public class Database {
 	}
 	public void insertOrUpdateCompetitor(Competitor c, Integer turniej) {
 		try {
-			System.out.println("InsertOrUpdateCompetitor");
 			Statement statement = connection.createStatement();
 			if(c.getId()==null) {
 				statement.executeUpdate("insert into gracze " +
@@ -94,12 +93,13 @@ public class Database {
 			Statement statement = connection.createStatement();
 			if(t.getId()==null) {
 				statement.executeUpdate("insert into turnieje" +
-						"(nazwa, rok, szachownic, rund, rozegranych) VALUES (" +
+						"(nazwa, rok, szachownic, rund, rozegranych, typ) VALUES (" +
 						"'"+t.getName() 			+ "', " + 
 						"'"+t.getYear() 			+ "', " + 
 						"" +t.getBoards()			+ ", " + 
 						"" +t.getRounds()		 	+ ", " + 
-						"" +t.getRoundsCompleted()	+ ")"
+						"" +t.getRoundsCompleted()	+ ", " +
+						"" +(t.getType()==Tournament.Type.SWISS ? 1 : 0)+")"
 						);
 				ResultSet rs = statement.executeQuery("select last_insert_rowid() AS id");
 				t.setId(rs.getInt("id"));
@@ -110,7 +110,8 @@ public class Database {
 						"rok='" 		+ t.getYear() 			+ "', " + 
 						"szachownic="	+ t.getBoards()			+ ", " + 
 						"rund=" 		+ t.getRounds()	 		+ ", " + 
-						"rozegranych=" 	+ t.getRoundsCompleted() + " " 	+ 
+						"rozegranych=" 	+ t.getRoundsCompleted() + ", " 	+ 
+						"typ="			+ (t.isSwiss() ? 1 : 0) + " " +
 						"where id=" 	+ t.getId() 			+ ""
 						);
 			}
@@ -122,21 +123,18 @@ public class Database {
 		try {
 			Statement statement = connection.createStatement();
 			if(g.getId()==null) {
-				//id_gr1 INTEGER, id_gr2 INTEGER, wynik TINYINT, " +
-	      		//czyrozgrywana BOOLEAN, czywtrakcie BOOLEAN)
 				statement.executeUpdate("insert into rozgrywki" +
-						"(id_gr1, id_gr2, wynik, czyrozgrywana, czywtrakcie) VALUES (" +
+						"(id_gr1, id_gr2, wynik, czyrozgrywana, czywtrakcie, runda) VALUES (" +
 						"" +g.getCompetitor1() 		+ ", " + 
 						"" +g.getCompetitor2()		+ ", " + 
 						"" +g.getScore()			+ ", " + 
 						"" +(g.getWasPlayed()?1:0) 	+ ", " + 
-						"" +(g.isInProgress()?1:0)	+ ")"
+						"" +(g.isInProgress()?1:0)	+ ", " +
+						"" +g.getRound()			+ ")"
 						);
 			}
 			else {
 				statement.executeUpdate("update rozgrywki set " + 
-						"id_gr1='" 		+ g.getCompetitor1() 			+ "', " + 
-						"id_gr2='" 		+ g.getCompetitor2()			+ "', " + 
 						"wynik="		+ g.getScore()					+ ", " + 
 						"czyrozgrywana="+ (g.getWasPlayed()?1:0)	 	+ ", " + 
 						"czywtrakcie=" 	+ (g.isInProgress()?1:0) + " " 	+ 
@@ -183,7 +181,8 @@ public class Database {
 		    			rs.getString("rok"),
 		    			rs.getInt("szachownic"),
 		    			rs.getInt("rund"),
-		    			rs.getInt("rozegranych")
+		    			rs.getInt("rozegranych"),
+		    			rs.getBoolean("typ") ? Tournament.Type.SWISS : Tournament.Type.GROUP_ELIMINATIONS
 		    		));
 		    }
 		} catch (SQLException e) {
@@ -196,7 +195,6 @@ public class Database {
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from rozgrywki");
-			//nteger id, String name, String year, int boards, int rounds, int roundsCompleted
 		    while(rs.next()) {
 		    	result.add(new SingleGame(
 		    			rs.getInt("id"),
@@ -204,7 +202,8 @@ public class Database {
 		    			rs.getInt("id_gr2"),
 		    			rs.getInt("wynik"),
 		    			rs.getBoolean("czyrozgrywana"),
-		    			rs.getBoolean("czywtrakcie")
+		    			rs.getBoolean("czywtrakcie"),
+		    			rs.getInt("runda")
 		    		));
 		    }
 		} catch (SQLException e) {

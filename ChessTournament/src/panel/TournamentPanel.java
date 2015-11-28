@@ -1,27 +1,22 @@
 package panel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Scrollbar;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import chessTournament.MainProgram;
 import model.Database;
 import model.Tournament;
+import tools.Simulator;
 
 public class TournamentPanel extends JPanel{
 	private static final long serialVersionUID = -6884083935424698553L;
@@ -34,14 +29,12 @@ public class TournamentPanel extends JPanel{
 	private final String swissT = "Systemem szwajcarskim";
 	private final String gamesT = "Rozgrywek: ";
 	private final String timeST = "Przewidywany czas: ";
-	private final String startST = "Przygotuj rundę pierwszą";
-	private final String startRRT = "Rozpocznij podział na grupy";
 	private final String timeRRET = "Przewidywany czas eliminacji: ";
 	private final JLabel nameL, yearL, typeL, sgTimeL, roundsL, groupsL, stats1L, stats2L;
 	final JTextField nameTF, yearTF;
 	final JToggleButton typeTB;
-	final JButton startB;
 	final Scrollbar roundsSB, groupsSB, sgTimeSB;
+	final JPanel panel = new JPanel();
 	/**
 	 * @param t - id turnieju
 	 * @param db - baza danych
@@ -60,14 +53,12 @@ public class TournamentPanel extends JPanel{
 		nameTF 	= new JTextField();
 		yearTF  = new JTextField();
 		typeTB 	= new JToggleButton("", false);
-		startB  = new JButton(startRRT);
 		roundsSB 	= new Scrollbar(Scrollbar.HORIZONTAL, 3, 1, 3, 9+1);
 		groupsSB 	= new Scrollbar(Scrollbar.HORIZONTAL, 2, 1, 2, 9+1);
 		sgTimeSB 	= new Scrollbar(Scrollbar.HORIZONTAL, 20, 4, 2, 40+4);
 		
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(10, 10, 10, 10));
-		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0, 2, 10, 20));
 		add(panel, BorderLayout.NORTH);
 		nameTF.setDocument(new MainProgram.MyPlainDocument());
@@ -75,22 +66,12 @@ public class TournamentPanel extends JPanel{
 		
 		setComponentsActions();
 		
-		panel.add(nameL);
-		panel.add(nameTF);
-		panel.add(yearL);
-		panel.add(yearTF);
-		panel.add(typeL);
-		panel.add(typeTB);
-		panel.add(sgTimeL);
-		panel.add(sgTimeSB);
-		panel.add(roundsL);
-		panel.add(roundsSB);
-		panel.add(groupsL);
-		panel.add(groupsSB);
-		panel.add(stats1L);
-		panel.add(stats2L);
-		panel.add(new JLabel());
-		panel.add(startB);
+		Component[] cs = {
+			nameL, nameTF, yearL, yearTF, typeL, typeTB, sgTimeL, sgTimeSB, roundsL, 
+			roundsSB, groupsL, groupsSB, stats1L, stats2L
+		};
+		for(Component c : cs) panel.add(c);
+
 		nameTF.setText(turniej.getName());
 		yearTF.setText(turniej.getYear());
 		typeTB.doClick();
@@ -118,53 +99,47 @@ public class TournamentPanel extends JPanel{
 				DB.insertOrUpdateTournament(turniej);
 			}
 		});
-		typeTB.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
+		turniej.addTypeChangeListener((type) -> {
+			if(type==Tournament.Type.GROUP_ELIMINATIONS) {
+				typeTB.setText(roundRobinT);
+				groupsL.setVisible(true);
+				groupsSB.setVisible(true);
+				roundsL.setVisible(false);
+				roundsSB.setVisible(false);
+			}
+			else {
+				typeTB.setText(swissT);
+				groupsL.setVisible(false);
+				groupsSB.setVisible(false);
+				roundsL.setVisible(true);
+				roundsSB.setVisible(true);
+			}
+			recalcStats();
+		});
+		typeTB.addChangeListener(e -> {
 				if(typeTB.isSelected()) {
-					startB.setText(startRRT);
-					typeTB.setText(roundRobinT);
-					groupsL.setVisible(true);
-					groupsSB.setVisible(true);
-					roundsL.setVisible(false);
-					roundsSB.setVisible(false);
+					turniej.setType(Tournament.Type.GROUP_ELIMINATIONS);
 				}
 				else {
-					startB.setText(startST);
-					typeTB.setText(swissT);
-					groupsL.setVisible(false);
-					groupsSB.setVisible(false);
-					roundsL.setVisible(true);
-					roundsSB.setVisible(true);
+					turniej.setType(Tournament.Type.SWISS);
 				}
-				recalcStats();
-			}
 		});
-		roundsSB.addAdjustmentListener(new AdjustmentListener() {
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent e) {
+		roundsSB.addAdjustmentListener(e -> {
 				int v = roundsSB.getValue();
 				roundsL.setText(roundsT+v);
 				recalcStats();
-			}
+				turniej.setRounds(v);
+				DB.insertOrUpdateTournament(turniej);
 		});
-		groupsSB.addAdjustmentListener(new AdjustmentListener() {
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent e) {
+		groupsSB.addAdjustmentListener(e -> {
+				int g = groupsSB.getValue();
+				System.out.println("Grup: "+g);
 				recalcStats();
-			}
+				turniej.setRounds(g);
+				DB.insertOrUpdateTournament(turniej);
 		});
-		sgTimeSB.addAdjustmentListener(new AdjustmentListener() {
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent e) {
+		sgTimeSB.addAdjustmentListener(e -> {
 				recalcStats();
-			}
-		});
-		startB.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				turniej.setRoundsCompleted(0);
-			}
 		});
 	}
 	
@@ -194,6 +169,8 @@ public class TournamentPanel extends JPanel{
 		roundsSB.setMaximum((int)Math.ceil(graczy/1.5)+1);
 		groupsSB.setMinimum(2);
 		groupsSB.setMaximum((int)Math.ceil(graczy/2)+2);
+		roundsSB.setValue(turniej.getRounds());
+		groupsSB.setValue(turniej.getRounds());
 		recalcStats();
 	}
 }

@@ -1,8 +1,6 @@
 package panel;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -28,7 +26,7 @@ import model.Tournament;
 public class ShowEditCompetitorPanel extends JPanel{
 	private final Tournament turniej;
 	private final Database DB;
-	private JTable table;
+	private JTable table = new JTable();
 	private DefaultTableModel model;
 	
 	/**
@@ -45,8 +43,8 @@ public class ShowEditCompetitorPanel extends JPanel{
 	    model = new DefaultTableModel(){
         	// w kolumny wiek i kategoria można wprowadzać tylko liczby
         	@Override
-        	public Class<?> getColumnClass(int cInd) { 
-        		return (cInd==2 || cInd==3) ? Integer.class : super.getColumnClass(cInd);
+        	public Class<?> getColumnClass(int c) { 
+        		return (c==2 || c==3) ? Integer.class : super.getColumnClass(c);
         	}
         	@Override
         	public boolean isCellEditable(int row, int column) {
@@ -77,7 +75,6 @@ public class ShowEditCompetitorPanel extends JPanel{
 
 
 	    // USTAWIENIA TABELI;
-	    table = new JTable();
         table.setModel(model);
 	    // zaznaczanie tylko jednego wiersza (mamy proste usuwanie)
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION); 
@@ -114,14 +111,11 @@ public class ShowEditCompetitorPanel extends JPanel{
                     JPopupMenu popup = new JPopupMenu();
                     JMenuItem jmi = new JMenuItem("Usuń");
                     // akcja po kliknięciu na "Usuń"
-                    jmi.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
+                    jmi.addActionListener(e2 -> {
 							Competitor c = DB.getCompetitors(turniej.getId()).get(rowindex);
 							DB.removeCompetitor(c.getId());
 							model.fireTableRowsDeleted(rowindex, rowindex);
 							setData();
-						}
 					});
                     popup.add(jmi);
                     popup.show(e.getComponent(), e.getX(), e.getY());

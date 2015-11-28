@@ -1,21 +1,21 @@
 package Window;
 
-import javax.swing.JPanel;
 import java.awt.Dimension;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import model.Database;
 import model.Tournament;
 import panel.CompetitorTabbedPane;
-
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 
 @SuppressWarnings("serial")
 public class AddTPanel extends JPanel {
@@ -51,7 +51,7 @@ public class AddTPanel extends JPanel {
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nazwa=textField.getText();
-				Tournament t = new Tournament(null,nazwa,"rrrr",0,0,-1);
+				Tournament t = new Tournament(null,nazwa,"rrrr",8,5,-1,Tournament.Type.GROUP_ELIMINATIONS);
 				Database db = new Database();
 				db.insertOrUpdateTournament(t);
 				
