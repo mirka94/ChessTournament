@@ -80,11 +80,13 @@ public class GroupsPanel extends JPanel{
 						Map<Integer, Competitor> cm = competitors.stream()
 							.collect(Collectors.toMap(c->c.getId(), c->c));
 						for(SingleGame sg : Tools.generateSingleGames(groupsList)) {
+							DB.insertOrUpdateSingleGame(sg);
 							System.out.println(
 									"Runda "+sg.getRound()+",\t"+
 									"grają: "+
 									cm.get(sg.getCompetitor1())+"\ti\t"+
-									cm.get(sg.getCompetitor2())
+									cm.get(sg.getCompetitor2())+
+									"\t, id rozgrywki: "+sg.getId()
 									);
 						};
 					}

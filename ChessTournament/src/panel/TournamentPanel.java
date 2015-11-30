@@ -80,21 +80,16 @@ public class TournamentPanel extends JPanel{
 	}
 	
 	private void setComponentsActions() {
-		nameTF.getDocument().addDocumentListener(new DocumentListener() {
-			@Override public void removeUpdate(DocumentEvent e) {System.out.print(nameTF.getText()+"\n");}
-			@Override public void insertUpdate(DocumentEvent e) {System.out.print(nameTF.getText()+"\n");}
+		nameTF.getDocument().addDocumentListener(new MyDocumentListener() {			
 			@Override
-			public void changedUpdate(DocumentEvent e) {
+			public void action() {
 				turniej.setName(nameTF.getText());
 				DB.insertOrUpdateTournament(turniej);
-				System.out.print(nameTF.getText());
 			}
 		});
-		yearTF.getDocument().addDocumentListener(new DocumentListener() {
-			@Override public void removeUpdate(DocumentEvent e) {}
-			@Override public void insertUpdate(DocumentEvent e) {}
+		yearTF.getDocument().addDocumentListener(new MyDocumentListener() {
 			@Override
-			public void changedUpdate(DocumentEvent e) {
+			public void action() {
 				turniej.setYear(yearTF.getText());
 				DB.insertOrUpdateTournament(turniej);
 			}
@@ -123,6 +118,7 @@ public class TournamentPanel extends JPanel{
 				else {
 					turniej.setType(Tournament.Type.SWISS);
 				}
+				DB.insertOrUpdateTournament(turniej);
 		});
 		roundsSB.addAdjustmentListener(e -> {
 				int v = roundsSB.getValue();
@@ -133,7 +129,7 @@ public class TournamentPanel extends JPanel{
 		});
 		groupsSB.addAdjustmentListener(e -> {
 				int g = groupsSB.getValue();
-				System.out.println("Grup: "+g);
+				//System.out.println("Grup: "+g);
 				recalcStats();
 				turniej.setRounds(g);
 				DB.insertOrUpdateTournament(turniej);
@@ -141,6 +137,13 @@ public class TournamentPanel extends JPanel{
 		sgTimeSB.addAdjustmentListener(e -> {
 				recalcStats();
 		});
+	}
+	
+	private abstract class MyDocumentListener implements DocumentListener {
+		public abstract void action();
+		@Override public final void removeUpdate(DocumentEvent e) { action(); }
+		@Override public final void insertUpdate(DocumentEvent e) { action(); }
+		@Override public final void changedUpdate(DocumentEvent e){ action(); }
 	}
 	
 	public void recalcStats() { // TODO - poprawić przewidywany czas turnieju
@@ -154,7 +157,7 @@ public class TournamentPanel extends JPanel{
 			int rozgrywek = Simulator.rozgrywek_eliminacje(graczy, grup);
 			stats1L.setText(gamesT+String.valueOf(rozgrywek));
 			int gier_naraz = (int)Math.min(Math.floor(graczy/2), turniej.getBoards());
-			System.out.print("Gier naraz: "+gier_naraz+"\n");
+			//System.out.print("Gier naraz: "+gier_naraz+"\n");
 			stats2L.setText(timeRRET+Math.ceil(rozgrywek/gier_naraz)*czasSG+" min");
 		} 
 		else {

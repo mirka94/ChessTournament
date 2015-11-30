@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -60,60 +61,67 @@ public class Database {
 	}
 	public void insertOrUpdateCompetitor(Competitor c, Integer turniej) {
 		try {
-			Statement statement = connection.createStatement();
+			PreparedStatement st;
 			if(c.getId()==null) {
-				statement.executeUpdate("insert into gracze " +
-						"(turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany, grupa) VALUES (" +
-						""+turniej	 				+ ", " + 
-						"'"+c.getName() 			+ "', " + 
-						"'"+c.getSurname() 			+ "', " + 
-						"" +c.getAge() 				+ ", " + 
-						"" +c.getChessCategory() 	+ ", " + 
-						"" +(c.getIsDisqualified()?1:0)+ ", " +
-						"" +c.getGroup() 			+ ")"
-						);
+				st = connection.prepareStatement("INSERT INTO gracze "
+					+ "(turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany, grupa) "
+					+ "VALUES (?,?,?,?,?,?,?)");
+				st.setInt	 (1, turniej);
+				st.setString (2, c.getName());
+				st.setString (3, c.getSurname());
+				st.setInt	 (4, c.getAge());
+				st.setInt	 (5, c.getChessCategory());
+				st.setBoolean(6,c.getIsDisqualified());
+				if(c.getGroup()==null) 
+					st.setNull(7, java.sql.Types.INTEGER);
+				else
+					st.setInt(7, c.getGroup());
 			}
 			else {
-				statement.executeUpdate("update gracze set " + 
-						"imie='" 					+ c.getName() 			+ "', " + 
-						"nazwisko='" 				+ c.getSurname() 		+ "', " + 
-						"wiek=" 					+ c.getAge() 			+ ", " + 
-						"kategoria=" 				+ c.getChessCategory() 	+ ", " + 
-						"czy_zdyskwalifikowany=" 	+ (c.getIsDisqualified()?1:0) + ", " +
-						"grupa=" 					+ c.getGroup() 			+ " " +
-						"where id=" 				+ c.getId() 			+ ""
-						);
+				st = connection.prepareStatement("UPDATE gracze SET "
+					+ "imie=?, nazwisko=?, wiek=?, kategoria=?, czy_zdyskwalifikowany=?, "
+					+ "grupa=? where id=?");
+				st.setString(1, c.getName());
+				st.setString(2, c.getSurname());
+				st.setInt	(3, c.getAge());
+				st.setInt	(4, c.getChessCategory());
+				st.setBoolean(5,c.getIsDisqualified());
+				if(c.getGroup()==null) 
+					st.setNull(6, java.sql.Types.INTEGER);
+				else
+					st.setInt(6, c.getGroup());
 			}
+			st.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	public void insertOrUpdateTournament(Tournament t) {
 		try {
-			Statement statement = connection.createStatement();
+			PreparedStatement st;
 			if(t.getId()==null) {
-				statement.executeUpdate("insert into turnieje" +
-						"(nazwa, rok, szachownic, rund, rozegranych, typ) VALUES (" +
-						"'"+t.getName() 			+ "', " + 
-						"'"+t.getYear() 			+ "', " + 
-						"" +t.getBoards()			+ ", " + 
-						"" +t.getRounds()		 	+ ", " + 
-						"" +t.getRoundsCompleted()	+ ", " +
-						"" +(t.getType()==Tournament.Type.SWISS ? 1 : 0)+")"
-						);
-				ResultSet rs = statement.executeQuery("select last_insert_rowid() AS id");
-				t.setId(rs.getInt("id"));
+				st = connection.prepareStatement("INSERT INTO turnieje "
+					+"(nazwa, rok, szachownic, rund, rozegranych, typ) "
+					+"VALUES (?,?,?,?,?,?)");
 			}
 			else {
-				statement.executeUpdate("update turnieje set " + 
-						"nazwa='" 		+ t.getName() 			+ "', " + 
-						"rok='" 		+ t.getYear() 			+ "', " + 
-						"szachownic="	+ t.getBoards()			+ ", " + 
-						"rund=" 		+ t.getRounds()	 		+ ", " + 
-						"rozegranych=" 	+ t.getRoundsCompleted() + ", " 	+ 
-						"typ="			+ (t.isSwiss() ? 1 : 0) + " " +
-						"where id=" 	+ t.getId() 			+ ""
-						);
+				st = connection.prepareStatement("UPDATE TURNIEJE SET "
+					+ "nazwa=?, rok=?, szachownic=?, rund=?, rozegranych=?, typ=? "
+					+ "where id=?");
+				st.setInt(7, t.getId());
+			}
+			st.setString(1, t.getName());
+			st.setString(2, t.getYear());
+			st.setInt(3, t.getBoards());
+			st.setInt(4, t.getRounds());
+			st.setInt(5, t.getRoundsCompleted());
+			st.setBoolean(6, t.isSwiss());
+			st.execute();
+			
+			if(t.getId()==null) {
+				Statement statement = connection.createStatement();
+				ResultSet rs = statement.executeQuery("select last_insert_rowid() AS id");
+				t.setId(rs.getInt("id"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -121,25 +129,31 @@ public class Database {
 	}
 	public void insertOrUpdateSingleGame(SingleGame g) {
 		try {
-			Statement statement = connection.createStatement();
+			PreparedStatement st;
 			if(g.getId()==null) {
-				statement.executeUpdate("insert into rozgrywki" +
-						"(id_gr1, id_gr2, wynik, czyrozgrywana, czywtrakcie, runda) VALUES (" +
-						"" +g.getCompetitor1() 		+ ", " + 
-						"" +g.getCompetitor2()		+ ", " + 
-						"" +g.getScore()			+ ", " + 
-						"" +(g.getWasPlayed()?1:0) 	+ ", " + 
-						"" +(g.isInProgress()?1:0)	+ ", " +
-						"" +g.getRound()			+ ")"
-						);
+				st = connection.prepareStatement("INSERT INTO rozgrywki "
+						+ "(id_gr1, id_gr2, wynik, czyrozgrywana, czywtrakcie, runda) "
+						+ "VALUES (?,?,?,?,?,?)");
+				st.setInt(1, g.getCompetitor1());
+				st.setInt(2, g.getCompetitor2());
+				st.setInt(3, g.getScore());
+				st.setBoolean(4, g.getWasPlayed());
+				st.setBoolean(5, g.isInProgress());
+				st.setInt(6, g.getRound());
 			}
 			else {
-				statement.executeUpdate("update rozgrywki set " + 
-						"wynik="		+ g.getScore()					+ ", " + 
-						"czyrozgrywana="+ (g.getWasPlayed()?1:0)	 	+ ", " + 
-						"czywtrakcie=" 	+ (g.isInProgress()?1:0) + " " 	+ 
-						"where id='" 	+ g.getId() 			+ "'"
-						);
+				st = connection.prepareStatement("UPDATE ROZGRYWKI SET " + 
+						"wynik=?, czyrozgrywana=?, czywtrakcie=? where id=?");
+				st.setInt(1, g.getScore());
+				st.setBoolean(2, g.getWasPlayed());
+				st.setBoolean(3, g.isInProgress());
+				st.setInt(4, g.getId());
+			}
+			st.execute();
+			if(g.getId()==null) {
+				Statement statement = connection.createStatement();
+				ResultSet rs = statement.executeQuery("select last_insert_rowid() AS id");
+				g.setId(rs.getInt("id"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -173,7 +187,6 @@ public class Database {
 		try {
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery("select * from turnieje");
-			//nteger id, String name, String year, int boards, int rounds, int roundsCompleted
 		    while(rs.next()) {
 		    	result.add(new Tournament(
 		    			rs.getInt("id"),
