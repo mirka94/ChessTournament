@@ -22,16 +22,16 @@ import tools.Simulator;
 public class CompetitorTabbedPane extends JFrame {
 	private static final long serialVersionUID = -1732368493930988952L;
 	final Tournament turniej;
-	Database DB;
-	JMenuBar menuBar;
-	JMenu comp, about, sort, group;
-	JMenuItem addC, rndC, authors, manual, sortDefault, sortRandom, autoGroup;
-	LinkedHashMap<JMenuItem, Competitor.SortOption> sortOptions;
-	ShowEditCompetitorPanel showPanel;
-	TournamentPanel tournamentPanel;
-	GamesPanel gamesPanel;
-	GroupsPanel groupsPanel;
-	JTabbedPane tabbedPane = new JTabbedPane();
+	private Database DB;
+	private JMenuBar menuBar;
+	private JMenu comp, about, sort, group;
+	private JMenuItem addC, rndC, authors, manual, sortDefault, sortRandom, autoGroup;
+	private LinkedHashMap<JMenuItem, Competitor.SortOption> sortOptions;
+	private ShowEditCompetitorPanel showPanel;
+	private TournamentPanel tournamentPanel;
+	private GroupsPanel groupsPanel;
+	private JTabbedPane tabbedPane = new JTabbedPane();
+	//private RoundPanel roundPanel;
 	
 	public CompetitorTabbedPane(Tournament turniej){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,7 +39,8 @@ public class CompetitorTabbedPane extends JFrame {
 		this.DB = new Database();
 		showPanel = new ShowEditCompetitorPanel(turniej, DB);
 		tournamentPanel = new TournamentPanel(turniej, DB);
-		groupsPanel = new GroupsPanel(turniej, DB, ()->group.setVisible(false));
+		groupsPanel = new GroupsPanel(turniej, DB, ()->group.setVisible(false), CompetitorTabbedPane.this);
+		//roundPanel = new RoundPanel(turniej);
 		setMinimumSize(new Dimension(400,300));
 		setSize(700,500);
 		//setResizable(false);
@@ -49,6 +50,7 @@ public class CompetitorTabbedPane extends JFrame {
 	    tabbedPane.add("Turniej", tournamentPanel);
 	    tabbedPane.add(groupsPanel);
 	    tabbedPane.add("Rozgrywki", groupsPanel);
+	    //tabbedPane.add("Rundy", roundPanel);
 	    tabbedPane.addChangeListener((e) -> {
 			int i = tabbedPane.getSelectedIndex();
 			if(i==0) showPanel.setData();
@@ -120,13 +122,19 @@ public class CompetitorTabbedPane extends JFrame {
 		setJMenuBar(menuBar);
 		addC.addActionListener((e) -> {
 			 if(!showPanel.isEditAllowed()) return;
-			 Competitor c = new Competitor(null, "Imie", "Nazwisko", 0, 0, false, null);
+			 Competitor c = new Competitor(null, "Imie", "Nazwisko", 0, 0, false, null); //dodać 0
 			 DB.insertOrUpdateCompetitor(c, turniej.getId());
 			 showPanel.setData();
 		});
 		rndC.addActionListener((e) -> {
 			 if(!showPanel.isEditAllowed()) return;
-			 Competitor c = Simulator.RandomPlayer();
+			 Competitor c = null;
+			try {
+				c = Simulator.RandomPlayer();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			 DB.insertOrUpdateCompetitor(c, turniej.getId());
 			 showPanel.setData();
 		});

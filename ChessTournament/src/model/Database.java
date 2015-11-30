@@ -37,7 +37,7 @@ public class Database {
 		    statement.executeUpdate("CREATE TABLE IF NOT EXISTS gracze " +
 		      		"(id INTEGER PRIMARY KEY AUTOINCREMENT, turniej INTEGER, " +
 		      		"imie VARCHAR(50), nazwisko VARCHAR(50), wiek INTEGER, " +
-		      		"kategoria TINYINT, czy_zdyskwalifikowany BOOLEAN, grupa INTEGER)");
+		      		"kategoria TINYINT, czy_zdyskwalifikowany BOOLEAN, grupa INTEGER)"); //, etap INTEGER
 		    statement.executeUpdate("CREATE TABLE IF NOT EXISTS rozgrywki " +
 		      		"(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		      		"id_gr1 INTEGER, id_gr2 INTEGER, wynik TINYINT, " +
@@ -64,14 +64,15 @@ public class Database {
 			PreparedStatement st;
 			if(c.getId()==null) {
 				st = connection.prepareStatement("INSERT INTO gracze "
-					+ "(turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany, grupa) "
-					+ "VALUES (?,?,?,?,?,?,?)");
+					+ "(turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany, grupa) " //, etap
+					+ "VALUES (?,?,?,?,?,?,?)"); //,?
 				st.setInt	 (1, turniej);
 				st.setString (2, c.getName());
 				st.setString (3, c.getSurname());
 				st.setInt	 (4, c.getAge());
 				st.setInt	 (5, c.getChessCategory());
 				st.setBoolean(6,c.getIsDisqualified());
+				//st.setInt	 (8, c.getStage()); //usunac
 				if(c.getGroup()==null) 
 					st.setNull(7, java.sql.Types.INTEGER);
 				else
@@ -80,12 +81,13 @@ public class Database {
 			else {
 				st = connection.prepareStatement("UPDATE gracze SET "
 					+ "imie=?, nazwisko=?, wiek=?, kategoria=?, czy_zdyskwalifikowany=?, "
-					+ "grupa=? where id=?");
+					+ "grupa=? where id=?"); //, etap=?
 				st.setString(1, c.getName());
 				st.setString(2, c.getSurname());
 				st.setInt	(3, c.getAge());
 				st.setInt	(4, c.getChessCategory());
 				st.setBoolean(5,c.getIsDisqualified());
+				//st.setInt(7, c.getStage()); //usunac
 				if(c.getGroup()==null) 
 					st.setNull(6, java.sql.Types.INTEGER);
 				else
@@ -175,6 +177,7 @@ public class Database {
 		    			rs.getInt("kategoria"),
 		    			rs.getBoolean("czy_zdyskwalifikowany"),
 		    			group
+		    			//rs.getInt("etap") //usunac
 		    		));
 		    }
 		} catch (SQLException e) {
@@ -248,4 +251,5 @@ public class Database {
 			e.printStackTrace();
 		}
 	}	
+	
 }

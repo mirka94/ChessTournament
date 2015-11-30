@@ -4,7 +4,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
-import Window.MainWindow;
+import window.MainWindow;
 
 
 //klasa odpowiada za uruchomienie programu

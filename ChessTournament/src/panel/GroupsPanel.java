@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -31,6 +32,7 @@ import model.SingleGame;
 import model.Tournament;
 import tools.Dialogs;
 import tools.Tools;
+import window.RoundWindow;
 
 public class GroupsPanel extends JPanel{
 	private static final long serialVersionUID = 3870936863486240444L;
@@ -45,7 +47,7 @@ public class GroupsPanel extends JPanel{
 	 * @param t - id turnieju
 	 * @param db - baza danych
 	 */
-	public GroupsPanel(Tournament t, Database db, onTournamentStartListener listener){
+	public GroupsPanel(Tournament t, Database db, onTournamentStartListener listener, JFrame frame){
 		this.turniej = t;
 		this.DB = db;
 		this.setLayout(new BorderLayout());
@@ -92,6 +94,10 @@ public class GroupsPanel extends JPanel{
 					}
 				}
 			}
+			
+			frame.dispose();
+			new RoundWindow();
+			
 		});
 	}
 	
@@ -149,7 +155,7 @@ public class GroupsPanel extends JPanel{
 			groupsLists.get(n).add(c);
 		}
 		while(++i<groups) { // dopełnienie ostatniej grupy wartościami "pustymi"
-			groupsLists.get(n).add(new Competitor(null, "", "", 0, 0, false, 0));
+			groupsLists.get(n).add(new Competitor(null, "", "", 0, 0, false, 0)); //dodać 0
 		}
 		for(List<Competitor> l : groupsLists) {
 			Collections.shuffle(l);

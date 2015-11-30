@@ -21,6 +21,7 @@ public class Competitor {
     private boolean isDisqualified;
     private Integer group;
     public static EnumMap<SortOption, Comparator<Competitor>> comparators;
+    //private int stage; //usunac stage
 
     static {
     	comparators = new EnumMap<SortOption, Comparator<Competitor>>(SortOption.class);
@@ -44,6 +45,7 @@ public class Competitor {
     }
     
     public Competitor(Integer id, String name, String surname, int age, int chessCategory, boolean isDisqualified, Integer group) {
+    	//, int stage
     	this.id 			= id;
         this.name 			= name;
         this.surname 		= surname;
@@ -51,6 +53,7 @@ public class Competitor {
         this.chessCategory 	= chessCategory;
         this.isDisqualified = isDisqualified;
         this.group			= group;
+        //this.stage = stage; //usunac stage
     }
 
     public Integer getId() {
@@ -60,6 +63,16 @@ public class Competitor {
     public String getName() {
         return name;
     }
+    
+    /*
+    public int getStage(){
+    	return stage;
+    }
+    
+    public void setStage(int stage){
+    	this.stage=stage;
+    }
+    */
 
     public void setName(String name) throws ValidatorException {
     	if(name.length()<3) throw new ValidatorException("Imię za krótkie");
