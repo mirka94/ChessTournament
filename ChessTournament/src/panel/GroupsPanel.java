@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -32,7 +31,6 @@ import model.SingleGame;
 import model.Tournament;
 import tools.Dialogs;
 import tools.Tools;
-import window.RoundWindow;
 
 public class GroupsPanel extends JPanel{
 	private static final long serialVersionUID = 3870936863486240444L;
@@ -47,7 +45,7 @@ public class GroupsPanel extends JPanel{
 	 * @param t - id turnieju
 	 * @param db - baza danych
 	 */
-	public GroupsPanel(Tournament t, Database db, onTournamentStartListener listener, JFrame frame){
+	public GroupsPanel(Tournament t, Database db, onTournamentStartListener listener){
 		this.turniej = t;
 		this.DB = db;
 		this.setLayout(new BorderLayout());
@@ -75,8 +73,7 @@ public class GroupsPanel extends JPanel{
 						Dialogs.nierownomiernyPodzial(min, max);
 					else {
 						turniej.setRoundsCompleted(0);
-						listener.onTournamentStart();
-						//DB.insertOrUpdateTournament(turniej); // odkomentować po testach
+						DB.insertOrUpdateTournament(turniej);
 						
 						// Od tego miejsca generowanie obsługa gier (będzie nowa zakładka)
 						Map<Integer, Competitor> cm = competitors.stream()
@@ -91,13 +88,11 @@ public class GroupsPanel extends JPanel{
 									"\t, id rozgrywki: "+sg.getId()
 									);
 						};
+
+						listener.onTournamentStart();
 					}
 				}
-			}
-			
-			frame.getContentPane().removeAll();
-			frame.add(new RoundPanel(), BorderLayout.CENTER);
-			
+			}			
 		});
 	}
 	

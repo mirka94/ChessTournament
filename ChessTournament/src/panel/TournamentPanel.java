@@ -52,7 +52,7 @@ public class TournamentPanel extends JPanel{
 		stats2L = new JLabel(timeRRET);
 		nameTF 	= new JTextField();
 		yearTF  = new JTextField();
-		typeTB 	= new JToggleButton("", false);
+		typeTB 	= new JToggleButton("", turniej.isSwiss());
 		roundsSB 	= new Scrollbar(Scrollbar.HORIZONTAL, 3, 1, 3, 9+1);
 		groupsSB 	= new Scrollbar(Scrollbar.HORIZONTAL, 2, 1, 2, 9+1);
 		sgTimeSB 	= new Scrollbar(Scrollbar.HORIZONTAL, 20, 4, 2, 40+4);
@@ -112,6 +112,7 @@ public class TournamentPanel extends JPanel{
 			recalcStats();
 		});
 		typeTB.addChangeListener(e -> {
+				if(!isEditAllowed()) return;
 				if(typeTB.isSelected()) {
 					turniej.setType(Tournament.Type.GROUP_ELIMINATIONS);
 				}
@@ -121,6 +122,10 @@ public class TournamentPanel extends JPanel{
 				DB.insertOrUpdateTournament(turniej);
 		});
 		roundsSB.addAdjustmentListener(e -> {
+				if(!isEditAllowed()) {
+					roundsSB.setValue(turniej.getRounds());
+					return;
+				}
 				int v = roundsSB.getValue();
 				roundsL.setText(roundsT+v);
 				recalcStats();
@@ -128,6 +133,10 @@ public class TournamentPanel extends JPanel{
 				DB.insertOrUpdateTournament(turniej);
 		});
 		groupsSB.addAdjustmentListener(e -> {
+				if(!isEditAllowed()) {
+					groupsSB.setValue(turniej.getRounds());
+					return;
+				}
 				int g = groupsSB.getValue();
 				//System.out.println("Grup: "+g);
 				recalcStats();
@@ -175,5 +184,8 @@ public class TournamentPanel extends JPanel{
 		roundsSB.setValue(turniej.getRounds());
 		groupsSB.setValue(turniej.getRounds());
 		recalcStats();
+	}
+	public boolean isEditAllowed() {
+		return turniej.getRoundsCompleted()<0;
 	}
 }

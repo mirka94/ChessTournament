@@ -92,6 +92,7 @@ public class Database {
 					st.setNull(6, java.sql.Types.INTEGER);
 				else
 					st.setInt(6, c.getGroup());
+				st.setInt(7, c.getId());
 			}
 			st.execute();
 		} catch (SQLException e) {
