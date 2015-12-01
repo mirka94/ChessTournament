@@ -95,8 +95,8 @@ public class GroupsPanel extends JPanel{
 				}
 			}
 			
-			frame.dispose();
-			new RoundWindow();
+			frame.getContentPane().removeAll();
+			frame.add(new RoundPanel(), BorderLayout.CENTER);
 			
 		});
 	}

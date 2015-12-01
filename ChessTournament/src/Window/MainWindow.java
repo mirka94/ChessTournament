@@ -1,5 +1,6 @@
 package window;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
@@ -24,6 +25,7 @@ public class MainWindow extends JFrame {
 		setMaximumSize(new Dimension(700, 500));
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
+		setLayout(new BorderLayout());
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
