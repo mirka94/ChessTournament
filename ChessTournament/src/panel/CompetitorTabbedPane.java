@@ -39,12 +39,13 @@ public class CompetitorTabbedPane extends JFrame {
 		this.DB = new Database();
 		showPanel = new ShowEditCompetitorPanel(turniej, DB);
 		tournamentPanel = new TournamentPanel(turniej, DB);
-		groupsPanel = new GroupsPanel(turniej, DB, ()->{
+		GroupsPanel.onTournamentStartListener listener = ()->{
 			group.setVisible(false);
 			//getContentPane().removeAll();
-			tabbedPane.add("Rozgrywki w eliminacjach", new RoundPanel());
+			tabbedPane.add("Rozgrywki w eliminacjach", new GamesPanel(turniej, DB));
 			tabbedPane.setSelectedIndex(3);
-		});
+		};
+		groupsPanel = new GroupsPanel(turniej, DB, listener);
 		//roundPanel = new RoundPanel(turniej);
 		setMinimumSize(new Dimension(400,300));
 		setSize(700,500);
@@ -81,6 +82,7 @@ public class CompetitorTabbedPane extends JFrame {
 	    		tabbedPane.setTitleAt(2, "Podział na grupy");
 	    });
 	    turniej.setType(turniej.getType()); // wygląda bezsensownie, ale odpala powyższy listener
+	    if(!isEditAllowed()) listener.onTournamentStart();
 	}
 	
 	/**

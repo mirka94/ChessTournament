@@ -52,6 +52,7 @@ public class GroupsPanel extends JPanel{
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		add(new JScrollPane(container));
 		initComponents();
+		startTournament.setVisible(isEditAllowed());
 		startTournament.addActionListener(e -> {
 			if(turniej.isSwiss()) 
 				Dialogs.doZrobienia();
@@ -88,7 +89,7 @@ public class GroupsPanel extends JPanel{
 									"\t, id rozgrywki: "+sg.getId()
 									);
 						};
-
+						startTournament.setVisible(false);
 						listener.onTournamentStart();
 					}
 				}

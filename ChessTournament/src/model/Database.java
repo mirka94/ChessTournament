@@ -207,11 +207,11 @@ public class Database {
 		}
 		return result;
 	}
-	public List<SingleGame> getSingleGames() {
+	public List<SingleGame> getSingleGames(int turniej) {
 		List<SingleGame> result = new ArrayList<SingleGame>();
 		try {
 			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("select * from rozgrywki");
+			ResultSet rs = statement.executeQuery("select r.* from rozgrywki r JOIN gracze g ON r.id_gr1=g.id OR r.id_gr2=g.id WHERE g.turniej="+turniej+" GROUP BY r.id");
 		    while(rs.next()) {
 		    	result.add(new SingleGame(
 		    			rs.getInt("id"),
