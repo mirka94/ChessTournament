@@ -1,6 +1,8 @@
 package panel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import model.Competitor;
 import model.Database;
@@ -29,6 +32,7 @@ public class GamesPanel extends JPanel{
 	private List<Competitor> competitors;
 	Map<Integer, Competitor> competitorMap;
 	private List<SingleGame> singleGames;
+	private List<SingleGame> currentlyPlayedGames;
 	
 	/**
 	 * @param t - id turnieju
@@ -48,6 +52,7 @@ public class GamesPanel extends JPanel{
 		singleGames = DB.getSingleGames(turniej.getId());
 		competitorMap = competitors.stream()
 				.collect(Collectors.toMap(c->c.getId(), c->c));
+		recalcColors();
 		JLabel label = new JLabel("Rozgrywki fazy eliminacji", JLabel.CENTER);
 		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		container.add(label);
@@ -56,9 +61,30 @@ public class GamesPanel extends JPanel{
 		table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(
         		new JComboBox<String>(new String[] {"Brak wyniku", "Wygrały białe", "Wygrały czarne", "Remis"})
         ));
+		table.setDefaultRenderer(String.class, new MyCellRenderer());
         container.add(table.getTableHeader());
         container.add(table);
 		container.add(Box.createRigidArea(new Dimension(0, 20)));
+	}
+	
+	void recalcColors() {
+		currentlyPlayedGames = singleGames.stream()
+				.filter(g->g.getScore()==0).limit(turniej.getBoards())
+				.collect(Collectors.toList());
+	}
+	
+	class MyCellRenderer extends DefaultTableCellRenderer {
+		private static final long serialVersionUID = 4811899196908294144L;
+		@Override
+		  public Component getTableCellRendererComponent(
+				  JTable t, Object v, boolean isSelected, boolean hasFocus, int row, int col) {
+		    Component c = super.getTableCellRendererComponent(t, v, isSelected, hasFocus, row, col);
+		    c.setBackground(Color.decode(t.isRowSelected(row)?
+		    	(currentlyPlayedGames.contains(singleGames.get(row)) ? "#5BFFB5" : "#84D4FF") : 
+		    		(currentlyPlayedGames.contains(singleGames.get(row)) ? "#5BFF8C" : "#FFFFFF")	
+		    	));
+		  return c;
+		}
 	}
 	
 	class MyTableModel extends AbstractTableModel {
@@ -114,6 +140,7 @@ public class GamesPanel extends JPanel{
 				if(sg.getScore()!=w) {
 					sg.setScore(w);
 					DB.insertOrUpdateSingleGame(sg);
+					recalcColors();
 					this.fireTableDataChanged();
 				}
 			}
