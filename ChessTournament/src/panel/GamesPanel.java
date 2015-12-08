@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,12 +24,14 @@ import model.Competitor;
 import model.Database;
 import model.SingleGame;
 import model.Tournament;
+import tools.Dialogs;
 
 public class GamesPanel extends JPanel{
 	private static final long serialVersionUID = 6375980426732887418L;
 	private final Tournament turniej;
 	private final Database DB;
 	private JPanel container = new JPanel();
+	private JButton finishEliminations = new JButton("Zakończ eliminacje");
 	private List<Competitor> competitors;
 	Map<Integer, Competitor> competitorMap;
 	private List<SingleGame> singleGames;
@@ -38,16 +41,16 @@ public class GamesPanel extends JPanel{
 	 * @param t - id turnieju
 	 * @param db - baza danych
 	 */
-	public GamesPanel(Tournament t, Database db){
+	public GamesPanel(Tournament t, Database db, onEliminationsEndListener listener){
 		this.turniej = t;
 		this.DB = db;
 		this.setLayout(new BorderLayout());
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		add(new JScrollPane(container));
-		initComponents();
+		initComponents(listener);
 	}
 	
-	public void initComponents() {
+	public void initComponents(onEliminationsEndListener listener) {
 		competitors = DB.getCompetitors(turniej.getId());
 		singleGames = DB.getSingleGames(turniej.getId());
 		competitorMap = competitors.stream()
@@ -65,12 +68,29 @@ public class GamesPanel extends JPanel{
         container.add(table.getTableHeader());
         container.add(table);
 		container.add(Box.createRigidArea(new Dimension(0, 20)));
+		finishEliminations.addActionListener((e)->{
+			if(singleGames.stream().filter(sg->sg.getScore()==0).count()>0) {
+				Dialogs.gryBezWyniku();
+			}
+			else {
+				turniej.setRoundsCompleted(1);
+				DB.insertOrUpdateTournament(turniej);
+				finishEliminations.setVisible(false);
+				listener.onEliminationsEnd();
+			}
+		});
+		if(turniej.getRoundsCompleted()<1) container.add(finishEliminations);
 	}
 	
 	void recalcColors() {
 		currentlyPlayedGames = singleGames.stream()
 				.filter(g->g.getScore()==0).limit(turniej.getBoards())
 				.collect(Collectors.toList());
+	}
+	
+	@FunctionalInterface 
+	public interface onEliminationsEndListener {
+		public void onEliminationsEnd();
 	}
 	
 	class MyCellRenderer extends DefaultTableCellRenderer {
@@ -89,7 +109,7 @@ public class GamesPanel extends JPanel{
 	
 	class MyTableModel extends AbstractTableModel {
 		private static final long serialVersionUID = -7500940137857222909L;
-		final String[] columnNames = {"Gra czarnymi", "Gra białymi", "Wynik"};
+		final String[] columnNames = {"Gra białymi", "Gra czarnymi", "Wynik"};
 
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
@@ -123,7 +143,7 @@ public class GamesPanel extends JPanel{
 
 		@Override
 		public boolean isCellEditable(int row, int col) {
-			return col==2;
+			return col==2 && turniej.getRoundsCompleted()==0;
 		}
 
 		@Override

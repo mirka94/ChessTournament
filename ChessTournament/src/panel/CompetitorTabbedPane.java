@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
@@ -30,6 +31,8 @@ public class CompetitorTabbedPane extends JFrame {
 	private ShowEditCompetitorPanel showPanel;
 	private TournamentPanel tournamentPanel;
 	private GroupsPanel groupsPanel;
+	private GamesPanel gamesPanel;
+	private GroupsChoosePanel groupsChoosePanel;
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	//private RoundPanel roundPanel;
 	
@@ -39,29 +42,35 @@ public class CompetitorTabbedPane extends JFrame {
 		this.DB = new Database();
 		showPanel = new ShowEditCompetitorPanel(turniej, DB);
 		tournamentPanel = new TournamentPanel(turniej, DB);
-		GroupsPanel.onTournamentStartListener listener = ()->{
+		GroupsChoosePanel.onFinaleStartListener finStartListener = ()->{ // po rozpoczęciu finałów
+			tabbedPane.add("Rozgrywki finałowe", new JPanel()); 
+		}; 
+		GamesPanel.onEliminationsEndListener elEndListener = ()->{  // po zakończeniu eliminacji
+			groupsChoosePanel = new GroupsChoosePanel(turniej, DB, finStartListener);
+			tabbedPane.add("Wybór graczy do finałów", groupsChoosePanel);
+			tabbedPane.setSelectedIndex(4);
+		};
+		GroupsPanel.onTournamentStartListener tStartlistener = ()->{ // po rozpoczęciu turnieju
 			group.setVisible(false);
-			//getContentPane().removeAll();
-			tabbedPane.add("Rozgrywki w eliminacjach", new GamesPanel(turniej, DB));
+			gamesPanel = new GamesPanel(turniej, DB, elEndListener);
+			tabbedPane.add("Rozgrywki w eliminacjach", gamesPanel);
 			tabbedPane.setSelectedIndex(3);
 		};
-		groupsPanel = new GroupsPanel(turniej, DB, listener);
-		//roundPanel = new RoundPanel(turniej);
+		groupsPanel = new GroupsPanel(turniej, DB, tStartlistener);
 		setMinimumSize(new Dimension(400,300));
 		setSize(700,500);
-		//setResizable(false);
 		setTitle("ChessTournament alpha v0.2");
 		setMenu();
 	    tabbedPane.add("Pokaż lub edytuj dodanych uczestników", showPanel);
 	    tabbedPane.add("Turniej", tournamentPanel);
 	    tabbedPane.add(groupsPanel);
 	    tabbedPane.add("Rozgrywki", groupsPanel);
-	    //tabbedPane.add("Rundy", roundPanel);
 	    tabbedPane.addChangeListener((e) -> {
 			int i = tabbedPane.getSelectedIndex();
 			if(i==0) showPanel.setData();
 			if(i==1) tournamentPanel.setSBBounds();
 			if(i==2) groupsPanel.initComponents();
+			if(i==4) groupsChoosePanel.initComponents();
 			comp.setVisible( isEditAllowed() && i==0);
 			group.setVisible(isEditAllowed() && i==2 && !turniej.isSwiss());
 			sort.setVisible(i==2);
@@ -82,7 +91,9 @@ public class CompetitorTabbedPane extends JFrame {
 	    		tabbedPane.setTitleAt(2, "Podział na grupy");
 	    });
 	    turniej.setType(turniej.getType()); // wygląda bezsensownie, ale odpala powyższy listener
-	    if(!isEditAllowed()) listener.onTournamentStart();
+	    if(!isEditAllowed()) tStartlistener.onTournamentStart();
+	    if(turniej.getRoundsCompleted()>0) elEndListener.onEliminationsEnd();
+	    if(turniej.getRoundsCompleted()>1) finStartListener.onFinaleStart();
 	}
 	
 	/**

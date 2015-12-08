@@ -29,4 +29,11 @@ public class Dialogs {
 			JOptionPane.ERROR_MESSAGE);
 	}
 	
+	public static void gryBezWyniku() {
+		JOptionPane.showMessageDialog(
+			null, 
+			"Aby zakończyć eliminacje, wszystkie gry tej fazy muszą być ukończone", 
+			"Nieukończone rozgrywki", 
+			JOptionPane.ERROR_MESSAGE);
+	}
 }

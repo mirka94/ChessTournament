@@ -8,6 +8,9 @@ public class SingleGame {
 	private final int competitor1, competitor2;
 	private int score;
 	private boolean wasPlayed;
+	/**
+	 * czy można jeszcze zmieniać wynik
+	 */
 	private boolean inProgress;
 	private final int round;
 	

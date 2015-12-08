@@ -137,4 +137,10 @@ public class Competitor {
     public String toString() {
     	return name+" "+surname;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if(obj instanceof Competitor) return this.getId() == ((Competitor) obj).getId();
+    	return false;
+    }
 }
