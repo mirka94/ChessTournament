@@ -36,4 +36,25 @@ public class Dialogs {
 			"Nieukończone rozgrywki", 
 			JOptionPane.ERROR_MESSAGE);
 	}
+
+	public static void autorzy() {
+		JOptionPane.showMessageDialog(
+			null,
+			"Autorzy: \n"+
+			"Piotr Jabłoński\n"+
+			"Mirosława Pelc\n"+
+			"Mariusz Lorek",
+			"Autorzy", JOptionPane.UNDEFINED_CONDITION);
+	}
+	
+	public static void opis() {
+		JOptionPane.showMessageDialog(
+			null,
+			"Program powstał w ramach zaliczenia Zespołowych Przedsięwzięć Inżynierskich"+
+			"na Państwowej Wyższej Szkole Zawodowej w Nowym Sączu.\nProwadzący przedmiot: "+
+			"dr Antoni Ligęza\nProgram obsługuje turniej szachowy odbywający się podczas "+
+			"Małopolskiej Nocy Naukowców.",
+			"Opis", JOptionPane.UNDEFINED_CONDITION);
+	}
+	
 }

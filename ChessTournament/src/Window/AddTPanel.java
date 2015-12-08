@@ -1,11 +1,9 @@
-package window;
+package Window;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,8 +27,6 @@ public class AddTPanel extends JPanel {
 
 	public AddTPanel(final JFrame jframe){
 		
-		setMinimumSize(new Dimension(684, 440));
-		setMaximumSize(new Dimension(684, 440));
 		setLayout(null);
 		
 		JLabel nameTour = new JLabel("Nazwa turnieju");
@@ -41,7 +37,7 @@ public class AddTPanel extends JPanel {
 		add(nameTour);
 		
 		textField = new JTextField();
-		textField.setBounds(100, 141, 484, 20);
+		textField.setBounds(100, 141, 484, 25);
 		add(textField);
 		textField.setColumns(10);
 		
@@ -54,12 +50,14 @@ public class AddTPanel extends JPanel {
 				Tournament t = new Tournament(null,nazwa,"rrrr",8,5,-1,Tournament.Type.GROUP_ELIMINATIONS);
 				Database db = new Database();
 				db.insertOrUpdateTournament(t);
-				
-				new CompetitorTabbedPane(t);
+				jframe.getContentPane().removeAll();
+				new CompetitorTabbedPane(t, jframe);
 				db.close();
-				jframe.dispose();
 			}
 		});
+		
+		// po naciśnięciu enter aktywuje się guzik DODAJ
+		jframe.getRootPane().setDefaultButton(addButton);
 		
 		add(addButton);
 		

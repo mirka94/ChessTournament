@@ -1,6 +1,5 @@
 package panel;
 
-import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -20,7 +19,7 @@ import model.Database;
 import model.Tournament;
 import tools.Simulator;
 
-public class CompetitorTabbedPane extends JFrame {
+public class CompetitorTabbedPane extends JPanel {
 	private static final long serialVersionUID = -1732368493930988952L;
 	final Tournament turniej;
 	private Database DB;
@@ -34,10 +33,8 @@ public class CompetitorTabbedPane extends JFrame {
 	private GamesPanel gamesPanel;
 	private GroupsChoosePanel groupsChoosePanel;
 	private JTabbedPane tabbedPane = new JTabbedPane();
-	//private RoundPanel roundPanel;
 	
-	public CompetitorTabbedPane(Tournament turniej){
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public CompetitorTabbedPane(Tournament turniej, JFrame frame){
 		this.turniej = turniej;
 		this.DB = new Database();
 		showPanel = new ShowEditCompetitorPanel(turniej, DB);
@@ -57,10 +54,7 @@ public class CompetitorTabbedPane extends JFrame {
 			tabbedPane.setSelectedIndex(3);
 		};
 		groupsPanel = new GroupsPanel(turniej, DB, tStartlistener);
-		setMinimumSize(new Dimension(400,300));
-		setSize(700,500);
-		setTitle("ChessTournament alpha v0.2");
-		setMenu();
+		setMenu(frame);
 	    tabbedPane.add("Pokaż lub edytuj dodanych uczestników", showPanel);
 	    tabbedPane.add("Turniej", tournamentPanel);
 	    tabbedPane.add(groupsPanel);
@@ -76,9 +70,9 @@ public class CompetitorTabbedPane extends JFrame {
 			sort.setVisible(i==2);
 		});
 	    	    	    
-	    add(tabbedPane);
+	    frame.add(tabbedPane);
 	    setVisible(true);
-	    addWindowListener(new WindowAdapter() {
+	    frame.addWindowListener(new WindowAdapter() {
 	    	@Override
 	    	public void windowClosing(WindowEvent e) {
 	    		DB.close();
@@ -99,7 +93,7 @@ public class CompetitorTabbedPane extends JFrame {
 	/**
 	 * Tworzy i dodaje elementy menu, akcje po ich wywołaniu i skróty
 	 */
-	private void setMenu() {
+	private void setMenu(JFrame frame) {
 		sortOptions = new LinkedHashMap<>();
 		menuBar	= new JMenuBar();
 		comp 	= new JMenu("Uczestnicy");
@@ -137,7 +131,7 @@ public class CompetitorTabbedPane extends JFrame {
 		menuBar.add(sort);
 		menuBar.add(group);
 		menuBar.add(about);
-		setJMenuBar(menuBar);
+		frame.setJMenuBar(menuBar);
 		addC.addActionListener((e) -> {
 			 if(!showPanel.isEditAllowed()) return;
 			 Competitor c = new Competitor(null, "Imie", "Nazwisko", 0, 0, false, null); //dodać 0

@@ -68,11 +68,11 @@ public class Simulator {
         nazwiskoReader = new BufferedReader(new FileReader("nazwiska.txt"));
         
         do {
-        	for (int i = 0; i < randomInt + 1; i++) {
+        	for (int i = 0; i < randomInt; i++) {
         			imie = imieReader.readLine();
         			nazwisko = nazwiskoReader.readLine();
         	}
 		} while(imie.endsWith("a") && nazwisko.endsWith("ki"));
-		return new Competitor(null, imie, nazwisko, a, c, false, null); //dodać 0
+		return new Competitor(null, imie, nazwisko, a, c, false, null);
 	}
 }
