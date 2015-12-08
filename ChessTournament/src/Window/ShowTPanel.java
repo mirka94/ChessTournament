@@ -1,4 +1,4 @@
-package window;
+package Window;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
