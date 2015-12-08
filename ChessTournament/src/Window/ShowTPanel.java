@@ -1,6 +1,5 @@
 package window;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,8 +25,6 @@ public class ShowTPanel extends JPanel {
 		
 		db = new Database();
 		
-		setMinimumSize(new Dimension(684, 440));
-		setMaximumSize(new Dimension(684, 440));
 		setLayout(null);
 		
 		final JComboBox<String> comboBox = new JComboBox<String>();
@@ -42,9 +39,9 @@ public class ShowTPanel extends JPanel {
 		comboBox.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
 		    	int sIndex = comboBox.getSelectedIndex();
-		    	new CompetitorTabbedPane(db.getTournaments().get(sIndex));
+		    	jframe.getContentPane().removeAll();
+		    	new CompetitorTabbedPane(db.getTournaments().get(sIndex),jframe);
 				db.close();
-				jframe.dispose();
 		    }
 		});
 			
