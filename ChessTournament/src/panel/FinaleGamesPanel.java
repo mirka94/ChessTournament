@@ -26,12 +26,12 @@ import model.SingleGame;
 import model.Tournament;
 import tools.Dialogs;
 
-public class GamesPanel extends JPanel{
-	private static final long serialVersionUID = 6375980426732887418L;
+public class FinaleGamesPanel extends JPanel{
+	private static final long serialVersionUID = 5264352916396019084L;
 	private final Tournament turniej;
 	private final Database DB;
 	private JPanel container = new JPanel();
-	private JButton finishEliminations = new JButton("Zakończ eliminacje");
+	private JButton finishFinales = new JButton("Zakończ turniej");
 	private List<Competitor> competitors;
 	Map<Integer, Competitor> competitorMap;
 	private List<SingleGame> singleGames;
@@ -41,7 +41,7 @@ public class GamesPanel extends JPanel{
 	 * @param t - id turnieju
 	 * @param db - baza danych
 	 */
-	public GamesPanel(Tournament t, Database db, onEliminationsEndListener listener){
+	public FinaleGamesPanel(Tournament t, Database db, onFinalesEndListener listener){
 		this.turniej = t;
 		this.DB = db;
 		this.setLayout(new BorderLayout());
@@ -50,13 +50,20 @@ public class GamesPanel extends JPanel{
 		initComponents(listener);
 	}
 	
-	public void initComponents(onEliminationsEndListener listener) {
-		competitors = DB.getCompetitors(turniej.getId());
-		singleGames = DB.getSingleGames(turniej.getId(), false);
+	public void initComponents(onFinalesEndListener listener) {
+		competitors = DB.getCompetitors(turniej.getId()).stream()
+				.filter(c->c.getGoesFinal()).collect(Collectors.toList());
 		competitorMap = competitors.stream()
 				.collect(Collectors.toMap(c->c.getId(), c->c));
+		singleGames = DB.getSingleGames(turniej.getId(), true).stream()
+				.filter(sg->competitorMap.containsKey(sg.getCompetitor1())&&
+							competitorMap.containsKey(sg.getCompetitor2()))
+				.collect(Collectors.toList());
+		// filtrowanie powyżej, bo baza zwraca również gry, 
+		// gdzie grali (dostał się do finałów) vs (nie dostał się)
+		// można to naprawić w bazie
 		recalcColors();
-		JLabel label = new JLabel("Rozgrywki fazy eliminacji", JLabel.CENTER);
+		JLabel label = new JLabel("Rozgrywki finałowe", JLabel.CENTER);
 		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		container.add(label);
 		container.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -68,16 +75,17 @@ public class GamesPanel extends JPanel{
         container.add(table.getTableHeader());
         container.add(table);
 		container.add(Box.createRigidArea(new Dimension(0, 20)));
-		finishEliminations.addActionListener((e)->{
+		finishFinales.addActionListener((e)->{
 			if(singleGames.stream().filter(sg->sg.getScore()==0).count()>0) {
 				Dialogs.gryBezWyniku();
 			}
 			else {
-				finishEliminations.setVisible(false);
-				listener.onEliminationsEnd();
+				finishFinales.setVisible(false);
+				listener.onFinalesEnd();
 			}
 		});
-		if(turniej.getRoundsCompleted()<1) container.add(finishEliminations);
+		if(turniej.getRoundsCompleted()<1) container.add(finishFinales);
+		container.add(finishFinales);
 	}
 	
 	void recalcColors() {
@@ -87,8 +95,8 @@ public class GamesPanel extends JPanel{
 	}
 	
 	@FunctionalInterface 
-	public interface onEliminationsEndListener {
-		public void onEliminationsEnd();
+	public interface onFinalesEndListener {
+		public void onFinalesEnd();
 	}
 	
 	class MyCellRenderer extends DefaultTableCellRenderer {
@@ -106,7 +114,7 @@ public class GamesPanel extends JPanel{
 	}
 	
 	class MyTableModel extends AbstractTableModel {
-		private static final long serialVersionUID = -7500940137857222909L;
+		private static final long serialVersionUID = -8996219394591638940L;
 		final String[] columnNames = {"Gra białymi", "Gra czarnymi", "Wynik"};
 
 		@Override
@@ -141,14 +149,17 @@ public class GamesPanel extends JPanel{
 
 		@Override
 		public boolean isCellEditable(int row, int col) {
-			return col==2 && turniej.getRoundsCompleted()==0;
+			return 
+				col==2 
+				&& turniej.getRoundsCompleted()==2 
+				&& singleGames.get(row).getRound()==-1;
 		}
 
 		@Override
 		public void setValueAt(Object aValue, int row, int col) {
 			int w = -1;
 			SingleGame sg = singleGames.get(row);
-			if(col==2) {
+			if(col==2 && sg.getRound()==-1) {
 				if("Brak wyniku".equals((String)aValue)) w=0;
 				if("Wygrały białe".equals((String)aValue)) w=1;
 				if("Wygrały czarne".equals((String)aValue)) w=2;

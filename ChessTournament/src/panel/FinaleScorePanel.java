@@ -3,16 +3,13 @@ package panel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -23,16 +20,13 @@ import model.Competitor;
 import model.Database;
 import model.SingleGame;
 import model.Tournament;
-import tools.Dialogs;
-import tools.Tools;
 
-public class GroupsChoosePanel extends JPanel{
-	private static final long serialVersionUID = -2898571746717852493L;
+public class FinaleScorePanel extends JPanel{
+	private static final long serialVersionUID = -3981683165882941838L;
 	private final Tournament turniej;
 	private final Database DB;
 	private JPanel container = new JPanel();
-	private JButton startFinales = new JButton("Rozpocznij fazę drugą");
-	private LinkedHashMap<Integer, JTable> tables = new LinkedHashMap<>();
+	private JTable table;
 	private List<Competitor> competitors;
 	Map<Integer, Competitor> competitorMap;
 	private List<SingleGame> singleGames;
@@ -47,46 +41,27 @@ public class GroupsChoosePanel extends JPanel{
 	 * @param t - id turnieju
 	 * @param db - baza danych
 	 */
-	public GroupsChoosePanel(Tournament t, Database db, onFinaleStartListener listener){
+	public FinaleScorePanel(Tournament t, Database db){
 		this.turniej = t;
 		this.DB = db;
 		this.setLayout(new BorderLayout());
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		add(new JScrollPane(container));
 		initComponents();
-		startFinales.setVisible(turniej.getRoundsCompleted()==1);
-		startFinales.addActionListener(e->{
-			boolean everyGroupHasSelectedPlayers=true;
-			for(Set<Competitor> s : competitors.stream()
-				.collect(Collectors.groupingBy(c->c.getGroup(), Collectors.toSet())).values()){
-					if(s.stream().filter(c->c.getGoesFinal()).count()==0)
-						everyGroupHasSelectedPlayers=false;
-			};
-			if(!everyGroupHasSelectedPlayers) {
-				if(!Dialogs.niktZGrupyDoFinalow()) return;			
-			}
-			List<Competitor> finaleCompetitors = 
-				competitors.stream()
-					.filter(c->c.getGoesFinal())
-					.collect(Collectors.toList());
-			for(SingleGame sg : Tools.generateFinaleSingleGames(finaleCompetitors, singleGames)) {
-				DB.insertOrUpdateSingleGame(sg);
-			};
-			startFinales.setVisible(false);
-			listener.onFinaleStart();
-		});
-	}
-	
-	@FunctionalInterface 
-	public interface onFinaleStartListener {
-		public void onFinaleStart();
 	}
 	
 	public void initComponents() {
-		competitors = DB.getCompetitors(turniej.getId());
+		competitors = DB.getCompetitors(turniej.getId()).stream()
+				.filter(c->c.getGoesFinal()).collect(Collectors.toList());
 		competitorMap = competitors.stream()
 				.collect(Collectors.toMap(c->c.getId(), c->c));
-		singleGames = DB.getSingleGames(turniej.getId(), false);
+		singleGames = DB.getSingleGames(turniej.getId(), true).stream()
+				.filter(sg->competitorMap.containsKey(sg.getCompetitor1())&&
+							competitorMap.containsKey(sg.getCompetitor2()))
+				.collect(Collectors.toList());
+		// filtrowanie powyżej, bo baza zwraca również gry, 
+		// gdzie grali (dostał się do finałów) vs (nie dostał się)
+		// można to naprawić w bazie
 		for(Competitor c : competitors) {
 			competitorGames.put(c, new LinkedList<>());
 		}
@@ -94,23 +69,14 @@ public class GroupsChoosePanel extends JPanel{
 			competitorGames.get(competitorMap.get(sg.getCompetitor1())).add(sg);
 			competitorGames.get(competitorMap.get(sg.getCompetitor2())).add(sg);
 		}
-		final int groups = turniej.getRounds();
 		container.removeAll();
-		tables.clear();
-		JLabel label = new JLabel("Wybór uczestników do finałów", JLabel.CENTER);
+		JLabel label = new JLabel("Lista wyników rozgrywek finałowych", JLabel.CENTER);
 		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         
-		for(int i=0; i<groups; ++i) {
-			container.add(Box.createRigidArea(new Dimension(0, 20)));
-			container.add(new JLabel("Grupa "+(i+1), JLabel.CENTER));
-			container.add(Box.createRigidArea(new Dimension(0, 10)));
-			JTable table = new JTable(new MyTableModel(i));
-			container.add(table.getTableHeader());
-			container.add(table);
-			tables.put(i, table);
-		}
-		container.add(Box.createRigidArea(new Dimension(0, 50)));
-		container.add(startFinales);
+		container.add(Box.createRigidArea(new Dimension(0, 20)));
+		table = new JTable(new MyTableModel());
+		container.add(table.getTableHeader());
+		container.add(table);
 		updateTables();
 	}	
 	
@@ -149,7 +115,7 @@ public class GroupsChoosePanel extends JPanel{
 		}
 		competitors.sort((c1,c2)->(int)(4.*(competitorSBPoints.get(c2)-competitorSBPoints.get(c1))));
 		competitors.sort((c1,c2)->(int)(2.*(competitorPoints.get(c2)-competitorPoints.get(c1))));
-		tables.values().forEach((t) -> ((AbstractTableModel)t.getModel()).fireTableDataChanged());
+		((AbstractTableModel)table.getModel()).fireTableDataChanged();
 	}
 	
 	public boolean isEditAllowed() {
@@ -157,25 +123,18 @@ public class GroupsChoosePanel extends JPanel{
 	}
 	
 	class MyTableModel extends AbstractTableModel {
-		private static final long serialVersionUID = -4117169486534731202L;
-		final String[] columnNames = {"Gracz", "Wygranych", "Przegranych", "Zakończonych remisem", "Punkty", "Punkty SB", "Wchodzi do finału"};
-		private Integer group;
-		private List<Competitor> competitors;
-		public MyTableModel(Integer group) {
-			this.group = group;
-			setCompetitors();
-		}
+		private static final long serialVersionUID = 8597861109358165096L;
+		final String[] columnNames = {"Gracz", "Wygranych", "Przegranych", "Zakończonych remisem", "Punkty", "Punkty SB"};
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
 			if(columnIndex==0) return String.class;
 			if(columnIndex==4) return Float.class;
 			if(columnIndex==5) return Float.class;
-			if(columnIndex==6) return Boolean.class;
 			else return Integer.class;
 		}
 		@Override
 		public int getColumnCount() {
-			return 7;
+			return 6;
 		}
 		@Override
 		public String getColumnName(int columnIndex) {
@@ -195,38 +154,17 @@ public class GroupsChoosePanel extends JPanel{
 			if(col==3) return competitorTie.get(c);
 			if(col==4) return competitorPoints.get(c);
 			if(col==5) return competitorSBPoints.get(c);
-			if(col==6) return c.getGoesFinal();
 	        return null;
 		}
 
 		@Override
 		public boolean isCellEditable(int row, int col) {
-			return col==6 && turniej.getRoundsCompleted()==1;
-		}
-		
-		public void setCompetitors() {
-			competitors = GroupsChoosePanel.this.competitors.stream()
-					.filter(c->c.getGroup()==group)
-					.collect(Collectors.toList());
+			return false;
 		}
 
 		@Override
 		public void setValueAt(Object aValue, int row, int col) {
-			if(col==6) {
-				for(int i=competitors.size()-1;i>=0;--i) {
-					Competitor c = competitors.get(i);
-					boolean oldGoesFinal = c.getGoesFinal();
-					c.setGoesFinal(i<row || ((Boolean) aValue && i<=row));
-					if(c.getGoesFinal()!=oldGoesFinal) DB.insertOrUpdateCompetitor(c, turniej.getId());
-				}
-				fireTableDataChanged();
-			}
-			else System.err.print("Do not use setValueAt in "+getClass());
-		}
-		@Override
-		public void fireTableDataChanged() {
-			setCompetitors();
-			super.fireTableDataChanged();
+			System.err.print("Do not use setValueAt in "+getClass());
 		}
 	}
 }

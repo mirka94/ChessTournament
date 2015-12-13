@@ -21,7 +21,6 @@ public class Competitor {
     private boolean isDisqualified;
     private Integer group;
     public static EnumMap<SortOption, Comparator<Competitor>> comparators;
-    //private int stage; //usunac stage
 
     static {
     	comparators = new EnumMap<SortOption, Comparator<Competitor>>(SortOption.class);
@@ -45,7 +44,6 @@ public class Competitor {
     }
     
     public Competitor(Integer id, String name, String surname, int age, int chessCategory, boolean isDisqualified, Integer group) {
-    	//, int stage
     	this.id 			= id;
         this.name 			= name;
         this.surname 		= surname;
@@ -53,7 +51,6 @@ public class Competitor {
         this.chessCategory 	= chessCategory;
         this.isDisqualified = isDisqualified;
         this.group			= group;
-        //this.stage = stage; //usunac stage
     }
 
     public Integer getId() {
@@ -63,16 +60,6 @@ public class Competitor {
     public String getName() {
         return name;
     }
-    
-    /*
-    public int getStage(){
-    	return stage;
-    }
-    
-    public void setStage(int stage){
-    	this.stage=stage;
-    }
-    */
 
     public void setName(String name) throws ValidatorException {
     	if(name.length()<3) throw new ValidatorException("Imię za krótkie");
@@ -105,8 +92,7 @@ public class Competitor {
         return chessCategory;
     }
 
-    public void setChessCategory(int chessCategory) throws ValidatorException  {
-    	// TODO throw ValidatorException
+    public void setChessCategory(int chessCategory) {
         this.chessCategory = chessCategory;
     }
     
@@ -118,12 +104,26 @@ public class Competitor {
         this.isDisqualified = isDisqualified;
     }
     
-    public Integer getGroup() {
+    public Integer getRawGroup() {
         return group;
+    }
+    
+    public Integer getGroup() {
+    	if(group==null) return null;
+        return group%100;
     }
     
     public void setGroup(Integer group) {
     	this.group = group;
+    }
+    
+    public void setGoesFinal(boolean goes) {
+    	group%=100;
+    	if(goes) group+=100;
+    }
+    
+    public boolean getGoesFinal() {
+    	return group>=100;
     }
     
     public enum SortOption {

@@ -57,4 +57,16 @@ public class Dialogs {
 			"Opis", JOptionPane.UNDEFINED_CONDITION);
 	}
 	
+	/**
+	 * @return Czy kontynuować mimo ostrzeżenia
+	 */
+	public static boolean niktZGrupyDoFinalow() {
+		int r = JOptionPane.showConfirmDialog(
+			null, 
+			"Istnieje grupa, w której nie wybrano graczy przechodzących do finału. Kontynuować?",
+			"Uwaga!",
+			JOptionPane.OK_CANCEL_OPTION);
+		return r==JOptionPane.OK_OPTION;
+	}
+	
 }

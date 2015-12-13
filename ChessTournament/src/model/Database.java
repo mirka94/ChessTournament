@@ -73,10 +73,10 @@ public class Database {
 				st.setInt	 (5, c.getChessCategory());
 				st.setBoolean(6,c.getIsDisqualified());
 				//st.setInt	 (8, c.getStage()); //usunac
-				if(c.getGroup()==null) 
+				if(c.getRawGroup()==null) 
 					st.setNull(7, java.sql.Types.INTEGER);
 				else
-					st.setInt(7, c.getGroup());
+					st.setInt(7, c.getRawGroup());
 			}
 			else {
 				st = connection.prepareStatement("UPDATE gracze SET "
@@ -88,10 +88,10 @@ public class Database {
 				st.setInt	(4, c.getChessCategory());
 				st.setBoolean(5,c.getIsDisqualified());
 				//st.setInt(7, c.getStage()); //usunac
-				if(c.getGroup()==null) 
+				if(c.getRawGroup()==null) 
 					st.setNull(6, java.sql.Types.INTEGER);
 				else
-					st.setInt(6, c.getGroup());
+					st.setInt(6, c.getRawGroup());
 				st.setInt(7, c.getId());
 			}
 			st.execute();
@@ -207,11 +207,14 @@ public class Database {
 		}
 		return result;
 	}
-	public List<SingleGame> getSingleGames(int turniej) {
+	public List<SingleGame> getSingleGames(int turniej, boolean finaly) {
 		List<SingleGame> result = new ArrayList<SingleGame>();
 		try {
 			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("select r.* from rozgrywki r JOIN gracze g ON r.id_gr1=g.id OR r.id_gr2=g.id WHERE g.turniej="+turniej+" GROUP BY r.id");
+			ResultSet rs = statement.executeQuery(
+				"select r.* from rozgrywki r JOIN gracze g ON r.id_gr1=g.id OR r.id_gr2=g.id WHERE "
+				+ (finaly?"g.grupa>=100":"r.runda>=0")
+				+ " AND g.turniej="+turniej+" GROUP BY r.id");
 		    while(rs.next()) {
 		    	result.add(new SingleGame(
 		    			rs.getInt("id"),

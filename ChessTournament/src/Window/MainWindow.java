@@ -1,7 +1,8 @@
-package Window;
+package window;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,8 +18,6 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import tools.Dialogs;
-
-import java.awt.Desktop;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
@@ -78,16 +77,12 @@ public class MainWindow extends JFrame {
 		JMenuItem mntmAutorzy = new JMenuItem("Autorzy");
 		mnOProgramie.add(mntmAutorzy);
 		
-		mntmAutorzy.addActionListener(e->{
-			new Dialogs().autorzy();
-		});
+		mntmAutorzy.addActionListener(e->Dialogs.autorzy());
 		
 		JMenuItem mntmOpis = new JMenuItem("Opis");
 		mnOProgramie.add(mntmOpis);
 		
-		mntmOpis.addActionListener(e->{
-			new Dialogs().opis();
-		});
+		mntmOpis.addActionListener(e->Dialogs.opis());
 		
 		BufferedImage myPicture = null;
 		try {

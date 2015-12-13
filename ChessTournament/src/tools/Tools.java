@@ -22,6 +22,7 @@ public class Tools {
 	 * @return lista grup, każda zawierająca listę uczestników
 	 */
 	public static TreeMap<Integer, List<Competitor>> groupsList(List<Competitor> competitors) {
+		//competitors.stream().collect(Collectors.groupingBy(c->c.getGroup(),Collectors.toList()));
 		TreeMap<Integer, List<Competitor>> groupsList = new TreeMap<>();
 		for(Competitor c : competitors) {
 			int g = c.getGroup();
@@ -44,10 +45,17 @@ public class Tools {
 			}
 		}
 		
-		result.sort((c1,c2) -> {
-			return c1.getRound()-c2.getRound();
-		});
-		
+		result.sort((c1,c2) -> c1.getRound()-c2.getRound());
+		return result;
+	}
+	
+	public static List<SingleGame> generateFinaleSingleGames(List<Competitor> finaleCompetitors, List<SingleGame> played) {
+		List<SingleGame> result = new ArrayList<>();
+		Collections.shuffle(finaleCompetitors);
+		for(SGInfo sgi : roundRobinGamesInfo(finaleCompetitors.size())) {
+			SingleGame nSG = new SingleGame(finaleCompetitors.get(sgi.c1-1), finaleCompetitors.get(sgi.c2-1), -1);
+			if(!played.contains(nSG)) result.add(nSG);
+		}
 		return result;
 	}
 	

@@ -78,4 +78,14 @@ public class SingleGame {
 	public Integer getRound() {
 		return round;
 	}
+	
+	@Override
+    public boolean equals(Object obj) {
+    	if(obj instanceof SingleGame) {
+    		SingleGame sg1 = this, sg2=(SingleGame)obj;
+    		if(sg1.getCompetitor1()==sg2.getCompetitor1() && sg1.getCompetitor2()==sg2.getCompetitor2()) return true;
+    		if(sg1.getCompetitor1()==sg2.getCompetitor2() && sg1.getCompetitor2()==sg2.getCompetitor1()) return true;
+    	}
+    	return false;
+    }
 }

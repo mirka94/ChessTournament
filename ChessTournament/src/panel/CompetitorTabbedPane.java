@@ -15,6 +15,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import model.Competitor;
+import model.Competitor.SortOption;
 import model.Database;
 import model.Tournament;
 import tools.Simulator;
@@ -32,6 +33,7 @@ public class CompetitorTabbedPane extends JPanel {
 	private GroupsPanel groupsPanel;
 	private GamesPanel gamesPanel;
 	private GroupsChoosePanel groupsChoosePanel;
+	private FinaleGamesPanel finaleGamesPanel;
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	
 	public CompetitorTabbedPane(Tournament turniej, JFrame frame){
@@ -39,15 +41,29 @@ public class CompetitorTabbedPane extends JPanel {
 		this.DB = new Database();
 		showPanel = new ShowEditCompetitorPanel(turniej, DB);
 		tournamentPanel = new TournamentPanel(turniej, DB);
+		FinaleGamesPanel.onFinalesEndListener finEndListener = ()->{
+			turniej.setRoundsCompleted(3);
+			DB.insertOrUpdateTournament(turniej);
+			tabbedPane.add("Wyniki turnieju", new FinaleScorePanel(turniej, DB));
+			tabbedPane.setSelectedIndex(6);
+		};
 		GroupsChoosePanel.onFinaleStartListener finStartListener = ()->{ // po rozpoczęciu finałów
-			tabbedPane.add("Rozgrywki finałowe", new JPanel()); 
+			turniej.setRoundsCompleted(2);
+			DB.insertOrUpdateTournament(turniej);
+			finaleGamesPanel = new FinaleGamesPanel(turniej, DB, finEndListener);
+			tabbedPane.add("Rozgrywki finałowe", finaleGamesPanel);
+			tabbedPane.setSelectedIndex(5); 
 		}; 
 		GamesPanel.onEliminationsEndListener elEndListener = ()->{  // po zakończeniu eliminacji
+			turniej.setRoundsCompleted(1);
+			DB.insertOrUpdateTournament(turniej);
 			groupsChoosePanel = new GroupsChoosePanel(turniej, DB, finStartListener);
 			tabbedPane.add("Wybór graczy do finałów", groupsChoosePanel);
 			tabbedPane.setSelectedIndex(4);
 		};
 		GroupsPanel.onTournamentStartListener tStartlistener = ()->{ // po rozpoczęciu turnieju
+			turniej.setRoundsCompleted(0);
+			DB.insertOrUpdateTournament(turniej);
 			group.setVisible(false);
 			gamesPanel = new GamesPanel(turniej, DB, elEndListener);
 			tabbedPane.add("Rozgrywki w eliminacjach", gamesPanel);
@@ -85,9 +101,11 @@ public class CompetitorTabbedPane extends JPanel {
 	    		tabbedPane.setTitleAt(2, "Podział na grupy");
 	    });
 	    turniej.setType(turniej.getType()); // wygląda bezsensownie, ale odpala powyższy listener
+	    int roundsCompleted = turniej.getRoundsCompleted();
 	    if(!isEditAllowed()) tStartlistener.onTournamentStart();
-	    if(turniej.getRoundsCompleted()>0) elEndListener.onEliminationsEnd();
-	    if(turniej.getRoundsCompleted()>1) finStartListener.onFinaleStart();
+	    if(roundsCompleted>0) elEndListener.onEliminationsEnd();
+	    if(roundsCompleted>1) finStartListener.onFinaleStart();
+	    if(roundsCompleted>2) finEndListener.onFinalesEnd();
 	}
 	
 	/**
@@ -109,14 +127,14 @@ public class CompetitorTabbedPane extends JPanel {
 		        KeyEvent.VK_L, Event.CTRL_MASK));
 		sortDefault = new JMenuItem("Sortowanie domyślne");
 		sortRandom = new JMenuItem("Kolejność losowa");
-		sortOptions.put(new JMenuItem("Wiek - rosnąco")			, Competitor.SortOption.AGE_ASC);
-		sortOptions.put(new JMenuItem("Wiek - malejąco")		, Competitor.SortOption.AGE_DESC);
-		sortOptions.put(new JMenuItem("Kategoria - rosnąco")	, Competitor.SortOption.CHESSCATEGORY_ASC);
-		sortOptions.put(new JMenuItem("Kategoria - malejąco")	, Competitor.SortOption.CHESSCATEGORY_DESC);
-		sortOptions.put(new JMenuItem("Imię - rosnąco")			, Competitor.SortOption.NAME_ASC);
-		sortOptions.put(new JMenuItem("Imię - malejąco")		, Competitor.SortOption.NAME_DESC);
-		sortOptions.put(new JMenuItem("Nazwisko - rosnąco")		, Competitor.SortOption.SURNAME_ASC);
-		sortOptions.put(new JMenuItem("Nazwisko - malejąco")	, Competitor.SortOption.SURNAME_DESC);
+		sortOptions.put(new JMenuItem("Wiek - rosnąco")			, SortOption.AGE_ASC);
+		sortOptions.put(new JMenuItem("Wiek - malejąco")		, SortOption.AGE_DESC);
+		sortOptions.put(new JMenuItem("Kategoria - rosnąco")	, SortOption.CHESSCATEGORY_ASC);
+		sortOptions.put(new JMenuItem("Kategoria - malejąco")	, SortOption.CHESSCATEGORY_DESC);
+		sortOptions.put(new JMenuItem("Imię - rosnąco")			, SortOption.NAME_ASC);
+		sortOptions.put(new JMenuItem("Imię - malejąco")		, SortOption.NAME_DESC);
+		sortOptions.put(new JMenuItem("Nazwisko - rosnąco")		, SortOption.SURNAME_ASC);
+		sortOptions.put(new JMenuItem("Nazwisko - malejąco")	, SortOption.SURNAME_DESC);
 		authors	= new JMenuItem("Autorzy");
 		manual	= new JMenuItem("Pomoc");
 		comp.add(addC);
@@ -144,7 +162,6 @@ public class CompetitorTabbedPane extends JPanel {
 			try {
 				c = Simulator.RandomPlayer();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			 DB.insertOrUpdateCompetitor(c, turniej.getId());

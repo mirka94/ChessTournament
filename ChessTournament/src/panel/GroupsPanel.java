@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
@@ -73,21 +72,8 @@ public class GroupsPanel extends JPanel{
 					if(max>min+1)
 						Dialogs.nierownomiernyPodzial(min, max);
 					else {
-						turniej.setRoundsCompleted(0);
-						DB.insertOrUpdateTournament(turniej);
-						
-						// Od tego miejsca generowanie obsługa gier (będzie nowa zakładka)
-						Map<Integer, Competitor> cm = competitors.stream()
-							.collect(Collectors.toMap(c->c.getId(), c->c));
 						for(SingleGame sg : Tools.generateSingleGames(groupsList)) {
 							DB.insertOrUpdateSingleGame(sg);
-							System.out.println(
-									"Runda "+sg.getRound()+",\t"+
-									"grają: "+
-									cm.get(sg.getCompetitor1())+"\ti\t"+
-									cm.get(sg.getCompetitor2())+
-									"\t, id rozgrywki: "+sg.getId()
-									);
 						};
 						startTournament.setVisible(false);
 						listener.onTournamentStart();
