@@ -1,6 +1,7 @@
 package panel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +24,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.JTableHeader;
 
 import model.Competitor;
 import model.Database;
@@ -39,6 +41,10 @@ public class GroupsPanel extends JPanel{
 	private JButton startTournament = new JButton("Rozpocznij turniej");
 	private LinkedHashMap<Integer, JTable> tables = new LinkedHashMap<>();
 	private List<Competitor> competitors;
+	private JLabel label;
+	private JTable tableN;
+	private JTableHeader tableNHeader;
+	private Component rigridAfterN;
 	
 	/**
 	 * @param t - id turnieju
@@ -72,7 +78,7 @@ public class GroupsPanel extends JPanel{
 					if(max>min+1)
 						Dialogs.nierownomiernyPodzial(min, max);
 					else {
-						for(SingleGame sg : Tools.generateSingleGames(groupsList)) {
+						for(SingleGame sg : Tools.generateSingleGames(groupsList, turniej.getBoards())) {
 							DB.insertOrUpdateSingleGame(sg);
 						};
 						startTournament.setVisible(false);
@@ -95,34 +101,34 @@ public class GroupsPanel extends JPanel{
 		Tools.checkGroups(groups, competitors);
 		container.removeAll();
 		tables.clear();
-		JLabel label = new JLabel("Uczestnicy", JLabel.CENTER);
+		label = new JLabel("Uczestnicy", JLabel.CENTER);
 		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		container.add(label);
 		container.add(Box.createRigidArea(new Dimension(0, 10)));
-		JTable tableN = new JTable(new MyTableModel(null));
+		tableN = new JTable(new MyTableModel(null));
 		tables.put(null, tableN);
 		tableN.addMouseListener(new MyMouseListener(tableN, groups));
-        container.add(tableN.getTableHeader());
+        container.add(tableNHeader = tableN.getTableHeader());
         container.add(tableN);
+        container.add(rigridAfterN = Box.createRigidArea(new Dimension(0, 20)));
         
         if(!turniej.isSwiss()) {
-        	label.setText("Uczestnicy nieprzydzieleni do grup");
 			for(int i=0; i<groups; ++i) {
-				container.add(Box.createRigidArea(new Dimension(0, 20)));
 				container.add(new JLabel("Grupa "+(i+1), JLabel.CENTER));
 				container.add(Box.createRigidArea(new Dimension(0, 10)));
 				JTable table = new JTable(new MyTableModel(i));
 				container.add(table);
 				tables.put(i, table);
+				container.add(Box.createRigidArea(new Dimension(0, 20)));
 		        table.addMouseListener(new MyMouseListener(table, groups));
 			}
         }
         else {
         	for(Competitor c : competitors) c.setGroup(null);
-        	updateTables();
         }
-		container.add(Box.createRigidArea(new Dimension(0, 50)));
+		container.add(Box.createRigidArea(new Dimension(0, 30)));
 		container.add(startTournament);
+		updateTables();
 	}
 	
 	void autoGroup() {
@@ -163,10 +169,15 @@ public class GroupsPanel extends JPanel{
 		Collections.shuffle(competitors);
 	}
 	
-	
-	
 	void updateTables() {
 		tables.values().forEach((t) -> ((AbstractTableModel)t.getModel()).fireTableDataChanged());
+		if(tableN!=null && rigridAfterN!=null && tableNHeader!=null) {
+			boolean allHaveGroup = (((MyTableModel)tableN.getModel()).rawGetRowCount()==0);
+			tableN.setVisible(!allHaveGroup);
+			rigridAfterN.setVisible(!allHaveGroup);
+			tableNHeader.setVisible(!allHaveGroup);
+			label.setText(turniej.isSwiss()?"Uczestnicy":(allHaveGroup?"Kompletny podział na grupy":"Uczestnicy nieprzydzieleni do grup"));
+		}
 	}
 	
 	public boolean isEditAllowed() {
@@ -230,7 +241,7 @@ public class GroupsPanel extends JPanel{
 	
 	class MyTableModel extends AbstractTableModel {
 		private static final long serialVersionUID = -7420896389109019010L;
-		final String[] columnNames = {"Imię", "Nazwisko", "Wiek", "Kategoria"};
+		final String[] columnNames = {"Nazwisko", "Imię", "Wiek", "Kategoria"};
 		private Integer group;
 		private List<Competitor> competitors;
 		public MyTableModel(Integer group) {
@@ -254,12 +265,15 @@ public class GroupsPanel extends JPanel{
 		public int getRowCount() {
 			return Math.max(competitors.size(),1);
 		}
+		public int rawGetRowCount() {
+			return competitors.size();
+		}
 		@Override
 		public Object getValueAt(int row, int col) {
 			if(competitors.isEmpty()) return "N/A";
 			Competitor c = competitors.get(row);
-			if(col==0) return c.getName();
-			if(col==1) return c.getSurname();
+			if(col==0) return c.getSurname();
+			if(col==1) return c.getName();
 			if(col==2) return c.getAge();
 			if(col==3) return c.getChessCategory();
 	        return null;

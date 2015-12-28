@@ -1,9 +1,9 @@
 package panel;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,7 +13,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -30,7 +29,6 @@ public class FinaleGamesPanel extends JPanel{
 	private static final long serialVersionUID = 5264352916396019084L;
 	private final Tournament turniej;
 	private final Database DB;
-	private JPanel container = new JPanel();
 	private JButton finishFinales = new JButton("Zakończ turniej");
 	private List<Competitor> competitors;
 	Map<Integer, Competitor> competitorMap;
@@ -44,9 +42,7 @@ public class FinaleGamesPanel extends JPanel{
 	public FinaleGamesPanel(Tournament t, Database db, onFinalesEndListener listener){
 		this.turniej = t;
 		this.DB = db;
-		this.setLayout(new BorderLayout());
-		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-		add(new JScrollPane(container));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		initComponents(listener);
 	}
 	
@@ -63,18 +59,13 @@ public class FinaleGamesPanel extends JPanel{
 		// gdzie grali (dostał się do finałów) vs (nie dostał się)
 		// można to naprawić w bazie
 		recalcColors();
-		JLabel label = new JLabel("Rozgrywki finałowe", JLabel.CENTER);
-		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		container.add(label);
-		container.add(Box.createRigidArea(new Dimension(0, 10)));
 		JTable table = new JTable(new MyTableModel());
-		table.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(
+		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(
         		new JComboBox<String>(new String[] {"Brak wyniku", "Wygrały białe", "Wygrały czarne", "Remis"})
         ));
 		table.setDefaultRenderer(String.class, new MyCellRenderer());
-        container.add(table.getTableHeader());
-        container.add(table);
-		container.add(Box.createRigidArea(new Dimension(0, 20)));
+	    add(new JScrollPane(table));
+		add(Box.createRigidArea(new Dimension(0, 20)));
 		finishFinales.addActionListener((e)->{
 			if(singleGames.stream().filter(sg->sg.getScore()==0).count()>0) {
 				Dialogs.gryBezWyniku();
@@ -84,14 +75,30 @@ public class FinaleGamesPanel extends JPanel{
 				listener.onFinalesEnd();
 			}
 		});
-		if(turniej.getRoundsCompleted()<1) container.add(finishFinales);
-		container.add(finishFinales);
+		if(turniej.getRoundsCompleted()<3) add(finishFinales);
 	}
 	
 	void recalcColors() {
+		currentlyPlayedGames = new ArrayList<>(turniej.getBoards());
+		List<Integer> 	playingCompetitors 	= new ArrayList<>(2*turniej.getBoards()),
+						takenBoards 		= new ArrayList<>(2*turniej.getBoards());
+		for(SingleGame sg : singleGames.stream().filter(g->g.getScore()==0)
+				.collect(Collectors.toList())) {
+			if(!takenBoards.contains(sg) &&
+			   !playingCompetitors.contains(sg.getCompetitor1()) &&
+			   !playingCompetitors.contains(sg.getCompetitor2())) 
+			{
+				takenBoards.add(sg.getBoard());
+				playingCompetitors.add(sg.getCompetitor1());
+				playingCompetitors.add(sg.getCompetitor2());
+				currentlyPlayedGames.add(sg);
+			}	
+		};
+		/*
 		currentlyPlayedGames = singleGames.stream()
 				.filter(g->g.getScore()==0).limit(turniej.getBoards())
 				.collect(Collectors.toList());
+		*/
 	}
 	
 	@FunctionalInterface 
@@ -115,7 +122,7 @@ public class FinaleGamesPanel extends JPanel{
 	
 	class MyTableModel extends AbstractTableModel {
 		private static final long serialVersionUID = -8996219394591638940L;
-		final String[] columnNames = {"Gra białymi", "Gra czarnymi", "Wynik"};
+		final String[] columnNames = {"Szachownica", "Gra białymi", "Gra czarnymi", "Wynik"};
 
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
@@ -123,7 +130,7 @@ public class FinaleGamesPanel extends JPanel{
 		}
 		@Override
 		public int getColumnCount() {
-			return 3;
+			return 4;
 		}
 		@Override
 		public String getColumnName(int columnIndex) {
@@ -136,9 +143,10 @@ public class FinaleGamesPanel extends JPanel{
 		@Override
 		public Object getValueAt(int row, int col) {
 			SingleGame sg = singleGames.get(row);
-			if(col==0) return competitorMap.get(sg.getCompetitor1());
-			if(col==1) return competitorMap.get(sg.getCompetitor2());
-			if(col==2) {
+			if(col==0) return sg.getBoard()+1;
+			if(col==1) return competitorMap.get(sg.getCompetitor1());
+			if(col==2) return competitorMap.get(sg.getCompetitor2());
+			if(col==3) {
 				if(sg.getScore()==0) return " - ";
 				if(sg.getScore()==1) return "Wygrały białe";
 				if(sg.getScore()==2) return "Wygrały czarne";
@@ -150,7 +158,7 @@ public class FinaleGamesPanel extends JPanel{
 		@Override
 		public boolean isCellEditable(int row, int col) {
 			return 
-				col==2 
+				col==3 
 				&& turniej.getRoundsCompleted()==2 
 				&& singleGames.get(row).getRound()==-1;
 		}
@@ -159,7 +167,7 @@ public class FinaleGamesPanel extends JPanel{
 		public void setValueAt(Object aValue, int row, int col) {
 			int w = -1;
 			SingleGame sg = singleGames.get(row);
-			if(col==2 && sg.getRound()==-1) {
+			if(col==3 && sg.getRound()==-1) {
 				if("Brak wyniku".equals((String)aValue)) w=0;
 				if("Wygrały białe".equals((String)aValue)) w=1;
 				if("Wygrały czarne".equals((String)aValue)) w=2;

@@ -24,12 +24,9 @@ public class Database {
 	    try {
 		    Class.forName("org.sqlite.JDBC");
 		    // create a database connection
-		    connection = DriverManager.getConnection("jdbc:sqlite:sample.db");
+		    connection = DriverManager.getConnection("jdbc:sqlite:ChessTournament.data");
 		    Statement statement = connection.createStatement();
 		    statement.setQueryTimeout(30);  // set timeout to 30 sec.
-		    /*statement.executeUpdate("DROP TABLE gracze");
-		    statement.executeUpdate("DROP TABLE turnieje");
-		    statement.executeUpdate("DROP TABLE rozgrywki"); */
 		    statement.executeUpdate("CREATE TABLE IF NOT EXISTS turnieje " +
 		    		"(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 		      		"nazwa VARCHAR(50), rok VARCHAR(10), szachownic TINYINT, " +
@@ -40,8 +37,8 @@ public class Database {
 		      		"kategoria TINYINT, czy_zdyskwalifikowany BOOLEAN, grupa INTEGER)"); //, etap INTEGER
 		    statement.executeUpdate("CREATE TABLE IF NOT EXISTS rozgrywki " +
 		      		"(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-		      		"id_gr1 INTEGER, id_gr2 INTEGER, wynik TINYINT, " +
-		      		"czyrozgrywana BOOLEAN, czywtrakcie BOOLEAN, runda INTEGER)");
+		      		"id_gr1 INTEGER, id_gr2 INTEGER, wynik TINYINT, szachownica TINYINT, " +
+		      		"czyrozgrywana BOOLEAN, runda INTEGER)");
 	    }
 	    catch(SQLException e) {
 	      // if the error message is "out of memory", 
@@ -64,15 +61,14 @@ public class Database {
 			PreparedStatement st;
 			if(c.getId()==null) {
 				st = connection.prepareStatement("INSERT INTO gracze "
-					+ "(turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany, grupa) " //, etap
-					+ "VALUES (?,?,?,?,?,?,?)"); //,?
+					+ "(turniej, imie, nazwisko, wiek, kategoria, czy_zdyskwalifikowany, grupa) "
+					+ "VALUES (?,?,?,?,?,?,?)");
 				st.setInt	 (1, turniej);
 				st.setString (2, c.getName());
 				st.setString (3, c.getSurname());
 				st.setInt	 (4, c.getAge());
 				st.setInt	 (5, c.getChessCategory());
 				st.setBoolean(6,c.getIsDisqualified());
-				//st.setInt	 (8, c.getStage()); //usunac
 				if(c.getRawGroup()==null) 
 					st.setNull(7, java.sql.Types.INTEGER);
 				else
@@ -81,13 +77,12 @@ public class Database {
 			else {
 				st = connection.prepareStatement("UPDATE gracze SET "
 					+ "imie=?, nazwisko=?, wiek=?, kategoria=?, czy_zdyskwalifikowany=?, "
-					+ "grupa=? where id=?"); //, etap=?
+					+ "grupa=? where id=?");
 				st.setString(1, c.getName());
 				st.setString(2, c.getSurname());
 				st.setInt	(3, c.getAge());
 				st.setInt	(4, c.getChessCategory());
 				st.setBoolean(5,c.getIsDisqualified());
-				//st.setInt(7, c.getStage()); //usunac
 				if(c.getRawGroup()==null) 
 					st.setNull(6, java.sql.Types.INTEGER);
 				else
@@ -135,22 +130,21 @@ public class Database {
 			PreparedStatement st;
 			if(g.getId()==null) {
 				st = connection.prepareStatement("INSERT INTO rozgrywki "
-						+ "(id_gr1, id_gr2, wynik, czyrozgrywana, czywtrakcie, runda) "
+						+ "(id_gr1, id_gr2, wynik, czyrozgrywana, runda, szachownica) "
 						+ "VALUES (?,?,?,?,?,?)");
 				st.setInt(1, g.getCompetitor1());
 				st.setInt(2, g.getCompetitor2());
 				st.setInt(3, g.getScore());
 				st.setBoolean(4, g.getWasPlayed());
-				st.setBoolean(5, g.isInProgress());
-				st.setInt(6, g.getRound());
+				st.setInt(5, g.getRound());
+				st.setInt(6, g.getBoard());
 			}
 			else {
 				st = connection.prepareStatement("UPDATE ROZGRYWKI SET " + 
-						"wynik=?, czyrozgrywana=?, czywtrakcie=? where id=?");
+						"wynik=?, czyrozgrywana=? where id=?");
 				st.setInt(1, g.getScore());
 				st.setBoolean(2, g.getWasPlayed());
-				st.setBoolean(3, g.isInProgress());
-				st.setInt(4, g.getId());
+				st.setInt(3, g.getId());
 			}
 			st.execute();
 			if(g.getId()==null) {
@@ -163,97 +157,85 @@ public class Database {
 		}
 	}
 	public List<Competitor> getCompetitors(int turniej) {
-		List<Competitor> result = new ArrayList<Competitor>();
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("select * from gracze where turniej="+turniej);
-		    while(rs.next()) {
-		    	Integer group = rs.getInt("grupa");
-		        group = rs.wasNull() ? null : group;
-		    	result.add(new Competitor(
-		    			rs.getInt("id"),
-		    			rs.getString("imie"),
-		    			rs.getString("nazwisko"),
-		    			rs.getInt("wiek"),
-		    			rs.getInt("kategoria"),
-		    			rs.getBoolean("czy_zdyskwalifikowany"),
-		    			group
-		    			//rs.getInt("etap") //usunac
-		    		));
-		    }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
+		return getFromDB("select * from gracze where turniej="+turniej, rs->RSToCompetitor(rs));
 	}
 	public List<Tournament> getTournaments() {
-		List<Tournament> result = new ArrayList<Tournament>();
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("select * from turnieje");
-		    while(rs.next()) {
-		    	result.add(new Tournament(
-		    			rs.getInt("id"),
-		    			rs.getString("nazwa"),
-		    			rs.getString("rok"),
-		    			rs.getInt("szachownic"),
-		    			rs.getInt("rund"),
-		    			rs.getInt("rozegranych"),
-		    			rs.getBoolean("typ") ? Tournament.Type.SWISS : Tournament.Type.GROUP_ELIMINATIONS
-		    		));
-		    }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
+		return getFromDB("select * from turnieje", rs->RSToTournament(rs));
 	}
 	public List<SingleGame> getSingleGames(int turniej, boolean finaly) {
-		List<SingleGame> result = new ArrayList<SingleGame>();
-		try {
-			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery(
+		return getFromDB(
 				"select r.* from rozgrywki r JOIN gracze g ON r.id_gr1=g.id OR r.id_gr2=g.id WHERE "
 				+ (finaly?"g.grupa>=100":"r.runda>=0")
-				+ " AND g.turniej="+turniej+" GROUP BY r.id");
-		    while(rs.next()) {
-		    	result.add(new SingleGame(
-		    			rs.getInt("id"),
-		    			rs.getInt("id_gr1"),
-		    			rs.getInt("id_gr2"),
-		    			rs.getInt("wynik"),
-		    			rs.getBoolean("czyrozgrywana"),
-		    			rs.getBoolean("czywtrakcie"),
-		    			rs.getInt("runda")
-		    		));
-		    }
+				+ " AND g.turniej="+turniej+" GROUP BY r.id", rs->RSToSingleGame(rs));
+	}
+	private <E> List<E> getFromDB(String query, rsToObject<E> converter) {
+		List<E> result = new ArrayList<E>();
+		try {
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(query);
+			while(rs.next()) result.add(converter.convert(rs));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
-	public void removeCompetitor(int id) {
-		try {
-			Statement statement = connection.createStatement();
-			statement.executeUpdate("DELETE FROM gracze WHERE id="+id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	@FunctionalInterface
+	private interface rsToObject<E> {
+		public E convert(ResultSet rs) throws SQLException;
 	}
+	public void removeCompetitor(int id) {
+		removeById("gracze",id);
+	}
+	/* nieużywane polecenia usuwania
 	public void removeTournament(int id) {
-		try {
-			Statement statement = connection.createStatement();
-			statement.executeUpdate("DELETE FROM turnieje WHERE id="+id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		removeById("turnieje",id);
 	}
 	public void removeSingleGame(int id) {
+		removeById("rozgrywki",id);
+	}
+	/**/
+	public void removeById(String table, int id) {
 		try {
 			Statement statement = connection.createStatement();
-			statement.executeUpdate("DELETE FROM rozgrywki WHERE id="+id);
+			statement.executeUpdate("DELETE FROM "+table+" WHERE id="+id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}	
-	
+	}
+	public static SingleGame RSToSingleGame(ResultSet rs) throws SQLException {
+		System.out.println(rs.getInt("szachownica"));
+		return new SingleGame(
+    			rs.getInt("id"),
+    			rs.getInt("id_gr1"),
+    			rs.getInt("id_gr2"),
+    			rs.getInt("wynik"),
+    			rs.getBoolean("czyrozgrywana"),
+    			rs.getInt("runda"),
+    			rs.getInt("szachownica")
+    		);
+	}
+	public static Tournament RSToTournament(ResultSet rs) throws SQLException {
+		return new Tournament(
+    			rs.getInt("id"),
+    			rs.getString("nazwa"),
+    			rs.getString("rok"),
+    			rs.getInt("szachownic"),
+    			rs.getInt("rund"),
+    			rs.getInt("rozegranych"),
+    			rs.getBoolean("typ") ? Tournament.Type.SWISS : Tournament.Type.GROUP_ELIMINATIONS
+    		);
+	}
+	public static Competitor RSToCompetitor(ResultSet rs) throws SQLException {
+		Integer group = rs.getInt("grupa");
+        group = rs.wasNull() ? null : group;
+		return new Competitor(
+    			rs.getInt("id"),
+    			rs.getString("imie"),
+    			rs.getString("nazwisko"),
+    			rs.getInt("wiek"),
+    			rs.getInt("kategoria"),
+    			rs.getBoolean("czy_zdyskwalifikowany"),
+    			group
+    		);
+	}
 }

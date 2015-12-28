@@ -135,7 +135,7 @@ public class Competitor {
     
     @Override
     public String toString() {
-    	return name+" "+surname;
+    	return surname+" "+name;
     }
     
     @Override

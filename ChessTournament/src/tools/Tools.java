@@ -1,13 +1,26 @@
 package tools;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
 import model.Competitor;
 import model.SingleGame;
+import window.AddTPanel;
+import window.ShowTPanel;
 
 public class Tools {
 	public static void checkGroups(int groups, List<Competitor> competitors) {
@@ -33,29 +46,46 @@ public class Tools {
 		return groupsList;
 	}
 	
-	public static List<SingleGame> generateSingleGames(TreeMap<Integer, List<Competitor>> groupsList) {
-		List<SingleGame> result = new ArrayList<>();
+	public static List<SingleGame> generateSingleGames(TreeMap<Integer, List<Competitor>> groupsList, int boards) {
+		List<SingleGame> rawResult = new ArrayList<>();
+		
 		for(Integer i : groupsList.keySet()) {
 			List<Competitor> l = groupsList.get(i);
 			Collections.shuffle(l);
 			for(SGInfo sgi : roundRobinGamesInfo(l.size())) {
-				result.add(
-					new SingleGame(l.get(sgi.c1-1), l.get(sgi.c2-1), sgi.r-1)
+				rawResult.add(
+					new SingleGame(l.get(sgi.c1-1), l.get(sgi.c2-1), sgi.r-1, 0)
 				);
 			}
 		}
-		
-		result.sort((c1,c2) -> c1.getRound()-c2.getRound());
-		return result;
+		rawResult.sort((c1,c2) -> c1.getRound()-c2.getRound());
+		return determineBoards(rawResult, boards);
 	}
 	
-	public static List<SingleGame> generateFinaleSingleGames(List<Competitor> finaleCompetitors, List<SingleGame> played) {
-		List<SingleGame> result = new ArrayList<>();
+	public static List<SingleGame> generateFinaleSingleGames(List<Competitor> finaleCompetitors, List<SingleGame> played, int boards) {
+		List<SingleGame> rawResult = new ArrayList<>();
 		Collections.shuffle(finaleCompetitors);
 		for(SGInfo sgi : roundRobinGamesInfo(finaleCompetitors.size())) {
-			SingleGame nSG = new SingleGame(finaleCompetitors.get(sgi.c1-1), finaleCompetitors.get(sgi.c2-1), -1);
-			if(!played.contains(nSG)) result.add(nSG);
+			Competitor c1 = finaleCompetitors.get(sgi.c1-1), c2 = finaleCompetitors.get(sgi.c2-1);
+			SingleGame nSG = new SingleGame(c1,c2, -1, 0);
+			if(!played.contains(nSG))rawResult.add(nSG);
 		}
+		return determineBoards(rawResult, boards);
+	}
+	
+	private static List<SingleGame> determineBoards(List<SingleGame> rawResult, int boards) {
+		List<SingleGame> result = new ArrayList<>();
+		int board=0;
+		for(SingleGame sg : rawResult) 
+			result.add(new SingleGame(
+				null,
+				sg.getCompetitor1(), 
+				sg.getCompetitor2(), 
+				sg.getScore(),
+				sg.getWasPlayed(),
+				sg.getRound(), 
+				board++%boards)
+			);
 		return result;
 	}
 	
@@ -84,5 +114,60 @@ public class Tools {
 			this.c2 = c2;
 			this.r = r;
 		}
+	}
+	
+	
+	public static void aboutMenu(JMenuBar menuBar, JFrame frame) {
+		JMenu mnTurniej = new JMenu("Turniej");
+		menuBar.add(mnTurniej);
+		
+		JMenuItem dodajTurniej = new JMenuItem("Dodaj turniej");
+		dodajTurniej.addActionListener(e -> {
+				frame.getContentPane().removeAll();
+				frame.add(new AddTPanel(frame), BorderLayout.CENTER);
+				frame.pack();
+		});
+		dodajTurniej.setAccelerator(KeyStroke.getKeyStroke(
+		        java.awt.event.KeyEvent.VK_F2, 0));
+		mnTurniej.add(dodajTurniej);
+		
+		JMenuItem wybierzTurniej = new JMenuItem("Wybierz turniej");
+		mnTurniej.add(wybierzTurniej);
+		wybierzTurniej.setAccelerator(KeyStroke.getKeyStroke(
+		        java.awt.event.KeyEvent.VK_F3, 0));
+		wybierzTurniej.addActionListener(e -> {
+				frame.getContentPane().removeAll();
+				frame.add(new ShowTPanel(frame), BorderLayout.CENTER);
+				frame.pack();
+		});
+		
+		JMenu mnOProgramie = new JMenu("O programie");
+		menuBar.add(mnOProgramie);
+		
+		JMenuItem mntmPomoc = new JMenuItem("Pomoc");
+		mntmPomoc.setAlignmentY(Component.TOP_ALIGNMENT);
+		mnOProgramie.add(mntmPomoc);
+		
+		// otwieranie pdf z instrukcją po wybraniu pomocy
+		mntmPomoc.addActionListener(e->{
+			if (Desktop.isDesktopSupported()) {
+			    try {
+			        File myFile = new File("turniej.pdf");
+			        Desktop.getDesktop().open(myFile);
+			    } catch (IOException ex) {
+			        System.out.println(e);
+			    }
+			}
+		});
+		
+		JMenuItem mntmAutorzy = new JMenuItem("Autorzy");
+		mnOProgramie.add(mntmAutorzy);
+		
+		mntmAutorzy.addActionListener(e->Dialogs.autorzy());
+		
+		JMenuItem mntmOpis = new JMenuItem("Opis");
+		mnOProgramie.add(mntmOpis);
+		
+		mntmOpis.addActionListener(e->Dialogs.opis());
 	}
 }

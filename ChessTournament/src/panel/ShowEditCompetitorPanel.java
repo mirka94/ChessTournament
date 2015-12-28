@@ -1,6 +1,8 @@
 package panel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
@@ -26,7 +28,7 @@ import model.Tournament;
 public class ShowEditCompetitorPanel extends JPanel{
 	private final Tournament turniej;
 	private final Database DB;
-	private JTable table = new JTable();
+	private JTable table;
 	private DefaultTableModel model;
 	
 	/**
@@ -39,7 +41,18 @@ public class ShowEditCompetitorPanel extends JPanel{
 		setSize(700,700);
 		setLayout(new BorderLayout()); 
 	    setVisible(true);
-	    
+	    table = new JTable() {
+	    	// po przejśiu do komórki (również tabulatorem) rozpoczęcie edycji
+	    	public void changeSelection(int row, int column, boolean toggle, boolean extend) {
+	    		super.changeSelection(row, column, toggle, extend);
+    	        if(editCellAt(row, column)) {
+    	            Component editor = getEditorComponent();
+    	            editor.requestFocusInWindow();
+    	        }
+	    	}
+	    };
+	    table.setIntercellSpacing(new Dimension(25, 2));
+	    table.setRowHeight(20);
 	    model = new DefaultTableModel(){
         	// w kolumny wiek i kategoria można wprowadzać tylko liczby
         	@Override
@@ -61,8 +74,8 @@ public class ShowEditCompetitorPanel extends JPanel{
 				Competitor c = DB.getCompetitors(turniej.getId()).get(row);
 				try {
 					switch(column) {
-						case 0: c.setName((String)value); 			break;
-						case 1: c.setSurname((String)value); 		break;
+						case 0: c.setSurname((String)value); 		break;
+						case 1: c.setName((String)value); 			break;
 						case 2: c.setAge((int)value); 				break;
 						case 3: c.setChessCategory((int)value); 	break;
 					}
@@ -80,6 +93,7 @@ public class ShowEditCompetitorPanel extends JPanel{
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION); 
         // pole tekstowe akceptujące tylko znaki a-Z, - i spację
         final JTextField jtf = new JTextField();
+        // przy rozpoczęciu edyji zaznaczenie wszystkiego
         jtf.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -134,8 +148,8 @@ public class ShowEditCompetitorPanel extends JPanel{
 		model.setRowCount(0);
         for(Competitor c : DB.getCompetitors(turniej.getId())){
         	model.addRow(new Object[]{
+                c.getSurname(),
         		c.getName(),
-            	c.getSurname(),
             	c.getAge(),
             	c.getChessCategory()
             });

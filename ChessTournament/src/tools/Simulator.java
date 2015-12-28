@@ -1,11 +1,14 @@
 package tools;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import javax.swing.JFrame;
 
 import model.Competitor;
 
@@ -27,10 +30,8 @@ public class Simulator {
 		}
 		int rozgrywek = 0;
 		for(Integer i : grupy) {
-			//System.out.print("Grupa: zawodnikow - "+i+", rozgrywek - "+(i*(i-1)/2)+"\n");
 			rozgrywek+=i*(i-1)/2;
 		}
-		//System.out.print("Łącznie rozgrywek: "+rozgrywek+"\n");
 		return rozgrywek;
 	}
 	
@@ -63,16 +64,24 @@ public class Simulator {
 		
 		int randomInt = rn.nextInt(300);
 		String imie = null, nazwisko = null;
+
+		InputStream imionaIS = JFrame.class.getResourceAsStream("/imiona.txt");
+		InputStream nazwiskaIS = JFrame.class.getResourceAsStream("/nazwiska.txt");
 		
-        imieReader = new BufferedReader(new FileReader("imiona.txt"));
-        nazwiskoReader = new BufferedReader(new FileReader("nazwiska.txt"));
+        imieReader = new BufferedReader(new InputStreamReader(imionaIS, "UTF-8"));
+        nazwiskoReader = new BufferedReader(new InputStreamReader(nazwiskaIS, "UTF-8"));
+        
+        imieReader.mark(0);
+        nazwiskoReader.mark(0);
         
         do {
+			imieReader.reset();
+			nazwiskoReader.reset();
         	for (int i = 0; i < randomInt; i++) {
         			imie = imieReader.readLine();
         			nazwisko = nazwiskoReader.readLine();
         	}
-		} while(imie.endsWith("a") && nazwisko.endsWith("ki"));
+		} while(imie==null || nazwisko==null || (imie.endsWith("a") && nazwisko.endsWith("ki")));
 		return new Competitor(null, imie, nazwisko, a, c, false, null);
 	}
 }

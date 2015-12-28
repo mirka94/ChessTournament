@@ -19,14 +19,15 @@ import model.Competitor.SortOption;
 import model.Database;
 import model.Tournament;
 import tools.Simulator;
+import tools.Tools;
 
 public class CompetitorTabbedPane extends JPanel {
 	private static final long serialVersionUID = -1732368493930988952L;
 	final Tournament turniej;
 	private Database DB;
 	private JMenuBar menuBar;
-	private JMenu comp, about, sort, group;
-	private JMenuItem addC, rndC, authors, manual, sortDefault, sortRandom, autoGroup;
+	private JMenu comp, sort, group;
+	private JMenuItem addC, rndC, sortDefault, sortRandom, autoGroup;
 	private LinkedHashMap<JMenuItem, Competitor.SortOption> sortOptions;
 	private ShowEditCompetitorPanel showPanel;
 	private TournamentPanel tournamentPanel;
@@ -74,7 +75,7 @@ public class CompetitorTabbedPane extends JPanel {
 	    tabbedPane.add("Pokaż lub edytuj dodanych uczestników", showPanel);
 	    tabbedPane.add("Turniej", tournamentPanel);
 	    tabbedPane.add(groupsPanel);
-	    tabbedPane.add("Rozgrywki", groupsPanel);
+	    //tabbedPane.add("Rozgrywki", groupsPanel); // co to tu robiło?
 	    tabbedPane.addChangeListener((e) -> {
 			int i = tabbedPane.getSelectedIndex();
 			if(i==0) showPanel.setData();
@@ -95,10 +96,7 @@ public class CompetitorTabbedPane extends JPanel {
 	    	}
 		});
 	    turniej.addTypeChangeListener((type) -> {
-	    	if(type== Tournament.Type.SWISS) 
-	    		tabbedPane.setTitleAt(2, "Rozpocznij przygotowanie rundy 1.");
-	    	else 
-	    		tabbedPane.setTitleAt(2, "Podział na grupy");
+	    	tabbedPane.setTitleAt(2, (type==Tournament.Type.SWISS)?"Rozpocznij przygotowanie rundy 1.":"Podział na grupy");
 	    });
 	    turniej.setType(turniej.getType()); // wygląda bezsensownie, ale odpala powyższy listener
 	    int roundsCompleted = turniej.getRoundsCompleted();
@@ -115,7 +113,6 @@ public class CompetitorTabbedPane extends JPanel {
 		sortOptions = new LinkedHashMap<>();
 		menuBar	= new JMenuBar();
 		comp 	= new JMenu("Uczestnicy");
-		about 	= new JMenu("O programie");
 		sort	= new JMenu("Sortowanie graczy");
 		group 	= new JMenu("Automatyczne grupowanie graczy");
 		addC 	= new JMenuItem("Dodaj");
@@ -135,12 +132,8 @@ public class CompetitorTabbedPane extends JPanel {
 		sortOptions.put(new JMenuItem("Imię - malejąco")		, SortOption.NAME_DESC);
 		sortOptions.put(new JMenuItem("Nazwisko - rosnąco")		, SortOption.SURNAME_ASC);
 		sortOptions.put(new JMenuItem("Nazwisko - malejąco")	, SortOption.SURNAME_DESC);
-		authors	= new JMenuItem("Autorzy");
-		manual	= new JMenuItem("Pomoc");
 		comp.add(addC);
 		comp.add(rndC);
-		about.add(authors);
-		about.add(manual);
 		sort.add(sortDefault);
 		sort.add(sortRandom);
 		sortOptions.keySet().forEach((jmi) -> sort.add(jmi));
@@ -148,11 +141,11 @@ public class CompetitorTabbedPane extends JPanel {
 		menuBar.add(comp);
 		menuBar.add(sort);
 		menuBar.add(group);
-		menuBar.add(about);
 		frame.setJMenuBar(menuBar);
+		Tools.aboutMenu(menuBar, frame);
 		addC.addActionListener((e) -> {
 			 if(!showPanel.isEditAllowed()) return;
-			 Competitor c = new Competitor(null, "Imie", "Nazwisko", 0, 0, false, null); //dodać 0
+			 Competitor c = new Competitor(null, "", "", 0, 0, false, null);
 			 DB.insertOrUpdateCompetitor(c, turniej.getId());
 			 showPanel.setData();
 		});
@@ -167,15 +160,11 @@ public class CompetitorTabbedPane extends JPanel {
 			 DB.insertOrUpdateCompetitor(c, turniej.getId());
 			 showPanel.setData();
 		});
-		sortDefault.addActionListener((e) -> {
-			groupsPanel.sortDefault();
-		});
-		autoGroup.addActionListener((e) -> groupsPanel.autoGroup());
-		sortRandom.addActionListener((e)->groupsPanel.shuffle());
+		sortDefault.addActionListener(	e->groupsPanel.sortDefault());
+		autoGroup.addActionListener(	e->groupsPanel.autoGroup());
+		sortRandom.addActionListener(	e->groupsPanel.shuffle());
 		sortOptions.keySet().forEach((jmi) -> 
-			jmi.addActionListener((e) -> {
-				groupsPanel.stableSort(sortOptions.get(jmi));
-			})
+			jmi.addActionListener(e->groupsPanel.stableSort(sortOptions.get(jmi)))
 		);
 		sort.setVisible(false);
 		group.setVisible(false);

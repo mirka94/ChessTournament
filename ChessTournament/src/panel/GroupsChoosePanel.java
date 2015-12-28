@@ -69,7 +69,7 @@ public class GroupsChoosePanel extends JPanel{
 				competitors.stream()
 					.filter(c->c.getGoesFinal())
 					.collect(Collectors.toList());
-			for(SingleGame sg : Tools.generateFinaleSingleGames(finaleCompetitors, singleGames)) {
+			for(SingleGame sg : Tools.generateFinaleSingleGames(finaleCompetitors, singleGames, turniej.getBoards())) {
 				DB.insertOrUpdateSingleGame(sg);
 			};
 			startFinales.setVisible(false);

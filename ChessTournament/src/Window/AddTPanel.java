@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -42,13 +43,14 @@ public class AddTPanel extends JPanel {
 		add(textField);
 		textField.setColumns(10);
 		
-		JButton addButton = new JButton("Utwórz i przejdź");
+		JButton addButton = new JButton("Utwórz");
 		addButton.setFont(new Font("Consolas", Font.PLAIN, 16));
 		addButton.setBounds(100, 293, 484, 30);
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				nazwa=textField.getText();
-				Tournament t = new Tournament(null,nazwa,"rrrr",8,5,-1,Tournament.Type.GROUP_ELIMINATIONS);
+				String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+				Tournament t = new Tournament(null,nazwa,year,8,5,-1,Tournament.Type.GROUP_ELIMINATIONS);
 				Database db = new Database();
 				db.insertOrUpdateTournament(t);
 				jframe.getContentPane().removeAll();

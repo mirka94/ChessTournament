@@ -124,7 +124,7 @@ public class FinaleScorePanel extends JPanel{
 	
 	class MyTableModel extends AbstractTableModel {
 		private static final long serialVersionUID = 8597861109358165096L;
-		final String[] columnNames = {"Gracz", "Wygranych", "Przegranych", "Zakończonych remisem", "Punkty", "Punkty SB"};
+		final String[] columnNames = {"Miejsce", "Gracz", "Wygranych", "Przegranych", "Zakończonych remisem", "Punkty", "Punkty SB"};
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
 			if(columnIndex==0) return String.class;
@@ -134,7 +134,7 @@ public class FinaleScorePanel extends JPanel{
 		}
 		@Override
 		public int getColumnCount() {
-			return 6;
+			return 7;
 		}
 		@Override
 		public String getColumnName(int columnIndex) {
@@ -148,12 +148,13 @@ public class FinaleScorePanel extends JPanel{
 		public Object getValueAt(int row, int col) {
 			if(competitors.isEmpty()) return "N/A";
 			Competitor c = competitors.get(row);
-			if(col==0) return c.toString();
-			if(col==1) return competitorWon.get(c);
-			if(col==2) return competitorLost.get(c);
-			if(col==3) return competitorTie.get(c);
-			if(col==4) return competitorPoints.get(c);
-			if(col==5) return competitorSBPoints.get(c);
+			if(col==0) return row+1;
+			if(col==1) return c.toString();
+			if(col==2) return competitorWon.get(c);
+			if(col==3) return competitorLost.get(c);
+			if(col==4) return competitorTie.get(c);
+			if(col==5) return competitorPoints.get(c);
+			if(col==6) return competitorSBPoints.get(c);
 	        return null;
 		}
 

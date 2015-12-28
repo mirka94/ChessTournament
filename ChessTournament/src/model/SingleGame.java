@@ -7,32 +7,29 @@ public class SingleGame {
 	private Integer id;
 	private final int competitor1, competitor2;
 	private int score;
+	private int board;
 	private boolean wasPlayed;
-	/**
-	 * czy można jeszcze zmieniać wynik
-	 */
-	private boolean inProgress;
 	private final int round;
 	
 	public SingleGame(Integer id, int competitor1, int competitor2, int score,
-			boolean wasPlayed, boolean inProgress, int round) {
+			boolean wasPlayed, int round, int board) {
 		this.id = id;
 		this.competitor1 = competitor1;
 		this.competitor2 = competitor2;
 		this.score = score;
 		this.wasPlayed = wasPlayed;
-		this.inProgress = inProgress;
 		this.round = round;
+		this.board = board;
 	}
 	
-	public SingleGame(Competitor competitor1, Competitor competitor2, int round) {
+	public SingleGame(Competitor competitor1, Competitor competitor2, int round, int board) {
 		this.id = null;
 		this.competitor1 = competitor1.getId();
 		this.competitor2 = competitor2.getId();
 		this.score = 0;
 		this.wasPlayed = false;
-		this.inProgress = false;
 		this.round = round;
+		this.board = board;
 	}
 
 	public Integer getId() {
@@ -66,17 +63,13 @@ public class SingleGame {
 	public void setWasPlayed(boolean wasPlayed) {
 		this.wasPlayed = wasPlayed;
 	}
-
-	public boolean isInProgress() {
-		return inProgress;
-	}
-
-	public void setInProgress(boolean inProgress) {
-		this.inProgress = inProgress;
-	}
-
+	
 	public Integer getRound() {
 		return round;
+	}
+	
+	public Integer getBoard() {
+		return board;
 	}
 	
 	@Override

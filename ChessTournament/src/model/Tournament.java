@@ -91,7 +91,8 @@ public class Tournament {
 	}
 
 	public void setRoundsCompleted(int roundsCompleted) {
-		this.roundsCompleted = roundsCompleted;
+		if(roundsCompleted > this.roundsCompleted)  
+			this.roundsCompleted = roundsCompleted;
 	}
 	
 	public Type getType() {
