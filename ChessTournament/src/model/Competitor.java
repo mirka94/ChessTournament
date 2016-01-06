@@ -2,18 +2,21 @@
 
 package model;
 
+import java.io.Serializable;
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Locale;
 
 import chessTournament.ValidatorException;
+import res.Strings;
 
 /**
  * Przechowuje dane o uczestniku
  */
-public class Competitor {
-    private String name;
+public class Competitor implements Serializable, Comparable {
+	private static final long serialVersionUID = -8356380635352407432L;
+	private String name;
     private String surname;
     private int age;
     private int chessCategory;
@@ -24,7 +27,7 @@ public class Competitor {
 
     static {
     	comparators = new EnumMap<SortOption, Comparator<Competitor>>(SortOption.class);
-    	Collator collator = Collator.getInstance(new Locale("pl"));
+    	Collator collator = Collator.getInstance(new Locale(Strings.locale));
 	    comparators.put(SortOption.AGE_ASC, 
 	    		(c1, c2) -> c1.getAge().compareTo(c2.getAge()));
 		comparators.put(SortOption.AGE_DESC, 
@@ -52,7 +55,11 @@ public class Competitor {
         this.isDisqualified = isDisqualified;
         this.group			= group;
     }
-
+    
+    public void setId(Integer id) {
+    	this.id = id;
+    }
+    
     public Integer getId() {
         return id;
     }
@@ -62,14 +69,13 @@ public class Competitor {
     }
 
     public void setName(String name) throws ValidatorException {
-    	if(name.length()<3) throw new ValidatorException("Imię za krótkie");
-    	if(name.length()>50) throw new ValidatorException("Imię za długie");
-    	if(!name.matches("[a-zA-ZżółćęśąźńŻÓŁĆĘŚĄŹŃ\\- ]+")) throw new ValidatorException("Imię zawiera niedozwolone znaki");
+    	if(name.length()>50) throw new ValidatorException(Strings.nameTooLong);
+    	if(!name.matches(Strings.allowedCharsRegExp)) throw new ValidatorException(Strings.forbiddenCharsName);
         this.name = name;
     }
 
     public void setAge(int age) throws ValidatorException {
-    	if(age<0) throw new ValidatorException("Wiek nie może być ujemny");
+    	if(age<0) throw new ValidatorException(Strings.negativeAge);
         this.age = age;
     }
 
@@ -78,9 +84,8 @@ public class Competitor {
     }
 
     public void setSurname(String surname) throws ValidatorException  {
-    	if(name.length()<2) throw new ValidatorException("Nazwisko za krótkie");
-    	if(name.length()>50) throw new ValidatorException("Nazwisko za długie");
-    	if(!name.matches("[a-zA-ZżółćęśąźńŻÓŁĆĘŚĄŹŃ\\- ]+")) throw new ValidatorException("Nazwisko zawiera niedozwolone znaki");
+    	if(name.length()>50) throw new ValidatorException(Strings.surnameTooLong);
+    	if(!name.matches(Strings.allowedCharsRegExp)) throw new ValidatorException(Strings.forbiddenCharsSurName);
         this.surname = surname;
     }
 
@@ -143,4 +148,12 @@ public class Competitor {
     	if(obj instanceof Competitor) return this.getId() == ((Competitor) obj).getId();
     	return false;
     }
+
+	@Override
+	public int compareTo(Object obj) {
+		if(!(obj instanceof Competitor)) return -1;
+		Competitor c = (Competitor) obj;
+		if(c.getId()-getId()!=0) return c.getId()-getId();
+		return toString().compareTo(c.toString());
+	}
 }

@@ -3,7 +3,6 @@ package window;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 import java.util.Calendar;
 
 import javax.swing.JButton;
@@ -17,15 +16,9 @@ import model.Database;
 import model.Tournament;
 import panel.CompetitorTabbedPane;
 
-@SuppressWarnings("serial")
 public class AddTPanel extends JPanel {
 	private JTextField textField;
 	private String nazwa;
-
-	/**
-	 * Create the panel.
-	 * @throws FileNotFoundException 
-	 */
 
 	public AddTPanel(final JFrame jframe){
 		

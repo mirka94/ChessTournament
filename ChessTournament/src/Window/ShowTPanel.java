@@ -14,13 +14,9 @@ import model.Database;
 import model.Tournament;
 import panel.CompetitorTabbedPane;
 
-@SuppressWarnings("serial")
 public class ShowTPanel extends JPanel {
 	private Database db;
 
-	/**
-	 * Create the panel.
-	 */
 	public ShowTPanel(final JFrame jframe) {
 		
 		db = new Database();

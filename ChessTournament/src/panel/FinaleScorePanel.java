@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,9 +19,9 @@ import model.Competitor;
 import model.Database;
 import model.SingleGame;
 import model.Tournament;
+import res.Strings;
 
 public class FinaleScorePanel extends JPanel{
-	private static final long serialVersionUID = -3981683165882941838L;
 	private final Tournament turniej;
 	private final Database DB;
 	private JPanel container = new JPanel();
@@ -56,8 +55,8 @@ public class FinaleScorePanel extends JPanel{
 		competitorMap = competitors.stream()
 				.collect(Collectors.toMap(c->c.getId(), c->c));
 		singleGames = DB.getSingleGames(turniej.getId(), true).stream()
-				.filter(sg->competitorMap.containsKey(sg.getCompetitor1())&&
-							competitorMap.containsKey(sg.getCompetitor2()))
+				.filter(sg->competitorMap.containsKey(sg.getCompetitorW())&&
+							competitorMap.containsKey(sg.getCompetitorB()))
 				.collect(Collectors.toList());
 		// filtrowanie powyżej, bo baza zwraca również gry, 
 		// gdzie grali (dostał się do finałów) vs (nie dostał się)
@@ -66,13 +65,10 @@ public class FinaleScorePanel extends JPanel{
 			competitorGames.put(c, new LinkedList<>());
 		}
 		for(SingleGame sg : singleGames) {
-			competitorGames.get(competitorMap.get(sg.getCompetitor1())).add(sg);
-			competitorGames.get(competitorMap.get(sg.getCompetitor2())).add(sg);
+			competitorGames.get(competitorMap.get(sg.getCompetitorW())).add(sg);
+			competitorGames.get(competitorMap.get(sg.getCompetitorB())).add(sg);
 		}
 		container.removeAll();
-		JLabel label = new JLabel("Lista wyników rozgrywek finałowych", JLabel.CENTER);
-		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-        
 		container.add(Box.createRigidArea(new Dimension(0, 20)));
 		table = new JTable(new MyTableModel());
 		container.add(table.getTableHeader());
@@ -86,8 +82,8 @@ public class FinaleScorePanel extends JPanel{
 			competitorLost.put(c, 0);
 			competitorTie.put(c, 0);
 			for(SingleGame sg : competitorGames.get(c)) {
-				Competitor c1 = competitorMap.get(sg.getCompetitor1()); // gra białymi
-				Competitor c2 = competitorMap.get(sg.getCompetitor2()); // gra czarnymi
+				Competitor c1 = competitorMap.get(sg.getCompetitorW()); // gra białymi
+				Competitor c2 = competitorMap.get(sg.getCompetitorB()); // gra czarnymi
 				int score = sg.getScore(); // 1 - wygrały białe, 2 - czarne, 3 - remis;
 				if(score==1 && c.equals(c1)) competitorWon.put(c, competitorWon.get(c)+1);
 				if(score==2 && c.equals(c2)) competitorWon.put(c, competitorWon.get(c)+1);
@@ -103,8 +99,8 @@ public class FinaleScorePanel extends JPanel{
 		for(Competitor c : competitors) {
 			float SBPoints = 0.0f;
 			for(SingleGame sg : competitorGames.get(c)) {
-				Competitor c1 = competitorMap.get(sg.getCompetitor1()); // gra białymi
-				Competitor c2 = competitorMap.get(sg.getCompetitor2()); // gra czarnymi
+				Competitor c1 = competitorMap.get(sg.getCompetitorW()); // gra białymi
+				Competitor c2 = competitorMap.get(sg.getCompetitorB()); // gra czarnymi
 				int score = sg.getScore(); // 1 - wygrały białe, 2 - czarne, 3 - remis;
 				if(score==1 && c.equals(c1)) SBPoints+=competitorPoints.get(c2);
 				if(score==2 && c.equals(c2)) SBPoints+=competitorPoints.get(c1);
@@ -123,8 +119,7 @@ public class FinaleScorePanel extends JPanel{
 	}
 	
 	class MyTableModel extends AbstractTableModel {
-		private static final long serialVersionUID = 8597861109358165096L;
-		final String[] columnNames = {"Miejsce", "Gracz", "Wygranych", "Przegranych", "Zakończonych remisem", "Punkty", "Punkty SB"};
+		final String[] columnNames = {Strings.position, Strings.player, Strings.wonGames, Strings.lostGames, Strings.tieGames, Strings.points, Strings.pointsSB};
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
 			if(columnIndex==0) return String.class;

@@ -3,6 +3,14 @@ package tools;
 import javax.swing.JOptionPane;
 
 public class Dialogs {
+	public static void bladBazy() {
+		JOptionPane.showMessageDialog(
+			null, 
+			"Błąd odczytu / zapisu", 
+			"Błąd bazy", 
+			JOptionPane.ERROR_MESSAGE);
+	}
+	
 	public static void doZrobienia() {
 		JOptionPane.showMessageDialog(
 			null, 

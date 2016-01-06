@@ -16,13 +16,13 @@ import javax.swing.KeyStroke;
 
 import model.Competitor;
 import model.Competitor.SortOption;
+import res.Strings;
 import model.Database;
 import model.Tournament;
 import tools.Simulator;
 import tools.Tools;
 
 public class CompetitorTabbedPane extends JPanel {
-	private static final long serialVersionUID = -1732368493930988952L;
 	final Tournament turniej;
 	private Database DB;
 	private JMenuBar menuBar;
@@ -32,12 +32,15 @@ public class CompetitorTabbedPane extends JPanel {
 	private ShowEditCompetitorPanel showPanel;
 	private TournamentPanel tournamentPanel;
 	private GroupsPanel groupsPanel;
-	private GamesPanel gamesPanel;
+	private AbstractGamesPanel gamesPanel;
 	private GroupsChoosePanel groupsChoosePanel;
 	private FinaleGamesPanel finaleGamesPanel;
+	private FinaleScorePanel finaleScorePanel;
 	private JTabbedPane tabbedPane = new JTabbedPane();
+	private JFrame jFrame;
 	
 	public CompetitorTabbedPane(Tournament turniej, JFrame frame){
+		jFrame = frame;
 		this.turniej = turniej;
 		this.DB = new Database();
 		showPanel = new ShowEditCompetitorPanel(turniej, DB);
@@ -45,45 +48,50 @@ public class CompetitorTabbedPane extends JPanel {
 		FinaleGamesPanel.onFinalesEndListener finEndListener = ()->{
 			turniej.setRoundsCompleted(3);
 			DB.insertOrUpdateTournament(turniej);
-			tabbedPane.add("Wyniki turnieju", new FinaleScorePanel(turniej, DB));
+			finaleScorePanel = new FinaleScorePanel(turniej, DB);
+			tabbedPane.add(Strings.tournamentResults, finaleScorePanel);
 			tabbedPane.setSelectedIndex(6);
 		};
 		GroupsChoosePanel.onFinaleStartListener finStartListener = ()->{ // po rozpoczęciu finałów
 			turniej.setRoundsCompleted(2);
 			DB.insertOrUpdateTournament(turniej);
 			finaleGamesPanel = new FinaleGamesPanel(turniej, DB, finEndListener);
-			tabbedPane.add("Rozgrywki finałowe", finaleGamesPanel);
+			tabbedPane.add(Strings.finaleGames, finaleGamesPanel);
 			tabbedPane.setSelectedIndex(5); 
 		}; 
 		GamesPanel.onEliminationsEndListener elEndListener = ()->{  // po zakończeniu eliminacji
 			turniej.setRoundsCompleted(1);
 			DB.insertOrUpdateTournament(turniej);
 			groupsChoosePanel = new GroupsChoosePanel(turniej, DB, finStartListener);
-			tabbedPane.add("Wybór graczy do finałów", groupsChoosePanel);
+			tabbedPane.add(Strings.chooseForFinales, groupsChoosePanel);
 			tabbedPane.setSelectedIndex(4);
 		};
+		SwissGamesPanel.onFailListener onFailListener = ()->restart();
 		GroupsPanel.onTournamentStartListener tStartlistener = ()->{ // po rozpoczęciu turnieju
 			turniej.setRoundsCompleted(0);
 			DB.insertOrUpdateTournament(turniej);
 			group.setVisible(false);
-			gamesPanel = new GamesPanel(turniej, DB, elEndListener);
-			tabbedPane.add("Rozgrywki w eliminacjach", gamesPanel);
+			gamesPanel = turniej.isSwiss() ? new SwissGamesPanel(turniej, DB, onFailListener) : new GamesPanel(turniej, DB, elEndListener);
+			tabbedPane.add(turniej.isSwiss()? Strings.swissGames : Strings.elGames, gamesPanel);
+			finaleScorePanel = new FinaleScorePanel(turniej, DB);
+			tabbedPane.add(Strings.tournamentResults, finaleScorePanel);
 			tabbedPane.setSelectedIndex(3);
 		};
 		groupsPanel = new GroupsPanel(turniej, DB, tStartlistener);
 		setMenu(frame);
-	    tabbedPane.add("Pokaż lub edytuj dodanych uczestników", showPanel);
-	    tabbedPane.add("Turniej", tournamentPanel);
+	    tabbedPane.add(Strings.showOrEditComp, showPanel);
+	    tabbedPane.add(Strings.tournament, tournamentPanel);
 	    tabbedPane.add(groupsPanel);
-	    //tabbedPane.add("Rozgrywki", groupsPanel); // co to tu robiło?
 	    tabbedPane.addChangeListener((e) -> {
 			int i = tabbedPane.getSelectedIndex();
 			if(i==0) showPanel.setData();
 			if(i==1) tournamentPanel.setSBBounds();
 			if(i==2) groupsPanel.initComponents();
-			if(i==4) groupsChoosePanel.initComponents();
-			comp.setVisible( isEditAllowed() && i==0);
-			group.setVisible(isEditAllowed() && i==2 && !turniej.isSwiss());
+			if(i==3) gamesPanel.initComponents();
+			if(i==5) finaleGamesPanel.initComponents();
+			if(i==4 && turniej.isSwiss()) finaleScorePanel.initComponents(); 
+			comp.setVisible( turniej.isPlayersEditAllowed() && i==0);
+			group.setVisible(turniej.isPlayersEditAllowed() && i==2 && !turniej.isSwiss());
 			sort.setVisible(i==2);
 		});
 	    	    	    
@@ -96,14 +104,19 @@ public class CompetitorTabbedPane extends JPanel {
 	    	}
 		});
 	    turniej.addTypeChangeListener((type) -> {
-	    	tabbedPane.setTitleAt(2, (type==Tournament.Type.SWISS)?"Rozpocznij przygotowanie rundy 1.":"Podział na grupy");
+	    	tabbedPane.setTitleAt(2, (type==Tournament.Type.SWISS)?Strings.prep1stRound:Strings.prepGroups);
 	    });
 	    turniej.setType(turniej.getType()); // wygląda bezsensownie, ale odpala powyższy listener
 	    int roundsCompleted = turniej.getRoundsCompleted();
-	    if(!isEditAllowed()) tStartlistener.onTournamentStart();
-	    if(roundsCompleted>0) elEndListener.onEliminationsEnd();
-	    if(roundsCompleted>1) finStartListener.onFinaleStart();
-	    if(roundsCompleted>2) finEndListener.onFinalesEnd();
+	    if(roundsCompleted>=0) tStartlistener.onTournamentStart();
+	    if(turniej.isSwiss()) {
+	    	if(turniej.getRoundsCompleted()>=turniej.getRounds()); // jeśli będzie jakiś listener na koniec turnieju szwajcarskiego, to go tu odpalić
+	    }
+	    else {
+		    if(roundsCompleted>0) elEndListener.onEliminationsEnd();
+		    if(roundsCompleted>1) finStartListener.onFinaleStart();
+		    if(roundsCompleted>2) finEndListener.onFinalesEnd();
+	    }
 	}
 	
 	/**
@@ -112,26 +125,26 @@ public class CompetitorTabbedPane extends JPanel {
 	private void setMenu(JFrame frame) {
 		sortOptions = new LinkedHashMap<>();
 		menuBar	= new JMenuBar();
-		comp 	= new JMenu("Uczestnicy");
-		sort	= new JMenu("Sortowanie graczy");
-		group 	= new JMenu("Automatyczne grupowanie graczy");
-		addC 	= new JMenuItem("Dodaj");
-		rndC 	= new JMenuItem("Dodaj losowego gracza");
-		autoGroup = new JMenuItem("Grupuj");
+		comp 	= new JMenu(Strings.players);
+		sort	= new JMenu(Strings.plSort);
+		group 	= new JMenu(Strings.autoGrouping);
+		addC 	= new JMenuItem(Strings.addComp);
+		rndC 	= new JMenuItem(Strings.addRandomComp);
+		autoGroup = new JMenuItem(Strings.defGroup);
 		addC.setAccelerator(KeyStroke.getKeyStroke(
 		        KeyEvent.VK_N, Event.CTRL_MASK));
 		rndC.setAccelerator(KeyStroke.getKeyStroke(
 		        KeyEvent.VK_L, Event.CTRL_MASK));
-		sortDefault = new JMenuItem("Sortowanie domyślne");
-		sortRandom = new JMenuItem("Kolejność losowa");
-		sortOptions.put(new JMenuItem("Wiek - rosnąco")			, SortOption.AGE_ASC);
-		sortOptions.put(new JMenuItem("Wiek - malejąco")		, SortOption.AGE_DESC);
-		sortOptions.put(new JMenuItem("Kategoria - rosnąco")	, SortOption.CHESSCATEGORY_ASC);
-		sortOptions.put(new JMenuItem("Kategoria - malejąco")	, SortOption.CHESSCATEGORY_DESC);
-		sortOptions.put(new JMenuItem("Imię - rosnąco")			, SortOption.NAME_ASC);
-		sortOptions.put(new JMenuItem("Imię - malejąco")		, SortOption.NAME_DESC);
-		sortOptions.put(new JMenuItem("Nazwisko - rosnąco")		, SortOption.SURNAME_ASC);
-		sortOptions.put(new JMenuItem("Nazwisko - malejąco")	, SortOption.SURNAME_DESC);
+		sortDefault = new JMenuItem(Strings.defSort);
+		sortRandom = new JMenuItem(Strings.randomSort);
+		sortOptions.put(new JMenuItem(Strings.AGE_ASC) 			, SortOption.AGE_ASC);
+		sortOptions.put(new JMenuItem(Strings.AGE_DESC) 		, SortOption.AGE_DESC);
+		sortOptions.put(new JMenuItem(Strings.CHESSCATEGORY_ASC) , SortOption.CHESSCATEGORY_ASC);
+		sortOptions.put(new JMenuItem(Strings.CHESSCATEGORY_DESC), SortOption.CHESSCATEGORY_DESC);
+		sortOptions.put(new JMenuItem(Strings.NAME_ASC) 		, SortOption.NAME_ASC);
+		sortOptions.put(new JMenuItem(Strings.NAME_DESC) 		, SortOption.NAME_DESC);
+		sortOptions.put(new JMenuItem(Strings.SURNAME_ASC) 		, SortOption.SURNAME_ASC);
+		sortOptions.put(new JMenuItem(Strings.SURNAME_DESC) 	, SortOption.SURNAME_DESC);
 		comp.add(addC);
 		comp.add(rndC);
 		sort.add(sortDefault);
@@ -144,20 +157,20 @@ public class CompetitorTabbedPane extends JPanel {
 		frame.setJMenuBar(menuBar);
 		Tools.aboutMenu(menuBar, frame);
 		addC.addActionListener((e) -> {
-			 if(!showPanel.isEditAllowed()) return;
+			 if(!turniej.isPlayersEditAllowed()) return;
 			 Competitor c = new Competitor(null, "", "", 0, 0, false, null);
 			 DB.insertOrUpdateCompetitor(c, turniej.getId());
 			 showPanel.setData();
 		});
 		rndC.addActionListener((e) -> {
-			 if(!showPanel.isEditAllowed()) return;
+			 if(!turniej.isPlayersEditAllowed()) return;
 			 Competitor c = null;
 			try {
-				c = Simulator.RandomPlayer();
+				 c = Simulator.RandomPlayer();
+				 DB.insertOrUpdateCompetitor(c, turniej.getId());
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				 e1.printStackTrace();
 			}
-			 DB.insertOrUpdateCompetitor(c, turniej.getId());
 			 showPanel.setData();
 		});
 		sortDefault.addActionListener(	e->groupsPanel.sortDefault());
@@ -170,7 +183,8 @@ public class CompetitorTabbedPane extends JPanel {
 		group.setVisible(false);
 	}
 	
-	public boolean isEditAllowed() {
-		return turniej.getRoundsCompleted()<0;
+	private void restart() {
+		jFrame.getContentPane().removeAll();
+    	new CompetitorTabbedPane(turniej,jFrame);
 	}
 }

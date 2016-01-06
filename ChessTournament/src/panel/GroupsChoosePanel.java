@@ -23,15 +23,15 @@ import model.Competitor;
 import model.Database;
 import model.SingleGame;
 import model.Tournament;
+import res.Strings;
 import tools.Dialogs;
 import tools.Tools;
 
 public class GroupsChoosePanel extends JPanel{
-	private static final long serialVersionUID = -2898571746717852493L;
 	private final Tournament turniej;
 	private final Database DB;
 	private JPanel container = new JPanel();
-	private JButton startFinales = new JButton("Rozpocznij fazę drugą");
+	private JButton startFinales = new JButton(Strings.start2ndPhase);
 	private LinkedHashMap<Integer, JTable> tables = new LinkedHashMap<>();
 	private List<Competitor> competitors;
 	Map<Integer, Competitor> competitorMap;
@@ -69,9 +69,15 @@ public class GroupsChoosePanel extends JPanel{
 				competitors.stream()
 					.filter(c->c.getGoesFinal())
 					.collect(Collectors.toList());
+			/* Poprawka na wydajność
 			for(SingleGame sg : Tools.generateFinaleSingleGames(finaleCompetitors, singleGames, turniej.getBoards())) {
-				DB.insertOrUpdateSingleGame(sg);
+				DB.insertOrUpdateSingleGame(sg, turniej.getId());
 			};
+			/*/
+				DB.insertOrUpdateSingleGame(
+					Tools.generateFinaleSingleGames(finaleCompetitors, singleGames, turniej.getBoards()), 
+					turniej.getId());
+			/**/
 			startFinales.setVisible(false);
 			listener.onFinaleStart();
 		});
@@ -91,18 +97,18 @@ public class GroupsChoosePanel extends JPanel{
 			competitorGames.put(c, new LinkedList<>());
 		}
 		for(SingleGame sg : singleGames) {
-			competitorGames.get(competitorMap.get(sg.getCompetitor1())).add(sg);
-			competitorGames.get(competitorMap.get(sg.getCompetitor2())).add(sg);
+			competitorGames.get(competitorMap.get(sg.getCompetitorW())).add(sg);
+			competitorGames.get(competitorMap.get(sg.getCompetitorB())).add(sg);
 		}
 		final int groups = turniej.getRounds();
 		container.removeAll();
 		tables.clear();
-		JLabel label = new JLabel("Wybór uczestników do finałów", JLabel.CENTER);
+		JLabel label = new JLabel(Strings.chooseForFinales, JLabel.CENTER);
 		label.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         
 		for(int i=0; i<groups; ++i) {
 			container.add(Box.createRigidArea(new Dimension(0, 20)));
-			container.add(new JLabel("Grupa "+(i+1), JLabel.CENTER));
+			container.add(new JLabel(Strings.group+(i+1), JLabel.CENTER));
 			container.add(Box.createRigidArea(new Dimension(0, 10)));
 			JTable table = new JTable(new MyTableModel(i));
 			container.add(table.getTableHeader());
@@ -120,8 +126,8 @@ public class GroupsChoosePanel extends JPanel{
 			competitorLost.put(c, 0);
 			competitorTie.put(c, 0);
 			for(SingleGame sg : competitorGames.get(c)) {
-				Competitor c1 = competitorMap.get(sg.getCompetitor1()); // gra białymi
-				Competitor c2 = competitorMap.get(sg.getCompetitor2()); // gra czarnymi
+				Competitor c1 = competitorMap.get(sg.getCompetitorW()); // gra białymi
+				Competitor c2 = competitorMap.get(sg.getCompetitorB()); // gra czarnymi
 				int score = sg.getScore(); // 1 - wygrały białe, 2 - czarne, 3 - remis;
 				if(score==1 && c.equals(c1)) competitorWon.put(c, competitorWon.get(c)+1);
 				if(score==2 && c.equals(c2)) competitorWon.put(c, competitorWon.get(c)+1);
@@ -137,8 +143,8 @@ public class GroupsChoosePanel extends JPanel{
 		for(Competitor c : competitors) {
 			float SBPoints = 0.0f;
 			for(SingleGame sg : competitorGames.get(c)) {
-				Competitor c1 = competitorMap.get(sg.getCompetitor1()); // gra białymi
-				Competitor c2 = competitorMap.get(sg.getCompetitor2()); // gra czarnymi
+				Competitor c1 = competitorMap.get(sg.getCompetitorW()); // gra białymi
+				Competitor c2 = competitorMap.get(sg.getCompetitorB()); // gra czarnymi
 				int score = sg.getScore(); // 1 - wygrały białe, 2 - czarne, 3 - remis;
 				if(score==1 && c.equals(c1)) SBPoints+=competitorPoints.get(c2);
 				if(score==2 && c.equals(c2)) SBPoints+=competitorPoints.get(c1);
@@ -157,8 +163,7 @@ public class GroupsChoosePanel extends JPanel{
 	}
 	
 	class MyTableModel extends AbstractTableModel {
-		private static final long serialVersionUID = -4117169486534731202L;
-		final String[] columnNames = {"Gracz", "Wygranych", "Przegranych", "Zakończonych remisem", "Punkty", "Punkty SB", "Wchodzi do finału"};
+		final String[] columnNames = {Strings.player, Strings.wonGames, Strings.lostGames, Strings.tieGames, Strings.points, Strings.pointsSB, Strings.goesFinales};
 		private Integer group;
 		private List<Competitor> competitors;
 		public MyTableModel(Integer group) {
@@ -216,7 +221,7 @@ public class GroupsChoosePanel extends JPanel{
 				for(int i=competitors.size()-1;i>=0;--i) {
 					Competitor c = competitors.get(i);
 					boolean oldGoesFinal = c.getGoesFinal();
-					c.setGoesFinal(i<row || ((Boolean) aValue && i<=row));
+					c.setGoesFinal(!c.getIsDisqualified() && i<row || ((Boolean) aValue && i<=row));
 					if(c.getGoesFinal()!=oldGoesFinal) DB.insertOrUpdateCompetitor(c, turniej.getId());
 				}
 				fireTableDataChanged();

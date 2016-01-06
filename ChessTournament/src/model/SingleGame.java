@@ -1,35 +1,47 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Przechowuje dane o pojedynczej rozgrywce - id graczy, wynik, czy była rozgrywana
  */
-public class SingleGame {
+public class SingleGame implements Serializable {
+	private static final long serialVersionUID = -3007183465072503118L;
 	private Integer id;
-	private final int competitor1, competitor2;
+	private final int competitorW, competitorB;
 	private int score;
 	private int board;
 	private boolean wasPlayed;
 	private final int round;
 	
-	public SingleGame(Integer id, int competitor1, int competitor2, int score,
+	public SingleGame(Integer id, int competitorW, int competitorB, int score,
 			boolean wasPlayed, int round, int board) {
 		this.id = id;
-		this.competitor1 = competitor1;
-		this.competitor2 = competitor2;
+		this.competitorW = competitorW;
+		this.competitorB = competitorB;
 		this.score = score;
 		this.wasPlayed = wasPlayed;
 		this.round = round;
 		this.board = board;
 	}
 	
-	public SingleGame(Competitor competitor1, Competitor competitor2, int round, int board) {
+	public SingleGame(Competitor competitorW, Competitor competitorB, int round, int board) {
 		this.id = null;
-		this.competitor1 = competitor1.getId();
-		this.competitor2 = competitor2.getId();
+		this.competitorW = competitorW.getId();
+		this.competitorB = competitorB.getId();
 		this.score = 0;
-		this.wasPlayed = false;
+		this.wasPlayed = true;
 		this.round = round;
 		this.board = board;
+	}
+	
+	public SingleGame(Competitor c, int round, int score) { // swiss bye / disqualified
+		this.id = null;
+		this.competitorB = c.getId(); 
+		this.competitorW = c.getId();
+		this.score = score;
+		this.wasPlayed = false;
+		this.round = round;
 	}
 
 	public Integer getId() {
@@ -40,12 +52,12 @@ public class SingleGame {
 		this.id = id;
 	}
 
-	public int getCompetitor1() {
-		return competitor1;
+	public int getCompetitorW() {
+		return competitorW;
 	}
 
-	public int getCompetitor2() {
-		return competitor2;
+	public int getCompetitorB() {
+		return competitorB;
 	}
 
 	public int getScore() {
@@ -76,8 +88,8 @@ public class SingleGame {
     public boolean equals(Object obj) {
     	if(obj instanceof SingleGame) {
     		SingleGame sg1 = this, sg2=(SingleGame)obj;
-    		if(sg1.getCompetitor1()==sg2.getCompetitor1() && sg1.getCompetitor2()==sg2.getCompetitor2()) return true;
-    		if(sg1.getCompetitor1()==sg2.getCompetitor2() && sg1.getCompetitor2()==sg2.getCompetitor1()) return true;
+    		if(sg1.getCompetitorW()==sg2.getCompetitorW() && sg1.getCompetitorB()==sg2.getCompetitorB()) return true;
+    		if(sg1.getCompetitorW()==sg2.getCompetitorB() && sg1.getCompetitorB()==sg2.getCompetitorW()) return true;
     	}
     	return false;
     }

@@ -79,8 +79,8 @@ public class Tools {
 		for(SingleGame sg : rawResult) 
 			result.add(new SingleGame(
 				null,
-				sg.getCompetitor1(), 
-				sg.getCompetitor2(), 
+				sg.getCompetitorW(), 
+				sg.getCompetitorB(), 
 				sg.getScore(),
 				sg.getWasPlayed(),
 				sg.getRound(), 

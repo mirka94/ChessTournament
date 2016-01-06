@@ -7,6 +7,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
@@ -23,8 +24,8 @@ import chessTournament.ValidatorException;
 import model.Competitor;
 import model.Database;
 import model.Tournament;
+import res.Strings;
 
-@SuppressWarnings("serial")
 public class ShowEditCompetitorPanel extends JPanel{
 	private final Tournament turniej;
 	private final Database DB;
@@ -61,7 +62,7 @@ public class ShowEditCompetitorPanel extends JPanel{
         	}
         	@Override
         	public boolean isCellEditable(int row, int column) {
-        		return isEditAllowed();
+        		return turniej.isPlayersEditAllowed();
         	}
         };
         model.setColumnIdentifiers(new String[]{"Imię", "Nazwisko", "Wiek", "Kategoria"});
@@ -112,7 +113,6 @@ public class ShowEditCompetitorPanel extends JPanel{
         table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-            	if(!isEditAllowed()) return;
                 int r = table.rowAtPoint(e.getPoint());
                 if(r >= 0 && r < table.getRowCount()) 
                     table.setRowSelectionInterval(r, r);
@@ -123,16 +123,28 @@ public class ShowEditCompetitorPanel extends JPanel{
                 if(rowindex < 0) return;
                 if(e.isPopupTrigger() && e.getComponent() instanceof JTable ) {
                     JPopupMenu popup = new JPopupMenu();
-                    JMenuItem jmi = new JMenuItem("Usuń");
-                    // akcja po kliknięciu na "Usuń"
-                    jmi.addActionListener(e2 -> {
+                    if(turniej.isPlayersEditAllowed()) {
+                        JMenuItem jmi = new JMenuItem(Strings.remove);
+	                    // akcja po kliknięciu na "Usuń"
+                        jmi.addActionListener(e2 -> {
 							Competitor c = DB.getCompetitors(turniej.getId()).get(rowindex);
-							DB.removeCompetitor(c.getId());
+							DB.removeCompetitor(c.getId(), turniej.getId());
 							model.fireTableRowsDeleted(rowindex, rowindex);
 							setData();
-					});
-                    popup.add(jmi);
-                    popup.show(e.getComponent(), e.getX(), e.getY());
+						});
+	                    popup.add(jmi);
+                    }
+                    if(turniej.isDisqualificationAllowed()) {
+                        JMenuItem jmi = new JMenuItem(Strings.disqualify);
+                    	jmi.addActionListener(e2 -> {
+							Competitor c = DB.getCompetitors(turniej.getId()).get(rowindex);
+							c.setIsDisqualified(true);
+							DB.insertOrUpdateCompetitor(c,turniej.getId());
+							setData();
+                    	});
+	                    popup.add(jmi);
+                    }
+                    if(popup.getComponentCount()>0) popup.show(e.getComponent(), e.getX(), e.getY());
                 }
             }
         });
@@ -145,8 +157,10 @@ public class ShowEditCompetitorPanel extends JPanel{
 	 * odświeża widok tabeli danymi pobranymi z bazy
 	 */
 	public void setData() {
+		System.out.print("SECP.setData()");
 		model.setRowCount(0);
-        for(Competitor c : DB.getCompetitors(turniej.getId())){
+		List<Competitor> competitors = DB.getCompetitors(turniej.getId());
+        for(Competitor c : competitors){
         	model.addRow(new Object[]{
                 c.getSurname(),
         		c.getName(),
@@ -155,9 +169,5 @@ public class ShowEditCompetitorPanel extends JPanel{
             });
         }
         model.fireTableDataChanged();        
-	}
-	
-	public boolean isEditAllowed() {
-		return turniej.getRoundsCompleted()<0;
 	}
 }

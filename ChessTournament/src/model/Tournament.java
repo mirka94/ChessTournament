@@ -2,13 +2,15 @@
 
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Przechowuje dane o turnieju
  */
-public class Tournament {
+public class Tournament implements Serializable {
+	private static final long serialVersionUID = 7913534186353148249L;
 	private Integer id;
     private String name;
     private String year;
@@ -33,6 +35,10 @@ public class Tournament {
         this.type			= type;
     }
     
+    public Tournament copy() {
+    	return new Tournament(id, name, year, boards, rounds, roundsCompleted, type);
+    }
+    
     @FunctionalInterface
     public interface TypeChangeListener {
     	public void onTypeChanged(Type type);
@@ -46,6 +52,10 @@ public class Tournament {
     	TClisteners.remove(listener);
     }
 
+    public void setId(Integer id) {
+    	this.id = id;
+    }
+    
     public Integer getId() {
         return id;
     }
@@ -90,9 +100,13 @@ public class Tournament {
 		return roundsCompleted;
 	}
 
-	public void setRoundsCompleted(int roundsCompleted) {
-		if(roundsCompleted > this.roundsCompleted)  
+	public void setRoundsCompleted(int roundsCompleted, boolean overRide) {
+		if(roundsCompleted > this.roundsCompleted || overRide)  
 			this.roundsCompleted = roundsCompleted;
+	}
+	
+	public void setRoundsCompleted(int roundsCompleted) {
+		setRoundsCompleted(roundsCompleted, false);
 	}
 	
 	public Type getType() {
@@ -109,4 +123,11 @@ public class Tournament {
 		    listener.onTypeChanged(type);
 		}
 	}	
+	
+	public boolean isPlayersEditAllowed() {
+		return roundsCompleted<0;
+	}
+	public boolean isDisqualificationAllowed() {
+		return roundsCompleted==0 || roundsCompleted==2;
+	}
 }

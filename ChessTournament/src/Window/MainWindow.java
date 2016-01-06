@@ -2,7 +2,6 @@ package window;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -14,7 +13,6 @@ import javax.swing.JMenuBar;
 
 import tools.Tools;
 
-@SuppressWarnings("serial")
 public class MainWindow extends JFrame {
 	
 	public MainWindow() {
@@ -28,16 +26,12 @@ public class MainWindow extends JFrame {
 		
 		Tools.aboutMenu(menuBar, MainWindow.this);
 		
-		BufferedImage myPicture = null;
 		try {
 			InputStream imgIS = getClass().getResourceAsStream("/szachy.png");
-			myPicture = ImageIO.read(imgIS);
+			JLabel picLabel = new JLabel(new ImageIcon(ImageIO.read(imgIS)));
+			add(picLabel, BorderLayout.CENTER);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-		add(picLabel, BorderLayout.CENTER);
-		
 	}
 }
