@@ -82,7 +82,7 @@ public class SwissGamesPanel extends AbstractGamesPanel {
 						failListener.onFail();
 					}
 					else {
-						List<SingleGame> games = SwissTools.readPairings(competitors, turniej.getRoundsCompleted());
+						List<SingleGame> games = SwissTools.readPairings(competitors, turniej.getRoundsCompleted()+1);
 						if(games!=null) {
 							turniej.setRoundsCompleted(turniej.getRoundsCompleted()+1);
 							DB.insertOrUpdateSingleGame(games, turniej.getId());

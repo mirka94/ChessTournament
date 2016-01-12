@@ -70,7 +70,7 @@ public class Competitor implements Serializable, Comparable {
 
     public void setName(String name) throws ValidatorException {
     	if(name.length()>50) throw new ValidatorException(Strings.nameTooLong);
-    	if(!name.matches(Strings.allowedCharsRegExp)) throw new ValidatorException(Strings.forbiddenCharsName);
+    	//if(!name.matches(Strings.allowedCharsRegExp)) throw new ValidatorException(Strings.forbiddenCharsName);
         this.name = name;
     }
 
@@ -85,7 +85,7 @@ public class Competitor implements Serializable, Comparable {
 
     public void setSurname(String surname) throws ValidatorException  {
     	if(name.length()>50) throw new ValidatorException(Strings.surnameTooLong);
-    	if(!name.matches(Strings.allowedCharsRegExp)) throw new ValidatorException(Strings.forbiddenCharsSurName);
+    	//if(!name.matches(Strings.allowedCharsRegExp)) throw new ValidatorException(Strings.forbiddenCharsSurName);
         this.surname = surname;
     }
 

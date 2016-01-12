@@ -65,7 +65,7 @@ public class ShowEditCompetitorPanel extends JPanel{
         		return turniej.isPlayersEditAllowed();
         	}
         };
-        model.setColumnIdentifiers(new String[]{"Imię", "Nazwisko", "Wiek", "Kategoria"});
+        model.setColumnIdentifiers(new String[]{"Nazwisko", "Imię", "Wiek", "Kategoria"});
         // przy edycji tabeli - zapis do bazy
         model.addTableModelListener((e) -> {
 			int row = e.getFirstRow();
@@ -81,7 +81,7 @@ public class ShowEditCompetitorPanel extends JPanel{
 						case 3: c.setChessCategory((int)value); 	break;
 					}
 				} catch(ValidatorException exc) {
-					System.out.print("Błąd walidacji\n");
+					System.out.print("Błąd walidacji\n"+exc.getMessage());
 				}
 				DB.insertOrUpdateCompetitor(c, turniej.getId());
 			}

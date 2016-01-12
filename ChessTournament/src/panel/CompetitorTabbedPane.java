@@ -50,21 +50,22 @@ public class CompetitorTabbedPane extends JPanel {
 			DB.insertOrUpdateTournament(turniej);
 			finaleScorePanel = new FinaleScorePanel(turniej, DB);
 			tabbedPane.add(Strings.tournamentResults, finaleScorePanel);
-			tabbedPane.setSelectedIndex(6);
+			//tabbedPane.setSelectedIndex(6);
+			if(tabbedPane.getTabCount()>7) tabbedPane.remove(7);
 		};
 		GroupsChoosePanel.onFinaleStartListener finStartListener = ()->{ // po rozpoczęciu finałów
 			turniej.setRoundsCompleted(2);
 			DB.insertOrUpdateTournament(turniej);
 			finaleGamesPanel = new FinaleGamesPanel(turniej, DB, finEndListener);
 			tabbedPane.add(Strings.finaleGames, finaleGamesPanel);
-			tabbedPane.setSelectedIndex(5); 
+			//tabbedPane.setSelectedIndex(5); 
 		}; 
 		GamesPanel.onEliminationsEndListener elEndListener = ()->{  // po zakończeniu eliminacji
 			turniej.setRoundsCompleted(1);
 			DB.insertOrUpdateTournament(turniej);
 			groupsChoosePanel = new GroupsChoosePanel(turniej, DB, finStartListener);
 			tabbedPane.add(Strings.chooseForFinales, groupsChoosePanel);
-			tabbedPane.setSelectedIndex(4);
+			//tabbedPane.setSelectedIndex(4);
 		};
 		SwissGamesPanel.onFailListener onFailListener = ()->restart();
 		GroupsPanel.onTournamentStartListener tStartlistener = ()->{ // po rozpoczęciu turnieju
@@ -73,9 +74,11 @@ public class CompetitorTabbedPane extends JPanel {
 			group.setVisible(false);
 			gamesPanel = turniej.isSwiss() ? new SwissGamesPanel(turniej, DB, onFailListener) : new GamesPanel(turniej, DB, elEndListener);
 			tabbedPane.add(turniej.isSwiss()? Strings.swissGames : Strings.elGames, gamesPanel);
-			finaleScorePanel = new FinaleScorePanel(turniej, DB);
-			tabbedPane.add(Strings.tournamentResults, finaleScorePanel);
-			tabbedPane.setSelectedIndex(3);
+			if(turniej.isSwiss()) { 
+				finaleScorePanel = new FinaleScorePanel(turniej, DB);
+				tabbedPane.add(Strings.tournamentResults, finaleScorePanel);
+			}
+			//tabbedPane.setSelectedIndex(3);
 		};
 		groupsPanel = new GroupsPanel(turniej, DB, tStartlistener);
 		setMenu(frame);
