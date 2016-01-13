@@ -8,13 +8,13 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Locale;
 
-import chessTournament.ValidatorException;
 import res.Strings;
+import tools.ValidatorException;
 
 /**
  * Przechowuje dane o uczestniku
  */
-public class Competitor implements Serializable, Comparable {
+public class Competitor implements Serializable, Comparable<Competitor> {
 	private static final long serialVersionUID = -8356380635352407432L;
 	private String name;
     private String surname;
@@ -69,8 +69,6 @@ public class Competitor implements Serializable, Comparable {
     }
 
     public void setName(String name) throws ValidatorException {
-    	if(name.length()>50) throw new ValidatorException(Strings.nameTooLong);
-    	//if(!name.matches(Strings.allowedCharsRegExp)) throw new ValidatorException(Strings.forbiddenCharsName);
         this.name = name;
     }
 
@@ -84,8 +82,6 @@ public class Competitor implements Serializable, Comparable {
     }
 
     public void setSurname(String surname) throws ValidatorException  {
-    	if(name.length()>50) throw new ValidatorException(Strings.surnameTooLong);
-    	//if(!name.matches(Strings.allowedCharsRegExp)) throw new ValidatorException(Strings.forbiddenCharsSurName);
         this.surname = surname;
     }
 
@@ -150,9 +146,7 @@ public class Competitor implements Serializable, Comparable {
     }
 
 	@Override
-	public int compareTo(Object obj) {
-		if(!(obj instanceof Competitor)) return -1;
-		Competitor c = (Competitor) obj;
+	public int compareTo(Competitor c) {
 		if(c.getId()-getId()!=0) return c.getId()-getId();
 		return toString().compareTo(c.toString());
 	}

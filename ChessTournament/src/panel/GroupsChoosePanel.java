@@ -28,6 +28,7 @@ import tools.Dialogs;
 import tools.Tools;
 
 public class GroupsChoosePanel extends JPanel{
+	private static final long serialVersionUID = -3153534285075179557L;
 	private final Tournament turniej;
 	private final Database DB;
 	private JPanel container = new JPanel();
@@ -69,15 +70,9 @@ public class GroupsChoosePanel extends JPanel{
 				competitors.stream()
 					.filter(c->c.getGoesFinal())
 					.collect(Collectors.toList());
-			/* Poprawka na wydajność
-			for(SingleGame sg : Tools.generateFinaleSingleGames(finaleCompetitors, singleGames, turniej.getBoards())) {
-				DB.insertOrUpdateSingleGame(sg, turniej.getId());
-			};
-			/*/
 				DB.insertOrUpdateSingleGame(
 					Tools.generateFinaleSingleGames(finaleCompetitors, singleGames, turniej.getBoards()), 
 					turniej.getId());
-			/**/
 			startFinales.setVisible(false);
 			listener.onFinaleStart();
 		});
@@ -163,6 +158,7 @@ public class GroupsChoosePanel extends JPanel{
 	}
 	
 	class MyTableModel extends AbstractTableModel {
+		private static final long serialVersionUID = -4117169486534731202L;
 		final String[] columnNames = {Strings.player, Strings.wonGames, Strings.lostGames, Strings.tieGames, Strings.points, Strings.pointsSB, Strings.goesFinales};
 		private Integer group;
 		private List<Competitor> competitors;

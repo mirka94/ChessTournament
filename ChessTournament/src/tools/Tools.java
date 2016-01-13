@@ -35,7 +35,6 @@ public class Tools {
 	 * @return lista grup, każda zawierająca listę uczestników
 	 */
 	public static TreeMap<Integer, List<Competitor>> groupsList(List<Competitor> competitors) {
-		//competitors.stream().collect(Collectors.groupingBy(c->c.getGroup(),Collectors.toList()));
 		TreeMap<Integer, List<Competitor>> groupsList = new TreeMap<>();
 		for(Competitor c : competitors) {
 			int g = c.getGroup();
@@ -54,12 +53,13 @@ public class Tools {
 			Collections.shuffle(l);
 			for(SGInfo sgi : roundRobinGamesInfo(l.size())) {
 				rawResult.add(
-					new SingleGame(l.get(sgi.c1-1), l.get(sgi.c2-1), sgi.r-1, 0)
+					new SingleGame(l.get(sgi.c1-1), l.get(sgi.c2-1), sgi.r-1, -1)
 				);
 			}
 		}
 		rawResult.sort((c1,c2) -> c1.getRound()-c2.getRound());
-		return determineBoards(rawResult, boards);
+		return rawResult;
+		//return determineBoards(rawResult, boards);
 	}
 	
 	public static List<SingleGame> generateFinaleSingleGames(List<Competitor> finaleCompetitors, List<SingleGame> played, int boards) {
@@ -67,12 +67,13 @@ public class Tools {
 		Collections.shuffle(finaleCompetitors);
 		for(SGInfo sgi : roundRobinGamesInfo(finaleCompetitors.size())) {
 			Competitor c1 = finaleCompetitors.get(sgi.c1-1), c2 = finaleCompetitors.get(sgi.c2-1);
-			SingleGame nSG = new SingleGame(c1,c2, -1, 0);
+			SingleGame nSG = new SingleGame(c1,c2, -1, -1);
 			if(!played.contains(nSG))rawResult.add(nSG);
 		}
-		return determineBoards(rawResult, boards);
+		return rawResult;
+		//return determineBoards(rawResult, boards);
 	}
-	
+	/*
 	private static List<SingleGame> determineBoards(List<SingleGame> rawResult, int boards) {
 		List<SingleGame> result = new ArrayList<>();
 		int board=0;
@@ -82,12 +83,12 @@ public class Tools {
 				sg.getCompetitorW(), 
 				sg.getCompetitorB(), 
 				sg.getScore(),
-				sg.getWasPlayed(),
 				sg.getRound(), 
 				board++%boards)
 			);
 		return result;
 	}
+	*/
 	
 	public static List<SGInfo> roundRobinGamesInfo(int g) {
 		LinkedList<SGInfo> result = new LinkedList<>();
@@ -117,40 +118,44 @@ public class Tools {
 	}
 	
 	
-	public static void aboutMenu(JMenuBar menuBar, JFrame frame) {
-		JMenu mnTurniej = new JMenu("Turniej");
+	public static JMenuBar aboutMenu(final JMenuBar menuBar, JFrame frame) {
+		JMenu 	mnTurniej 	 = new JMenu("Turniej"),
+				mnOProgramie = new JMenu("O programie");
 		menuBar.add(mnTurniej);
+		menuBar.add(mnOProgramie);
+
+		JMenuItem 	mntmPomoc 		= new JMenuItem("Pomoc"),
+					dodajTurniej 	= new JMenuItem("Dodaj turniej"),
+					wybierzTurniej	= new JMenuItem("Wybierz turniej"),
+					mntmAutorzy 	= new JMenuItem("Autorzy"),
+					mntmOpis 		= new JMenuItem("Opis");
 		
-		JMenuItem dodajTurniej = new JMenuItem("Dodaj turniej");
+		mntmPomoc.setAlignmentY(Component.TOP_ALIGNMENT);
+		
+		mnTurniej.add(dodajTurniej);
+		mnTurniej.add(wybierzTurniej);
+		mnOProgramie.add(mntmPomoc);
+		mnOProgramie.add(mntmAutorzy);
+		mnOProgramie.add(mntmOpis);
+		
+		dodajTurniej.setAccelerator(KeyStroke.getKeyStroke(
+		        java.awt.event.KeyEvent.VK_F2, 0));
+		wybierzTurniej.setAccelerator(KeyStroke.getKeyStroke(
+		        java.awt.event.KeyEvent.VK_F3, 0));
+		
 		dodajTurniej.addActionListener(e -> {
 				frame.getContentPane().removeAll();
 				frame.add(new AddTPanel(frame), BorderLayout.CENTER);
 				frame.pack();
 		});
-		dodajTurniej.setAccelerator(KeyStroke.getKeyStroke(
-		        java.awt.event.KeyEvent.VK_F2, 0));
-		mnTurniej.add(dodajTurniej);
-		
-		JMenuItem wybierzTurniej = new JMenuItem("Wybierz turniej");
-		mnTurniej.add(wybierzTurniej);
-		wybierzTurniej.setAccelerator(KeyStroke.getKeyStroke(
-		        java.awt.event.KeyEvent.VK_F3, 0));
 		wybierzTurniej.addActionListener(e -> {
 				frame.getContentPane().removeAll();
 				frame.add(new ShowTPanel(frame), BorderLayout.CENTER);
 				frame.pack();
 		});
-		
-		JMenu mnOProgramie = new JMenu("O programie");
-		menuBar.add(mnOProgramie);
-		
-		JMenuItem mntmPomoc = new JMenuItem("Pomoc");
-		mntmPomoc.setAlignmentY(Component.TOP_ALIGNMENT);
-		mnOProgramie.add(mntmPomoc);
-		
 		// otwieranie pdf z instrukcją po wybraniu pomocy
 		mntmPomoc.addActionListener(e->{
-			if (Desktop.isDesktopSupported()) {
+			if(Desktop.isDesktopSupported()) {
 			    try {
 			        File myFile = new File("turniej.pdf");
 			        Desktop.getDesktop().open(myFile);
@@ -160,14 +165,9 @@ public class Tools {
 			}
 		});
 		
-		JMenuItem mntmAutorzy = new JMenuItem("Autorzy");
-		mnOProgramie.add(mntmAutorzy);
-		
 		mntmAutorzy.addActionListener(e->Dialogs.autorzy());
-		
-		JMenuItem mntmOpis = new JMenuItem("Opis");
-		mnOProgramie.add(mntmOpis);
-		
 		mntmOpis.addActionListener(e->Dialogs.opis());
+		
+		return menuBar;
 	}
 }

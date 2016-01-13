@@ -2,6 +2,7 @@ package panel;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ import res.Colors;
 import res.Strings;
 
 public abstract class AbstractGamesPanel extends JPanel{
+	private static final long serialVersionUID = 5147804241488047339L;
 	protected final Tournament turniej;
 	protected final Database DB;
 	protected List<Competitor> competitors;
@@ -56,14 +58,24 @@ public abstract class AbstractGamesPanel extends JPanel{
 		currentlyPlayedGames = new ArrayList<>(turniej.getBoards());
 		currentlyPlayedGames.clear();;
 		List<Integer> 	playingCompetitors 	= new ArrayList<>(2*turniej.getBoards()),
-						takenBoards 		= new ArrayList<>(2*turniej.getBoards());
-		for(SingleGame sg : singleGames.stream().filter(g->g.getScore()==0)
+						freeBoards 			= new LinkedList<>();
+		for(int i=0; i<turniej.getBoards(); ++i) freeBoards.add(i);
+		for(SingleGame sg : singleGames.stream().filter(g->g.getScore()==0&&g.getBoard()>=0)
 				.collect(Collectors.toList())){
-			if(!takenBoards.contains(sg) &&
-			   !playingCompetitors.contains(sg.getCompetitorW()) &&
+			freeBoards.remove(sg.getBoard());
+			playingCompetitors.add(sg.getCompetitorW());
+			playingCompetitors.add(sg.getCompetitorB());
+			currentlyPlayedGames.add(sg);
+		};
+		for(SingleGame sg : singleGames.stream().filter(g->g.getScore()==0&&g.getBoard()<0)
+				.collect(Collectors.toList())){
+			if(freeBoards.isEmpty()) break;
+			if(!playingCompetitors.contains(sg.getCompetitorW()) &&
 			   !playingCompetitors.contains(sg.getCompetitorB())) 
 			{
-				takenBoards.add(sg.getBoard());
+				int board = freeBoards.get(0);
+				sg.setBoard(board);
+				freeBoards.remove(0);
 				playingCompetitors.add(sg.getCompetitorW());
 				playingCompetitors.add(sg.getCompetitorB());
 				currentlyPlayedGames.add(sg);
@@ -72,6 +84,8 @@ public abstract class AbstractGamesPanel extends JPanel{
 	}
 	
 	class MyCellRenderer extends DefaultTableCellRenderer {
+		private static final long serialVersionUID = 3688274195106322671L;
+
 		@Override
 		  public Component getTableCellRendererComponent(
 				  JTable t, Object v, boolean isSelected, boolean hasFocus, int row, int col) {
@@ -85,6 +99,7 @@ public abstract class AbstractGamesPanel extends JPanel{
 	}
 	
 	protected abstract class MyTableModel extends AbstractTableModel {
+		private static final long serialVersionUID = -8079013606990307646L;
 		final String[] columnNames = {Strings.board, Strings.playsWithWhite, Strings.playsWithBlack, Strings.score};
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
@@ -105,6 +120,7 @@ public abstract class AbstractGamesPanel extends JPanel{
 		@Override
 		public Object getValueAt(int row, int col) {
 			SingleGame sg = singleGames.get(row);
+			if(col==0 && sg.getBoard()==-1) return " - ";
 			if(col==0) return sg.getBoard()+1;
 			if(col==1) return competitorMap.get(sg.getCompetitorW());
 			if(col==2) return competitorMap.get(sg.getCompetitorB());

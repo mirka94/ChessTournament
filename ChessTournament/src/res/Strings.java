@@ -1,17 +1,11 @@
 package res;
 
-import javax.swing.Icon;
-
 public final class Strings {
 	public final static String 
 		forbiddenCharsRegExp = "[^a-zA-Z0-9żółćęśąźńŻÓŁĆĘŚĄŹŃ\\- ]+",
 		allowedCharsRegExp 	 = 	"[a-zA-Z0-9żółćęśąźńŻÓŁĆĘŚĄŹŃ\\- ]+",
 		
 		locale 				= "pl",
-		nameTooLong 		= "Imię za długie",
-		surnameTooLong 		= "Nazwisko za długie",
-		forbiddenCharsName 	= "Imię zawiera niedozwolone znaki",
-		forbiddenCharsSurName = "Nazwisko zawiera niedozwolone znaki",
 		negativeAge 		= "Wiek nie może być ujemny",
 		
 		group 			= "Grupa ",
@@ -29,10 +23,8 @@ public final class Strings {
 		finaleGames			= "Rozgrywki finałowe",
 		chooseForFinales	= "Wybór graczy do finałów",
 		elGames				= "Rozgrywki w eliminacjach",
-		swissGames 			= "Rozgrywki turnieju szwajcarskiego",
 		showOrEditComp		= "Pokaż lub edytuj dodanych uczestników",
 		tournament			= "Turniej",
-		prep1stRound		= "Rozpocznij przygotowanie rundy 1.",
 		prepGroups			= "Podział na grupy",
 		
 		players 		= "Uczestnicy",
@@ -58,7 +50,6 @@ public final class Strings {
 		startTournament = "Rozpocznij turniej",
 		endEliminations = "Zakończ eliminaje",
 		endTournament 	= "Zakończ turniej",
-		endRound		= "Zakończ rundę",
 		start2ndPhase 	= "Rozpocznij fazę drugą",
 		position 		= "Miejsce",
 		player 			= "Gracz",
@@ -69,13 +60,10 @@ public final class Strings {
 		pointsSB 		= "Punkty SB",
 		goesFinales 	= "Wchodzi do finału", 
 		
-		roundRobinT = "Kołowy z eliminacjami",
 		sgTimeT = "Średni czas na rozgrwkę: ",
 		groupsT = "Ilość drużyn: ",
 		roundsT = "Ilość rund: ",
 		boardsT = "Ilość szachownic: ",
-		swissT 	= "Systemem szwajcarskim",
 		gamesT 	= "Rozgrywek: ",
-		timeST 	= "Przewidywany czas: ",
 		timeRRET= "Przewidywany czas eliminacji: ";	
 }

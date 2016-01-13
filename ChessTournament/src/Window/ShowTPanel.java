@@ -15,12 +15,11 @@ import model.Tournament;
 import panel.CompetitorTabbedPane;
 
 public class ShowTPanel extends JPanel {
+	private static final long serialVersionUID = -1094699102373510646L;
 	private Database db;
 
 	public ShowTPanel(final JFrame jframe) {
-		
 		db = new Database();
-		
 		setLayout(null);
 		
 		final JComboBox<String> comboBox = new JComboBox<String>();

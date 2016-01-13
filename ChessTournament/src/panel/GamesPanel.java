@@ -17,6 +17,7 @@ import res.Strings;
 import tools.Dialogs;
 
 public class GamesPanel extends AbstractGamesPanel {
+	private static final long serialVersionUID = -3222267341222332631L;
 	private JButton finishB = new JButton(Strings.endEliminations);
 	private final onEliminationsEndListener listener;
 	
@@ -62,6 +63,8 @@ public class GamesPanel extends AbstractGamesPanel {
 	}
 	
 	private class MyTableModel extends AbstractGamesPanel.MyTableModel {
+		private static final long serialVersionUID = -5407741459851185210L;
+
 		@Override
 		public boolean isCellEditable(int row, int col) {
 			return col==3 && turniej.getRoundsCompleted()==0;

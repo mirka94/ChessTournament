@@ -11,14 +11,6 @@ public class Dialogs {
 			JOptionPane.ERROR_MESSAGE);
 	}
 	
-	public static void doZrobienia() {
-		JOptionPane.showMessageDialog(
-			null, 
-			"Ta opcja jeszcze nie działa", 
-			"Nie za duże chęci?", 
-			JOptionPane.ERROR_MESSAGE);
-	}
-	
 	public static void graczBezGrupy() {
 		JOptionPane.showMessageDialog(
 			null, 

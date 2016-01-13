@@ -2,8 +2,6 @@ package panel;
 
 import java.awt.Event;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.LinkedHashMap;
 
 import javax.swing.JFrame;
@@ -16,13 +14,14 @@ import javax.swing.KeyStroke;
 
 import model.Competitor;
 import model.Competitor.SortOption;
-import res.Strings;
 import model.Database;
 import model.Tournament;
+import res.Strings;
 import tools.Simulator;
 import tools.Tools;
 
 public class CompetitorTabbedPane extends JPanel {
+	private static final long serialVersionUID = -2618249658265670369L;
 	final Tournament turniej;
 	private Database DB;
 	private JMenuBar menuBar;
@@ -37,10 +36,8 @@ public class CompetitorTabbedPane extends JPanel {
 	private FinaleGamesPanel finaleGamesPanel;
 	private FinaleScorePanel finaleScorePanel;
 	private JTabbedPane tabbedPane = new JTabbedPane();
-	private JFrame jFrame;
 	
 	public CompetitorTabbedPane(Tournament turniej, JFrame frame){
-		jFrame = frame;
 		this.turniej = turniej;
 		this.DB = new Database();
 		showPanel = new ShowEditCompetitorPanel(turniej, DB);
@@ -67,24 +64,19 @@ public class CompetitorTabbedPane extends JPanel {
 			tabbedPane.add(Strings.chooseForFinales, groupsChoosePanel);
 			//tabbedPane.setSelectedIndex(4);
 		};
-		SwissGamesPanel.onFailListener onFailListener = ()->restart();
 		GroupsPanel.onTournamentStartListener tStartlistener = ()->{ // po rozpoczęciu turnieju
 			turniej.setRoundsCompleted(0);
 			DB.insertOrUpdateTournament(turniej);
 			group.setVisible(false);
-			gamesPanel = turniej.isSwiss() ? new SwissGamesPanel(turniej, DB, onFailListener) : new GamesPanel(turniej, DB, elEndListener);
-			tabbedPane.add(turniej.isSwiss()? Strings.swissGames : Strings.elGames, gamesPanel);
-			if(turniej.isSwiss()) { 
-				finaleScorePanel = new FinaleScorePanel(turniej, DB);
-				tabbedPane.add(Strings.tournamentResults, finaleScorePanel);
-			}
+			gamesPanel = new GamesPanel(turniej, DB, elEndListener);
+			tabbedPane.add(Strings.elGames, gamesPanel);
 			//tabbedPane.setSelectedIndex(3);
 		};
 		groupsPanel = new GroupsPanel(turniej, DB, tStartlistener);
 		setMenu(frame);
 	    tabbedPane.add(Strings.showOrEditComp, showPanel);
 	    tabbedPane.add(Strings.tournament, tournamentPanel);
-	    tabbedPane.add(groupsPanel);
+	    tabbedPane.add(Strings.prepGroups, groupsPanel);
 	    tabbedPane.addChangeListener((e) -> {
 			int i = tabbedPane.getSelectedIndex();
 			if(i==0) showPanel.setData();
@@ -92,34 +84,19 @@ public class CompetitorTabbedPane extends JPanel {
 			if(i==2) groupsPanel.initComponents();
 			if(i==3) gamesPanel.initComponents();
 			if(i==5) finaleGamesPanel.initComponents();
-			if(i==4 && turniej.isSwiss()) finaleScorePanel.initComponents(); 
 			comp.setVisible( turniej.isPlayersEditAllowed() && i==0);
-			group.setVisible(turniej.isPlayersEditAllowed() && i==2 && !turniej.isSwiss());
+			group.setVisible(turniej.isPlayersEditAllowed() && i==2 );
 			sort.setVisible(i==2);
 		});
 	    	    	    
 	    frame.add(tabbedPane);
 	    setVisible(true);
-	    frame.addWindowListener(new WindowAdapter() {
-	    	@Override
-	    	public void windowClosing(WindowEvent e) {
-	    		DB.close();
-	    	}
-		});
-	    turniej.addTypeChangeListener((type) -> {
-	    	tabbedPane.setTitleAt(2, (type==Tournament.Type.SWISS)?Strings.prep1stRound:Strings.prepGroups);
-	    });
-	    turniej.setType(turniej.getType()); // wygląda bezsensownie, ale odpala powyższy listener
+	    
 	    int roundsCompleted = turniej.getRoundsCompleted();
 	    if(roundsCompleted>=0) tStartlistener.onTournamentStart();
-	    if(turniej.isSwiss()) {
-	    	if(turniej.getRoundsCompleted()>=turniej.getRounds()); // jeśli będzie jakiś listener na koniec turnieju szwajcarskiego, to go tu odpalić
-	    }
-	    else {
-		    if(roundsCompleted>0) elEndListener.onEliminationsEnd();
-		    if(roundsCompleted>1) finStartListener.onFinaleStart();
-		    if(roundsCompleted>2) finEndListener.onFinalesEnd();
-	    }
+	    if(roundsCompleted>0) elEndListener.onEliminationsEnd();
+	    if(roundsCompleted>1) finStartListener.onFinaleStart();
+	    if(roundsCompleted>2) finEndListener.onFinalesEnd();
 	}
 	
 	/**
@@ -184,10 +161,5 @@ public class CompetitorTabbedPane extends JPanel {
 		);
 		sort.setVisible(false);
 		group.setVisible(false);
-	}
-	
-	private void restart() {
-		jFrame.getContentPane().removeAll();
-    	new CompetitorTabbedPane(turniej,jFrame);
 	}
 }

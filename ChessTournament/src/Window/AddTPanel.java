@@ -17,11 +17,11 @@ import model.Tournament;
 import panel.CompetitorTabbedPane;
 
 public class AddTPanel extends JPanel {
+	private static final long serialVersionUID = -4930339429679727134L;
 	private JTextField textField;
 	private String nazwa;
 
 	public AddTPanel(final JFrame jframe){
-		
 		setLayout(null);
 		
 		JLabel nameTour = new JLabel("Nazwa turnieju");
@@ -33,8 +33,8 @@ public class AddTPanel extends JPanel {
 		
 		textField = new JTextField();
 		textField.setBounds(100, 141, 484, 25);
-		add(textField);
 		textField.setColumns(10);
+		add(textField);
 		
 		JButton addButton = new JButton("Utwórz");
 		addButton.setFont(new Font("Consolas", Font.PLAIN, 16));
@@ -43,7 +43,7 @@ public class AddTPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				nazwa=textField.getText();
 				String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-				Tournament t = new Tournament(null,nazwa,year,8,5,-1,Tournament.Type.GROUP_ELIMINATIONS);
+				Tournament t = new Tournament(null,nazwa,year,8,5,-1);
 				Database db = new Database();
 				db.insertOrUpdateTournament(t);
 				jframe.getContentPane().removeAll();
@@ -56,6 +56,5 @@ public class AddTPanel extends JPanel {
 		jframe.getRootPane().setDefaultButton(addButton);
 		
 		add(addButton);
-		
 	}
 }

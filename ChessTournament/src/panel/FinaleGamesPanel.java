@@ -17,6 +17,7 @@ import res.Strings;
 import tools.Dialogs;
 
 public class FinaleGamesPanel extends AbstractGamesPanel {
+	private static final long serialVersionUID = 5148054112594621303L;
 	private JButton finishFinales = new JButton(Strings.endTournament);
 	private final onFinalesEndListener listener;
 	
@@ -43,7 +44,6 @@ public class FinaleGamesPanel extends AbstractGamesPanel {
 		setDisqualifiedPlayersScores();
 		// filtrowanie powyżej, bo baza zwraca również gry, 
 		// gdzie grali (dostał się do finałów) vs (nie dostał się)
-		// można to naprawić w bazie
 		recalcColors();
 		JTable table = new JTable(new MyTableModel());
 		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(
@@ -70,6 +70,8 @@ public class FinaleGamesPanel extends AbstractGamesPanel {
 	}
 	
 	class MyTableModel extends AbstractGamesPanel.MyTableModel {
+		private static final long serialVersionUID = -451704734755151876L;
+
 		@Override
 		public boolean isCellEditable(int row, int col) {
 			return 

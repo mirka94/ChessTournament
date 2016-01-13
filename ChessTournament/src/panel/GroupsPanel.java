@@ -28,14 +28,13 @@ import javax.swing.table.JTableHeader;
 
 import model.Competitor;
 import model.Database;
-import model.SingleGame;
 import model.Tournament;
 import res.Strings;
 import tools.Dialogs;
-import tools.SwissTools;
 import tools.Tools;
 
 public class GroupsPanel extends JPanel{
+	private static final long serialVersionUID = 5713186972494685342L;
 	private final Tournament turniej;
 	private final Database DB;
 	private JPanel container = new JPanel();
@@ -60,63 +59,29 @@ public class GroupsPanel extends JPanel{
 		initComponents();
 		startTournament.setVisible(isEditAllowed());
 		startTournament.addActionListener(e -> {
-			if(turniej.isSwiss()) {
-				int i=0;
-				for(Competitor c : competitors) {
-					c.setGroup(i++);
-					DB.insertOrUpdateCompetitor(c, turniej.getId());
+			Tools.checkGroups(turniej.getRounds(), competitors);
+			if(competitors.stream().filter(c->c.getGroup()==null).count()>0)
+				Dialogs.graczBezGrupy();
+			else {
+				competitors.forEach(c->DB.insertOrUpdateCompetitor(c, turniej.getId())); // słaba wydajność w tym punkcie
+				int min = competitors.size();
+				int max = 0;
+				TreeMap<Integer, List<Competitor>> groupsList = Tools.groupsList(competitors);
+				for(List<Competitor> groupL : groupsList.values() ) {
+					int size = groupL.size();
+					min = Math.min(min, size);
+					max = Math.max(max, size);
 				}
-				String data = SwissTools.genJaVaFoData(turniej, competitors, new ArrayList<>());
-				if(data==null) {
-					System.err.println("startInfo could not be generated");
-					return;
-				}
-				if(!SwissTools.saveJaVaFoData(data)) {
-					System.err.println("startInfo could not be saved");
-					return;
-				}
-				if(!SwissTools.runJaVaFo()) {
-					System.err.println("JaVaFo execution fail");
-				}
-				List<SingleGame> games = SwissTools.readPairings(competitors, 0);
-				if(games!=null) {
-					DB.insertOrUpdateSingleGame(games, turniej.getId());
+				if(max>min+1)
+					Dialogs.nierownomiernyPodzial(min, max);
+				else {
+					DB.insertOrUpdateSingleGame(
+						Tools.generateSingleGames(groupsList, turniej.getBoards()), 
+						turniej.getId());
 					startTournament.setVisible(false);
 					listener.onTournamentStart();
 				}
-				else System.err.println("Null games");
-			}
-			else {
-				Tools.checkGroups(turniej.getRounds(), competitors);
-				if(competitors.stream().filter(c->c.getGroup()==null).count()>0)
-					Dialogs.graczBezGrupy();
-				else {
-					competitors.forEach(c->DB.insertOrUpdateCompetitor(c, turniej.getId())); // słaba wydajność w tym punkcie
-					int min = competitors.size();
-					int max = 0;
-					TreeMap<Integer, List<Competitor>> groupsList = Tools.groupsList(competitors);
-					for(List<Competitor> groupL : groupsList.values() ) {
-						int size = groupL.size();
-						min = Math.min(min, size);
-						max = Math.max(max, size);
-					}
-					if(max>min+1)
-						Dialogs.nierownomiernyPodzial(min, max);
-					else {
-						/* Poprawka na wydajność
-						for(SingleGame sg : Tools.generateSingleGames(groupsList, turniej.getBoards())) {
-							DB.insertOrUpdateSingleGame(sg, turniej.getId());
-						};
-						/*/
-						DB.insertOrUpdateSingleGame(
-							Tools.generateSingleGames(groupsList, turniej.getBoards()), 
-							turniej.getId());
-						/**/
-						startTournament.setVisible(false);
-						listener.onTournamentStart();
-					}
-				}
-			}			
+			}		
 		});
 	}
 	
@@ -143,20 +108,17 @@ public class GroupsPanel extends JPanel{
         container.add(tableN);
         container.add(rigridAfterN = Box.createRigidArea(new Dimension(0, 20)));
         
-        if(!turniej.isSwiss()) {
-			for(int i=0; i<groups; ++i) {
-				container.add(new JLabel(Strings.group+(i+1), JLabel.CENTER));
-				container.add(Box.createRigidArea(new Dimension(0, 10)));
-				JTable table = new JTable(new MyTableModel(i));
-				container.add(table);
-				tables.put(i, table);
-				container.add(Box.createRigidArea(new Dimension(0, 20)));
-		        table.addMouseListener(new MyMouseListener(table, groups));
-			}
-        }
-        else {
-        	for(Competitor c : competitors) c.setGroup(null);
-        }
+		for(int i=0; i<groups; ++i) {
+			container.add(new JLabel(Strings.group+(i+1), JLabel.CENTER));
+			container.add(Box.createRigidArea(new Dimension(0, 10)));
+			JTable table = new JTable(new MyTableModel(i));
+			container.add(table.getTableHeader());
+			container.add(table);
+			tables.put(i, table);
+			container.add(Box.createRigidArea(new Dimension(0, 20)));
+	        table.addMouseListener(new MyMouseListener(table, groups));
+		}
+		
 		container.add(Box.createRigidArea(new Dimension(0, 30)));
 		container.add(startTournament);
 		updateTables();
@@ -207,7 +169,7 @@ public class GroupsPanel extends JPanel{
 			tableN.setVisible(!allHaveGroup);
 			rigridAfterN.setVisible(!allHaveGroup);
 			tableNHeader.setVisible(!allHaveGroup);
-			label.setText(turniej.isSwiss()?Strings.players:(allHaveGroup?"Kompletny podział na grupy":"Uczestnicy nieprzydzieleni do grup"));
+			label.setText(allHaveGroup?"Kompletny podział na grupy":"Uczestnicy nieprzydzieleni do grup");
 		}
 	}
 	
@@ -253,6 +215,7 @@ public class GroupsPanel extends JPanel{
 	}
 	
 	class MoveToAnotherGroupMenuItem extends JMenuItem {
+		private static final long serialVersionUID = -70690392582608352L;
 
 		public MoveToAnotherGroupMenuItem(Integer group, Competitor c) {
 			super(group==null?"Usuń z grupy":"Przenieś do grupy "+(group+1));
@@ -270,6 +233,7 @@ public class GroupsPanel extends JPanel{
 	}
 	
 	class MyTableModel extends AbstractTableModel {
+		private static final long serialVersionUID = 3123540956848405467L;
 		final String[] columnNames = {"Nazwisko", "Imię", "Wiek", "Kategoria"};
 		private Integer group;
 		private List<Competitor> competitors;

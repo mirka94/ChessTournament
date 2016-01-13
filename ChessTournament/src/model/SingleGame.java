@@ -11,16 +11,14 @@ public class SingleGame implements Serializable {
 	private final int competitorW, competitorB;
 	private int score;
 	private int board;
-	private boolean wasPlayed;
 	private final int round;
 	
 	public SingleGame(Integer id, int competitorW, int competitorB, int score,
-			boolean wasPlayed, int round, int board) {
+			int round, int board) {
 		this.id = id;
 		this.competitorW = competitorW;
 		this.competitorB = competitorB;
 		this.score = score;
-		this.wasPlayed = wasPlayed;
 		this.round = round;
 		this.board = board;
 	}
@@ -30,7 +28,6 @@ public class SingleGame implements Serializable {
 		this.competitorW = competitorW.getId();
 		this.competitorB = competitorB.getId();
 		this.score = 0;
-		this.wasPlayed = true;
 		this.round = round;
 		this.board = board;
 	}
@@ -40,7 +37,6 @@ public class SingleGame implements Serializable {
 		this.competitorB = c.getId(); 
 		this.competitorW = c.getId();
 		this.score = score;
-		this.wasPlayed = false;
 		this.round = round;
 	}
 
@@ -67,14 +63,6 @@ public class SingleGame implements Serializable {
 	public void setScore(int score) {
 		this.score = score;
 	}
-
-	public boolean getWasPlayed() {
-		return wasPlayed;
-	}
-
-	public void setWasPlayed(boolean wasPlayed) {
-		this.wasPlayed = wasPlayed;
-	}
 	
 	public Integer getRound() {
 		return round;
@@ -82,6 +70,10 @@ public class SingleGame implements Serializable {
 	
 	public Integer getBoard() {
 		return board;
+	}
+	
+	public void setBoard(int board) {
+		this.board = board;
 	}
 	
 	@Override

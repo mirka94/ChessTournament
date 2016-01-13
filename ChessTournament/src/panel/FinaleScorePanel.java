@@ -1,15 +1,12 @@
 package panel;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,9 +19,9 @@ import model.Tournament;
 import res.Strings;
 
 public class FinaleScorePanel extends JPanel{
+	private static final long serialVersionUID = 2251707153580595861L;
 	private final Tournament turniej;
 	private final Database DB;
-	private JPanel container = new JPanel();
 	private JTable table;
 	private List<Competitor> competitors;
 	Map<Integer, Competitor> competitorMap;
@@ -44,8 +41,6 @@ public class FinaleScorePanel extends JPanel{
 		this.turniej = t;
 		this.DB = db;
 		this.setLayout(new BorderLayout());
-		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
-		add(new JScrollPane(container));
 		initComponents();
 	}
 	
@@ -68,11 +63,9 @@ public class FinaleScorePanel extends JPanel{
 			competitorGames.get(competitorMap.get(sg.getCompetitorW())).add(sg);
 			competitorGames.get(competitorMap.get(sg.getCompetitorB())).add(sg);
 		}
-		container.removeAll();
-		container.add(Box.createRigidArea(new Dimension(0, 20)));
+		removeAll();
 		table = new JTable(new MyTableModel());
-		container.add(table.getTableHeader());
-		container.add(table);
+		add(new JScrollPane(table));
 		updateTables();
 	}	
 	
@@ -119,6 +112,7 @@ public class FinaleScorePanel extends JPanel{
 	}
 	
 	class MyTableModel extends AbstractTableModel {
+		private static final long serialVersionUID = 6156876709229152200L;
 		final String[] columnNames = {Strings.position, Strings.player, Strings.wonGames, Strings.lostGames, Strings.tieGames, Strings.points, Strings.pointsSB};
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
