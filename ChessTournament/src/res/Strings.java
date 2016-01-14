@@ -15,8 +15,8 @@ public final class Strings {
 		score 			= "Wynik", 
 		
 		notPlayedYet 	= " - ",
-		whiteWon 		= "Wygrały białe",
-		blackWon 		= "Wygrały czarne",
+		whiteWon 		= "Białe wygrały",
+		blackWon 		= "Czarne wygrały",
 		tie 			= "Remis", 
 		
 		tournamentResults 	= "Wyniki turnieju",

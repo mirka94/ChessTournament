@@ -1,15 +1,22 @@
 package panel;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
 import javax.swing.BoxLayout;
+import javax.swing.InputMap;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -50,6 +57,35 @@ public abstract class AbstractGamesPanel extends JPanel{
 				if(sg.getScore()!=0) DB.insertOrUpdateSingleGame(sg, turniej.getId());
 			}
 		}
+	}
+	
+	private static Action scoreUpdateAction(JTable table, String action) {
+		MyTableModel model = (MyTableModel) table.getModel();
+		return new AbstractAction() {
+			private static final long serialVersionUID = -5143500614268433363L;
+			@Override
+		    public void actionPerformed(ActionEvent e) {
+				int rowCount = table.getRowCount(), rowSelected = table.getSelectedRow();
+				if(rowSelected>=0 && rowSelected<rowCount && model.isCellEditable(rowSelected, 3)) {
+					model.setValueAt(action, rowSelected, 3);
+				}
+		    }
+		};
+	}
+	
+	protected static void mapKeyActions(JTable table) {
+		InputMap im = table.getInputMap(JTable.WHEN_FOCUSED);
+		ActionMap am = table.getActionMap();
+
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), 	Strings.notPlayedYet);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), 		Strings.notPlayedYet);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_B, 0), Strings.whiteWon);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, 0), Strings.blackWon);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, 0), Strings.tie);
+		am.put(Strings.notPlayedYet,scoreUpdateAction(table, Strings.notPlayedYet));
+		am.put(Strings.whiteWon, 	scoreUpdateAction(table, Strings.whiteWon));
+		am.put(Strings.blackWon, 	scoreUpdateAction(table, Strings.blackWon));
+		am.put(Strings.tie, 	 	scoreUpdateAction(table, Strings.tie));
 	}
 	
 	public abstract void initComponents();
@@ -132,5 +168,6 @@ public abstract class AbstractGamesPanel extends JPanel{
 			}
 	        return null;
 		}
+		public abstract void setValueAt(Object aValue, int row, int col);
 	}
 }

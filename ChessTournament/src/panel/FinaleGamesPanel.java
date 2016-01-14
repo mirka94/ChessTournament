@@ -62,6 +62,7 @@ public class FinaleGamesPanel extends AbstractGamesPanel {
 			}
 		});
 		if(turniej.getRoundsCompleted()<3) add(finishFinales);
+		mapKeyActions(table);
 	}
 	
 	@FunctionalInterface 
