@@ -12,6 +12,9 @@ import javax.swing.JFrame;
 
 import model.Competitor;
 
+/**
+ * Symulator - generowanie losowych graczy, wyliczanie ilość rozgrywek w zależności od ilości zawodników
+ */
 public class Simulator {
 	private static BufferedReader imieReader;
 	private static BufferedReader nazwiskoReader;

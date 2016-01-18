@@ -20,6 +20,11 @@ import res.Strings;
 import tools.Simulator;
 import tools.Tools;
 
+/**
+ * Panel zarządzający wszystkimi zakładkami
+ * Definiuje również akcje wykonywane przy starcie turnieju, 
+ * zakończeniu eliminacji, starcie finałów oraz zakończeniu turnieju
+ */
 public class CompetitorTabbedPane extends JPanel {
 	private static final long serialVersionUID = -2618249658265670369L;
 	final Tournament turniej;
@@ -101,6 +106,7 @@ public class CompetitorTabbedPane extends JPanel {
 	
 	/**
 	 * Tworzy i dodaje elementy menu, akcje po ich wywołaniu i skróty
+	 * @param frame - okno, do którego dodawane jest menu
 	 */
 	private void setMenu(JFrame frame) {
 		sortOptions = new LinkedHashMap<>();

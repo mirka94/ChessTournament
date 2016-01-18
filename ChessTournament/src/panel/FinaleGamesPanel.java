@@ -16,6 +16,9 @@ import model.Tournament;
 import res.Strings;
 import tools.Dialogs;
 
+/**
+ * Zakładka rozgrywek finałowych
+ */
 public class FinaleGamesPanel extends AbstractGamesPanel {
 	private static final long serialVersionUID = 5148054112594621303L;
 	private JButton finishFinales = new JButton(Strings.endTournament);
@@ -24,6 +27,7 @@ public class FinaleGamesPanel extends AbstractGamesPanel {
 	/**
 	 * @param t - id turnieju
 	 * @param db - baza danych
+	 * @param listener - akcja, jaką należy wykonać po zakończeniu finałów
 	 */
 	public FinaleGamesPanel(Tournament t, Database db, onFinalesEndListener listener){
 		super(t,db);

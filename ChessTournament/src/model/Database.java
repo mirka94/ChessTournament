@@ -17,10 +17,9 @@ import java.util.stream.Collectors;
 import tools.Dialogs;
 
 /**
- * @author PiotrJ
- * Klasa odpowiadająca za obsługę bazy danych
+ * Klasa odpowiadająca za obsługę bazy danych.
+ * Dane zapisywane są w plikach w postaci serializowanych list obiektów
  */
-@SuppressWarnings (value="unchecked")
 public class Database {
 	Map<Integer,Tournament> tournaments = new TreeMap<>();
 	Map<Integer,Competitor> competitors = new TreeMap<>();
@@ -67,6 +66,7 @@ public class Database {
 			Dialogs.bladBazy();
 		}
 	}
+	@SuppressWarnings("unchecked")
 	public void readTournaments() {
 		ArrayList<Tournament> rawTournaments = (ArrayList<Tournament>) 
 				readObject("tournaments.data");
@@ -76,6 +76,7 @@ public class Database {
 	public void writeTournaments() {
 		writeObject("tournaments.data", tournaments);
 	}
+	@SuppressWarnings("unchecked")
 	public void readCompetitors(int t) {
 		ArrayList<Competitor> rawCompetitors = (ArrayList<Competitor>) 
 				readObject("competitors"+t+".data");
@@ -85,6 +86,7 @@ public class Database {
 	public void writeCompetitors(int t) {
 		writeObject("competitors"+t+".data", competitors);
 	}
+	@SuppressWarnings("unchecked")
 	public void readSingleGames(int t) {
 		ArrayList<SingleGame> rawGames = (ArrayList<SingleGame>) 
 				readObject("games"+t+".data");

@@ -2,6 +2,9 @@ package tools;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Definiuje okna błędów, ostrzeżeń oraz informacji
+ */
 public class Dialogs {
 	public static void bladBazy() {
 		JOptionPane.showMessageDialog(

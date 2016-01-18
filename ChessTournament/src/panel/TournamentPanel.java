@@ -18,6 +18,9 @@ import res.Strings;
 import tools.MyPlainDocument;
 import tools.Simulator;
 
+/**
+ * Zakładka danych o turnieju
+ */
 public class TournamentPanel extends JPanel{
 	private static final long serialVersionUID = -3657045958131642437L;
 	private final Tournament turniej;

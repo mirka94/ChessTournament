@@ -3,7 +3,8 @@ package model;
 import java.io.Serializable;
 
 /**
- * Przechowuje dane o pojedynczej rozgrywce - id graczy, wynik, czy była rozgrywana
+ * Przechowuje dane o pojedynczej rozgrywce - id graczy, wynik, oraz 
+ * informację w której rundzie (czy też w finałach) rozgrywka była zawarta
  */
 public class SingleGame implements Serializable {
 	private static final long serialVersionUID = -3007183465072503118L;

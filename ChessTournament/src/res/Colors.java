@@ -2,6 +2,9 @@ package res;
 
 import java.awt.Color;
 
+/**
+ * Definiuje kolory używane w programie
+ */
 public final class Colors {
 	public final static Color 
 		selInProgress 	= Color.decode("#5BFFB5"),

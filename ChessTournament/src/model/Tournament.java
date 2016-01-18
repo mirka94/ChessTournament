@@ -5,7 +5,7 @@ package model;
 import java.io.Serializable;
 
 /**
- * Przechowuje dane o turnieju
+ * Przechowuje dane o turnieju - nazwę, rok, ilość szachownic, rund wszystkich oraz rund już rozegranych
  */
 public class Tournament implements Serializable {
 	private static final long serialVersionUID = 7913534186353148249L;

@@ -14,6 +14,9 @@ import model.Database;
 import model.Tournament;
 import panel.CompetitorTabbedPane;
 
+/**
+ * Panel "dodaj turniej"
+ */
 public class ShowTPanel extends JPanel {
 	private static final long serialVersionUID = -1094699102373510646L;
 	private Database db;

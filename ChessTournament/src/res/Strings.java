@@ -1,5 +1,8 @@
 package res;
 
+/**
+ * Definiuje teksty używane w programie
+ */
 public final class Strings {
 	public final static String 
 		forbiddenCharsRegExp = "[^a-zA-Z0-9żółćęśąźńŻÓŁĆĘŚĄŹŃ\\- ]+",

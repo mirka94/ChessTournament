@@ -16,6 +16,9 @@ import model.Tournament;
 import res.Strings;
 import tools.Dialogs;
 
+/**
+ * Zakładka gier fazy eliminacji
+ */
 public class GamesPanel extends AbstractGamesPanel {
 	private static final long serialVersionUID = -3222267341222332631L;
 	private JButton finishB = new JButton(Strings.endEliminations);
@@ -24,6 +27,7 @@ public class GamesPanel extends AbstractGamesPanel {
 	/**
 	 * @param t - id turnieju
 	 * @param db - baza danych
+	 * @param listener - akcja, jaką należy wykonać po zakończeniu eliminacji
 	 */
 	public GamesPanel(Tournament t, Database db, onEliminationsEndListener listener){
 		super(t,db);

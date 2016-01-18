@@ -22,6 +22,9 @@ import model.SingleGame;
 import window.AddTPanel;
 import window.ShowTPanel;
 
+/**
+ * Trudniejsze narzędzia obróbki list danych, wstawianie części menu wspólnej dla obu okien programu
+ */
 public class Tools {
 	public static void checkGroups(int groups, List<Competitor> competitors) {
 		competitors.forEach(c -> { 

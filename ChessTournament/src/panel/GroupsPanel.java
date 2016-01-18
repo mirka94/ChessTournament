@@ -33,6 +33,9 @@ import res.Strings;
 import tools.Dialogs;
 import tools.Tools;
 
+/**
+ * Zakładka przydzielania uczestników do grup
+ */
 public class GroupsPanel extends JPanel{
 	private static final long serialVersionUID = 5713186972494685342L;
 	private final Tournament turniej;
@@ -49,6 +52,7 @@ public class GroupsPanel extends JPanel{
 	/**
 	 * @param t - id turnieju
 	 * @param db - baza danych
+	 * @param listener - akcja, jaką należy wykonać w momencie rozpoczęcia turnieju
 	 */
 	public GroupsPanel(Tournament t, Database db, onTournamentStartListener listener){
 		this.turniej = t;

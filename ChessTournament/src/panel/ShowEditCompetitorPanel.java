@@ -25,6 +25,9 @@ import res.Strings;
 import tools.MyPlainDocument;
 import tools.ValidatorException;
 
+/**
+ * Zakładka dodawania i edycji uczestników
+ */
 public class ShowEditCompetitorPanel extends JPanel{
 	private static final long serialVersionUID = 5820295484965265306L;
 	private final Tournament turniej;

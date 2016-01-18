@@ -6,6 +6,9 @@ import javax.swing.text.PlainDocument;
 
 import res.Strings;
 
+/**
+ * Definiuje pole tekstowe akceptujące ograniczony zestaw znaków
+ */
 public  class MyPlainDocument extends PlainDocument {
 	private static final long serialVersionUID = -489930074061735703L;
 

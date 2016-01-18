@@ -27,6 +27,10 @@ import model.Tournament;
 import res.Colors;
 import res.Strings;
 
+/**
+ * Definiuje uniwersalną część zakładek rozgrywek, znajdującą zastosowanie
+ * zarówno w zakładce rozgrywek eliminacyjnych, jak i w zakładce rozgrywek finałowych
+ */
 public abstract class AbstractGamesPanel extends JPanel{
 	private static final long serialVersionUID = 5147804241488047339L;
 	protected final Tournament turniej;

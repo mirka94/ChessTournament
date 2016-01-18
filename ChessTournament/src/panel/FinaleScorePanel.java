@@ -18,6 +18,9 @@ import model.SingleGame;
 import model.Tournament;
 import res.Strings;
 
+/**
+ * Zakładka wyników
+ */
 public class FinaleScorePanel extends JPanel{
 	private static final long serialVersionUID = 2251707153580595861L;
 	private final Tournament turniej;

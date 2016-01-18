@@ -16,6 +16,9 @@ import model.Database;
 import model.Tournament;
 import panel.CompetitorTabbedPane;
 
+/**
+ * Panel "nowy turniej"
+ */
 public class AddTPanel extends JPanel {
 	private static final long serialVersionUID = -4930339429679727134L;
 	private JTextField textField;

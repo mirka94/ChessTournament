@@ -27,6 +27,9 @@ import res.Strings;
 import tools.Dialogs;
 import tools.Tools;
 
+/**
+ * Zakładka wyboru zawodników do finałów
+ */
 public class GroupsChoosePanel extends JPanel{
 	private static final long serialVersionUID = -3153534285075179557L;
 	private final Tournament turniej;
@@ -47,6 +50,7 @@ public class GroupsChoosePanel extends JPanel{
 	/**
 	 * @param t - id turnieju
 	 * @param db - baza danych
+	 * @param listener - akcja, jaką należy wykonać w momencie rozpoczęcia finałów
 	 */
 	public GroupsChoosePanel(Tournament t, Database db, onFinaleStartListener listener){
 		this.turniej = t;

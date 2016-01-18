@@ -13,6 +13,9 @@ import javax.swing.JMenuBar;
 
 import tools.Tools;
 
+/**
+ * Główne okno programu, punkt wejścia programu
+ */
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = -4321522332774571523L;
 

@@ -12,7 +12,9 @@ import res.Strings;
 import tools.ValidatorException;
 
 /**
- * Przechowuje dane o uczestniku
+ * Przechowuje podstawowe dane o uczestniku: imię, nazwisko, wiek, 
+ * kategoria szachowa, id, grupa, czy uczestnik nie jest zdyskwalifikowany. 
+ * Definiuje sposoby sortowania uczestników
  */
 public class Competitor implements Serializable, Comparable<Competitor> {
 	private static final long serialVersionUID = -8356380635352407432L;
@@ -127,6 +129,9 @@ public class Competitor implements Serializable, Comparable<Competitor> {
     	return group>=100;
     }
     
+    /**
+     * Opcje sortowania dla listy uczestników
+     */
     public enum SortOption {
 		NAME_ASC, NAME_DESC, 
 		SURNAME_ASC, SURNAME_DESC, 
