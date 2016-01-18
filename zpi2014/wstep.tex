@@ -1,26 +1,27 @@
-\chapter{Zespołowe przedsięwzięcie}
+\chapter{Zespołowe przedsięwzięcie inżynierskie}
 
-\begin{itemize}
-\item Zespołowe przedsięwzięcie inżynierskie oznaczać będzie projekt, działanie podjęte w realizacji postawionego celu, realizowane zespołowo.
-\item Projekt jest odpowiedzią na problem/potrzebę, w określonej przestrzeni życia.
-\end{itemize}
+
+Zespołowe przedsięwzięcie inżynierskie oznaczać będzie projekt, działanie podjęte w realizacji postawionego celu, realizowane zespołowo.\\\\
+Projekt jest odpowiedzią na problem/potrzebę, w określonej przestrzeni życia.
+
 
 \section{Członkowie zespołu z określeniem funkcji}
-\begin{description}
-\item[1] Piotr Jabloński - programista Java
-\item[2] Mirosława Pelc - programista Java
-\item[3] Mariusz Lorek - kierownik zespołu, testowanie, przygotowanie dokumentacji
-\end{description}
+\begin{enumerate}
+\item Piotr Jabloński - programista Java
+\item Mirosława Pelc - programista Java
+\item Mariusz Lorek - kierownik zespołu, testy programu, przygotowanie dokumentacji projektu
+\end{enumerate}
 
 \section{Uzasadnienie potrzeby realizacji projektu}
-Potrzebny jest program który wspomoże zorganizowanie turnieju szachowego w którym może wziąść udział dowolna, nieznana wcześniej liczba zawodników. Czas trwania turnieju jest ograniczony przez organizatora. Turniej szachowy jest organizowany cyklicznie, dlatego stworzenie programu wspomagającego jego obsługę znacznie ułatwi przeprowadzanie kolejnych edycji.
+Celem zespołowego przedsięwzięcia jest przygotowanie programu który wspomoże zorganizowanie turnieju szachowego w którym wziąść może udział dowolna, nieznana wcześniej liczba zawodników. Czas trwania turnieju jest ograniczony przez organizatora. Turniej szachowy jest organizowany cyklicznie, dlatego stworzenie programu wspomagającego jego obsługę znacznie ułatwi przeprowadzanie kolejnych edycji.
 
 
 \section{Cele projektu}
+
 \begin{enumerate}
-\item Stworzenie programu wspomagającego organizację turnieju szachowego.
-Napisany program ma pozwolić na sprawne przeprowadzenie turnieju szachowego i wyłonienie zwycięzcy turnieju i/lub zawodników którzy zajeli kolejne miejsca w turnieju.
-\item Przygotowanie instrukcji obsługi programu/aplikacji dla użytkownika końcowego
+\item Napisanie programu umożliwiającego przeprowadzenie turnieju szachowego.
+\item Przygotowanie instrukcji obsługi do programu dla użytkownika
+\item Przygotowanie dokumentacji dla projektu
 \end{enumerate}
  
 
@@ -30,65 +31,74 @@ Napisany program ma pozwolić na sprawne przeprowadzenie turnieju szachowego i w
 	\item Stworzenie programu do wspomagania organiacji turnieju szachowego według wytycznych zleceniodawcy
 	\item Stworzenie dokumentacji opisującej postępy prac nad tworzonym projektem z podziałem na czynności które ma wykonywać każdy z członków zespołu
 \end{enumerate}
-Gotowy program ma pozwalać m.in na:
-\begin{itemize}
-	\item Przeprowadzenie turnieju szachowego w systemie kołowym (każdy z każdym) z podziałem na grupy
-	\item Zarzadzanie turniejami w bazie danych 
-	\item Zgromadzenie podstawowych danych o zawodnikach, jakim są: (Imię, Nazwisko, Wiek, Kategoria szachowa) 
-	\item Dodawanie, usuwanie i edycja zawodników, 
-	\item Podział zawodników na grupy w ze względu na przedział wiekowy, kategorie szachową lub manualnie. 
-	\item Ustalenie liczby grup oraz szachownic przed rozpoczęciem nowego turnieju. 
+Program ma pozwalać na:
+\begin{enumerate}
+	\item Przeprowadzenie turnieju szachowego w systemie kołowym (każdy z każdym) - dwie rundy:
+	\begin{itemize}
+		\item eliminacje
+		\item finał
+	\end{itemize}
+	\item Zapis stanu turnieju w dowolnym monencie
+	
+	\item Wprowadzenie do programu danych o uczestnikach
+	\begin{itemize}
+		\item imię
+		\item nazwisko
+		\item wiek
+		\item kategoria szachowa
+	\end{itemize}
+	\item Edycja danych uczestnika
+	\item Usunięcie uczestnika z listy uczestników turnieju 
+	\item Podział uczestników turnieju na grupy zgodnie z wybranym kryterium, rosnąco lub malejąco:
+	\begin{itemize}
+		\item alfabetycznie
+		\item według wieku
+		\item ręcznie
+		\item losowo
+	\end{itemize}
+	\item Ustalenie optymalnej liczby grup dla danej liczby uczestników turnieju
+	\item Określenie ilości szachownic na których będzie rozgrywany turniej
+	\item Określenie czasu trwania pojedyńczej rozgrywki
+	
 	\item Ustalanie uczestników każdego meczu - kolor pionków (biały, czarny) przydzielany do zawodników przed każdym spotkaniem 
 	\item Punktowanie rozegranych spotkań
-\end{itemize}
+	\item Możliwość wyboru uczestników do rundy finałowej
+\end{enumerate}
 
 
 \section{Grupy docelowe}
-Program przeznaczony dla organizatorów turniejów szachowych.  
+Program przeznaczony dla organizatorów turniejów szachowych lub gier o zbliżonych zasadach (np. warcaby)  
 
 
 \section{Struktura podziału prac (zadań) - WBS}
-
-Program wspomagający przeprowadzenie turneju szachowego
 \begin{enumerate}
-\item Zebranie informacji na temat sposobu przprowadzania turnieju szachowego od zleceniodawcy
+\item Zebranie informacji na temat sposobu przprowadzania turnieju szachowego od zleceniodawcy.
 \begin{enumerate}
-	\item Wybranie systemu według którego będzie przeprowadzany turniej, wybór najoptymalniejszego rozwiązania
+	\item Wybranie systemu w którym będzie przeprowadzany turniej.
 	\item Przygotowanie regulaminu turnieju.
 \end{enumerate}
-\item Projekt programu
+\item Projekt programu.
 \begin{enumerate}
 \item Określenie jakie elementy muszą się znaleść w programie
 \item Szablon programu
-\item Wybór narzędzi/aplikacji służących do napisania programu
+\item Wybór środowiska programistycznego
 \item Rozdzielenie zadań dla programistów
 \end{enumerate}
 \item Tworzenie programu/aplikacji
-\begin{itemize}
+\begin{enumerate}
 \item Opracowanie narzędzi bazodanowych przechowujących informacje dotyczące turniejów
 \item Przygotowanie elementów środowiska graficznego
 \item Integracja narzędzi bazodanowych z elementami środowiska graficznego
-
 \item Wstępna wersja programu
 \item Testowanie
-\begin{enumerate}
-	\item Weryfikacja - "Czy budujemy prawidłowo produkt", dynamiczna i statyczna
-	\item Walidacja - "Czy budujemy prawidłowy produkt"
-	\item Testy
-	\begin{itemize}
-		\item Testy jednostkowe
-		\item Testy integracyjne
-		\item Testy systemowe
-		\item Testy użyteczności
-		\item Testy akceptacyjne (przeprowadzane przez zleceniodawce projektu
-	)
-	Testy mają za zadanie sprawdzenie każdego komponentu niezależnie
-	\end{itemize}
+\begin{itemize}
+\item testy uczestników projektu
+\item testy zamawiającego program
+\end{itemize}
+
 \end{enumerate}
 \item Eliminacja znalezionych błędów
 \item Dodawanie kolejnych funkcji do programu
-
-\end{itemize}
 \item Końcowa wersja programu
 
 \end{enumerate}
@@ -101,17 +111,18 @@ Program wspomagający przeprowadzenie turneju szachowego
 \begin{enumerate}
 \item Turniej rozgrywany jest w dwóch fazach: grupowej i finałowej.\\
 \item Tworzona jest lista startowa według przyjętych przez prowadzącego turniej kryteriów, domyślnie:
-\begin{enumerate}
+\begin{itemize}
 \item kategoria szachowa 
 \item wiek
 \item alfabetycznie
-\end{enumerate}
+\end{itemize}
 \item Ilość grup jest zależna od liczby uczestników i ustala ją prowadzący.
 \item Lista startowa dzielona jest na liczbę części równą liczbie grup
 \item Następnie zawodnicy z każdej części są losowo rozmieszczani w grupach
-\item W fazie grupowej prowadzone są rozgrywki, gdzie każdy gra z każdym w danej grupie.
+\item W fazie grupowej prowadzone są rozgrywki, wedug zasady "każdy z każdym" w danej grupie
 \item W fazie finałowej zawodnicy wyłonieni z grup (liczbę osób wychodzących z grup ustala prowadzący) grają między sobą.
-\item Turniej trwa maksymalnie 2.5 godziny z tego:
+\item Jeżeli zawodnicy grali ze sobą w rundzie eliminacyjnej to w finale przyjmuje się wynik rozgrywki z eliminacji
+\item Czas trwania turnieju jest ograniczony, podany przez organizatora
 \begin{itemize}
 \item 10 minut na przyjmowanie zgłoszeń(rejestrację),
 \item 10 minut na losowanie spotkań,
@@ -119,24 +130,24 @@ Program wspomagający przeprowadzenie turneju szachowego
 \end{itemize}
 \item Zawodnicy mają do dyspozycji zegar analogowy lub cyfrowy z 2 tarczami lub wyświetlaczami umożliwiający odmierzanie czasu rozgrywki dla każdego z zawodników osobno
 \item Za zajecie ustalonych przez prowadzącego miejsc w turnieju zawodnicy otrzymują nagrody przewidziane przez organizatora.
-\item Jeśli prowadzący ustali, uczestnicy będą mieli obowiązek zapisywać swoje ruchy na wydzielonych do tego kartkach.
+\item Jeśli prowadzący ustali, uczestnicy będą mieli obowiązek zapisywać swoje ruchy na przeznaczonych do tego kartach.
 \item Każdy stanowisko do gry ma swój numer identyfikacyjny, który obowiązuje przy rozgrywkach.
 \item W sali, w której obywa się turniej szachowy zawodnicy jak i widzowie muszą zachować bezwzględną ciszę, aby nie przeszkadzać graczom w rozgrywce.
 \item Jeśli jakiś uczestnik turnieju lub widz będzie podpowiadał innemu uczestnikowi, zawodnik otrzymuje od prowadzącego ostrzeżenie, w wypadku powtórzenia się sytuacji gracz któremu pomoc została ponownie udzielona może zostać zdyskwalifikowany z dalszych rozgrywek przez prowadzącego.
 \item W turnieju obowiązuje punktacja
 \begin{itemize}
-	\item Za zwycięstwo - 1pkt
-	\item Za remis - 0,5pkt
-	\item Za porażkę - 0pkt
+	\item Zwycięstwo - 1pkt
+	\item Remis - 0,5pkt
+	\item Porażka - 0pkt
 	\item Punkty pomocnicze, wykorzystywane gdy kilku zawodników ma taką samą liczbę punktów głównych, przyznawane po zakończeniu etapu (eliminacji lub finału) według schematu:
 	\begin{itemize}
-		\item Za zwycięstwo - punkty zawodników z którym dany zawodnik wygrał
-		\item Za remis - połowę punktów zawodników z którym dany zawodnik zremisował
-		\item Za porażkę - Nie są przyznawane punkty pomocnicze
+		\item Punkty zawodników z którym dany zawodnik wygrał
+		\item Remis - połowę punktów zawodników z którym dany zawodnik zremisował
+		\item Porażka - Nie są przyznawane punkty pomocnicze
 	\end{itemize}
 	\end{itemize}
 \end{enumerate}
-\item W razie rezygnacji lub wykluczenia zawodnika z turnieju, rozgrywki, które zagrał nie zostają anulowane, a osoby, które się z nim spotykają w dalszych rozgrywkach wygrywają walkowerem otrzymują 1pkt za zwycięstwo
+\item W razie rezygnacji lub dyskwalifikacji zawodnika z turnieju, rozgrywki, które rozegrał nie zostają anulowane, a osoby, które się z nim spotykają w kolejnych rozgrywkach wygrywają walkowerem (otrzymują 1pkt za zwycięstwo)
 \item W Sali zostało wydzielone pięć części:
 \begin{enumerate}
 \item Pierwsza, w której znajdują się tylko i wyłącznie osoby rozgrywające mecz
@@ -153,7 +164,36 @@ Program wspomagający przeprowadzenie turneju szachowego
 \end{itemize}
 \item Udział w turnieju szachowym jest równoznaczny z zaakceptowaniem regulaminu
 \end{enumerate}
-%\section{Diagram sieciowy}
+\section{Rozgrywki w systemie szwajcarskim - zrezygnowano w czasie trwania projektu}
+
+\textbf{System szwajcarski} - W systemie szwajcarskim z góry określa się liczbę rund, które należy rozegrać.\\
+Na rundę składają się bezpośrednie pojedynki (gry) rozgrywane jednocześnie.\\ Za zwycięstwo w grze uczestnik otrzymuje jeden punkt, za remis pół punktu (punktacja może być inna).\\
+Dobór par przeciwników w kolejnych rundach zależy od wyników uzyskanych w poprzednich. Pary dobiera się w miarę możliwości spośród tych uczestników, którzy dotychczas zdobyli jednakową liczbę punktów.\\
+Jeśli liczba uczestników zawodów jest nieparzysta, w każdej rundzie jeden z uczestników z najmniejszym dorobkiem punktowym, który jeszcze nie pauzował, otrzymuje wolny los (tzw. bye) czyli dostaje punkt bez gry.\\
+Kojarzenie par w kolejnych rundach jest dość skomplikowane, ponieważ system musi wykluczyć możliwość dwukrotnego spotkania się tych samych przeciwników.\\
+Dodatkową komplikacją jest konieczność zapewnienia "sprawiedliwego" przydziału kolorów bierek w kolejnych pojedynkach.
+
+\subsection{Wytyczne Międzynarodowej Federacji Szachowej (FIDE)}
+Międzynarodowa Federacja Szachowa (FIDE) opracowała precyzyjny regulamin rozgrywania zawodów systemem szwajcarskim. Przed zawodami zawodnicy są uszeregowani w kolejności punktacji rankingowej odzwierciedlającej aktualną siłę gry każdego zawodnika. Listy rankingowe są publikowane co miesiąc. Przed kojarzeniem I rundy listę tę dzieli się na dwie części. W górnej połowie listy znajdują się zawodnicy najwyżej zaszeregowani, w dolnej – pozostali. W pierwszej rundzie zawodnik z nr 1 spotka się z zawodnikiem najwyżej zaszeregowanym w dolnej grupie i następnie kolejni według tej zasady. Kolor bierek dla pierwszej pary jest losowany, następne pary zawodników otrzymają kolory bierek odmienne.\\\\
+\textbf{Podstawowe zasady kojarzenia par w systemie szwajcarskim zostały w regulaminie określone w następujący sposób:}
+\begin{enumerate}
+\item dwóch zawodników nie może się spotkać więcej niż jeden raz;
+\item zawodnik, który otrzymał punkt bez gry nie może otrzymać wolnego losu;
+\item zawodnik może rozegrać jednym kolorem dwie partie z rzędu (lub trzy jeżeli trzecia to ostatnia partia turnieju);
+\item kojarzenie do następnej rundy odbywa się w ramach grup punktowych z tą samą liczbą punktów, a jeśli to dla niektórych zawodników jest niemożliwe różnica punktowa pomiędzy kojarzonymi zawodnikami musi być najmniejsza z możliwych;
+\item tak wielu zawodnikom, jak to tylko możliwe, należy przydzielić oczekiwany kolor; jest to kolor, którym rozegrali mniej partii niż drugim kolorem, a w przypadku równej liczby partii jest to kolor odmienny od koloru poprzedniej rundy (jeśli dwóch skojarzonych zawodników oczekuje na ten sam kolor – musi być spełniony warunek pkt 3, a oczekiwany kolor bierek otrzyma zawodnik, który ma bardziej nierówny przydział kolorów z poprzednich rund, dodatkowo – jeśli dwóch skojarzonych zawodników ma identyczną historię przydziału koloru z poprzednich rund – oczekiwany kolor otrzyma zawodnik wyżej zaszeregowany na liście);
+\item zawodnik, który grał w poprzedniej rundzie z zawodnikiem o większej (mniejszej) liczbie punktów nie powinien być ponownie skojarzony z zawodnikiem o większej (mniejszej) liczbie punktów;
+\item zawodnik, który grał dwie rundy wcześniej z zawodnikiem o większej (mniejszej) liczbie punktów nie powinien być ponownie skojarzony z zawodnikiem o większej (mniejszej) liczbie punktów.
+\end{enumerate}
+Zasady 1-2 \textbf{są bezwarunkowe}, tzn. kojarzenie musi spełnić każdy z tych warunków. Zasady 3-4 są również \textbf{bezwarunkowe z wyjątkiem ostatniej rundy}, kiedy wolno je złamać, jeśli dzięki temu uda się skojarzyć więcej par, w których zawodnicy będą mieli taką samą liczbę punktów. Zasady 5-8 są uszeregowane według ważności i muszą być stosowane we wszystkich przypadkach, w których nie są sprzeczne z zasadami ważniejszymi. Regulamin FIDE zawiera szczegółowy opis algorytmu kojarzenia par.
+
+\subsection{Zalety systemu szwajcarskiego}
+Ogromną zaletą systemu szwajcarskiego jest \textbf{możliwość rozegrania turnieju w jednej grupie z udziałem dużej liczby zawodników}. W turniejach szachowych rozgrywanych tym systemem nierzadko bierze udział \textbf{kilkuset zawodników o różnym poziomie gry}. Początkujący mogą w bezpośrednim pojedynku spotkać się z arcymistrzami, w jednym turnieju mają szansę pokonać zawodników uznawanych za silniejszych i szybko awansować w szachowej hierarchii. Ważne jest również, że \textbf{jedna słabsza gra nie przekreśla szans zawodnika}. Takich możliwości nie daje ani system kołowy (ze względu na dużą liczbę koniecznych gier) ani pucharowy, który eliminuje zawodnika po pierwszej porażce.
+
+\subsection{Wady systemu szwajcarskiego}
+Wadą systemu szwajcarskiego jest \textbf{spory wpływ czynnika losowego}, którego znaczenie ogranicza się poprzez ustalenie początkowej kolejności zawodników według siły gry (zazwyczaj na podstawie rankingu). System szwajcarski jest również \textbf{znacznie mniej obiektywny od systemu kołowego.} Zawodnik, który przegrywając w pierwszych rundach, w końcowych zdobywał punkty na słabszych przeciwnikach może w ostatecznej klasyfikacji wyprzedzić zawodnika, który dobrze grał z silniejszymi, lecz w końcowych rundach zdobył mało punktów. \textbf{Decydujące znaczenie ostatniej rundy stanowi o specyficznej atrakcyjności systemu szwajcarskiego.}
+System ten nie sprawdza się też dobrze, w momencie \textbf{gdy liczba zawodników jest niewiele większa od liczby rund do rozegrania.} Wówczas w końcowych rundach spotkać się mogą zawodnicy, których różnica punktów jest spora.
+
 %Diagram sieciowy ukazuje zależności czasowe, węzły (aktywności), krawędzie (zależności czasowe).
 
 
@@ -241,14 +281,14 @@ Poniżej opisujemy całe zadanie zgodnie z konwencją poznaną na NI.
 \subsubsection{Obsługa GitHuba}
 Repozytorium wykorzystywane w projekcie to "GitHub" aby zacząć korzystać z tego repozytorium należy najpierw założyć konto w serwisie \href{https://github.com}{https://github.com}
 Wybieramy opcję "Sing up" i wypełnamy formularz rejestracyjny
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics {fig/rejestracja}
 	\caption{Formularz rejestracyjny repozytorium GitHub}
 	\label{fig:rejestracja}
 \end{figure}
 Nastepnie z menu na górze po prawej stronie wybieramy opcję "New repository"
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics{fig/new_project}
 	\caption{Tworzenie nowego repozytorium}
@@ -256,7 +296,7 @@ Nastepnie z menu na górze po prawej stronie wybieramy opcję "New repository"
 \end{figure}
 Uzupełniamy dane dotyczące projektu. Musimy mu nadać nazwę, możemy opcjonalnie dodać opis tworzonego repozytorium, oraz zdecydować czy projekt będzie publiczny czy prywatny
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics{fig/new_project_2}
 	\caption{Uzupełniamy dane na temat projektu}
@@ -264,13 +304,13 @@ Uzupełniamy dane dotyczące projektu. Musimy mu nadać nazwę, możemy opcjonal
 \end{figure}
 Teraz możemy dodać kolejnych uczestników projektu wybierając z menu opcję "New collaborator"
 Uczestników możemy wyszukiwać  według róznych kryteriów
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics{fig/collaborator}
 	\caption{Dodawanie nowego uczestnika projektu}
 	\label{fig:collaborator}
 \end{figure}
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics{fig/add_collaborator}
 	\caption{Mamy możliwość wyszukiwania nowych członków według różnych kryteriów}
@@ -284,12 +324,166 @@ Aby mieć możliwość wysyłania plików do repozytorium musimy zainstalować p
 \end{enumerate}
 Starsze wersję systemów operacyjnych nie są wspierane\\
 Dostępna jest również wersja dla komputerów MAC z systemem OS X 10.9 lub nowszym
-\begin{figure}
+\begin{figure}[H]
 	\centering
 	\includegraphics{fig/gitdownload}
 	\caption{Przycisk umożliwiający pobranie programu}
 	\label {fig:gitdownload} 
 \end{figure}
 
+\chapter{Obsługa programu}
+Uruchamiamy program
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/1}
+	\caption{Główne okno programu}
+	\label {fig:glowne_okno_programu} 
+\end{figure}
+Z menu "Turniej" możemy wybrać opcję lub użyć skrótu klawiaturowego
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/2}
+	\caption{Wybór turnieju}
+	\label {fig:wybor_turnieju} 
+\end{figure}
+Jeżeli wybierzemy opcję "Dodaj turniej" musimy nadać mu nazwę
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/3}
+	\caption{Wybór nazwy turnieju}
+	\label {fig:wybor_nazwy_turnieju} 
+\end{figure}
+Uczestnika turnieju możemy dodać na 2 sposoby:
+\begin{enumerate}
+	\item losowo
+	\item uzupełniając jego dane
+\end{enumerate}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/4}
+	\caption{Dodawanie uczestnika do turnieju}
+	\label {fig:dodawanie_uczestnika_do_turnieju} 
+\end{figure}
+Wpisujemy dane użytkownika, kategorie możemy wybrać z listy
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/5}
+	\caption{Wybór kategorii}
+	\label {fig:wybor_kategorii} 
+\end{figure}
+Istnieje możliwość usunięcia zawodnika z listy.\\
+Klikamy PPM na wierszu w którym znajdują się dane zawodnika którego chcemy usunąć i wybieramy opcję "usuń" 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/6}
+	\caption{Usuwanie zawodnika z listy}
+	\label {fig:Usuwanie_zawodnika_z_listy} 
+\end{figure}
+W zakładce turniej możemy ustawic parametry turnieju takie jak:
+\begin{enumerate}
+	\item nazwa turnieju
+	\item rok
+	\item czas trwania pojedyńczej rozgrywki - minimum 1 minuta, maksimum 20 minut
+	\item ilość drużyn - program wskaże optymalną ilość grup, którą można zmienić
+	\item ilość szachownic - minimum 2, maksimum 20 
+\end{enumerate}
+Po ustawieniu żądanych parametrów program wyświetli:
+\begin{itemize}
+	\item liczbę rozgrywek
+	\item przewidywany czas trwania eliminacji
+\end{itemize}
 
 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/7}
+	\caption{Zakładka turniej}
+	\label {fig:zakladka_turniej} 
+\end{figure}
+W zakładce "Podział na grupy" z menu "Sortowanie graczy" możemy wybrać sposób sortowania uczestników według kryteriów widocznych poniżej
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/8}
+	\caption{Sposoby sortowania uczestników}
+	\label {fig:Sposoby_sortowania_uczestnikow} 
+\end{figure}
+Zawodników możemy przydzielić do grup automatycznie
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/9}
+	\caption{Automatyczny przydział do grup}
+	\label {fig:Automatyczny_przydzial_do_grup} 
+\end{figure}
+Zawodnika do grupy możemy przydzielić ręcznie klikając PPM i wybierając z listy grupę do której chcemy przydzielić uczestika
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/10}
+	\caption{Reczny przydział do grup}
+	\label {fig:Reczny_przydzial_do_grup} 
+\end{figure}
+Jeżeli przydzielimy wszystkich zawodników do grup możemy rozpocząć turniej
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/11}
+	\caption{Rozpoczęcie turnieju}
+	\label {fig:rozpoczecie_turnieju} 
+\end{figure}
+Rozgrywki które mogą się odbyć zostają podświetlone na zielono\\
+Zwycięzcę rozgrywki możemy wybrać z listy lub za pomocą skrótu klawiaturowego:
+\begin{itemize}
+	\item "b" - wygrywa kolor biały
+	\item "c" - wygrywa kolor czarny
+	\item "r" - remis
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/12}
+	\caption{Możliwe rozgrywki}
+	\label {fig:mozliwe_rozgrywki} 
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/13}
+	\caption{Możliwe rozgrywki}
+	\label {fig:mozliwe_rozgrywki_2} 
+\end{figure}
+Po ustaleniu wyników wszystkich rozgrywek możemy zakończyć eliminacje
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/14}
+	\caption{Wybór zawodników do finału}
+	\label {fig:wybor_zawodnikow_do_finalu} 
+\end{figure}
+Przechodzimy do zakładki "Wybór graczy do finałów"\\
+Z każdej grupy musimy wybrać co najmniej jednego zawodnika który będzie brał udział w finale
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/15}
+	\caption{Wybór graczy do finału}
+	\label {fig:rozgrywka_finalowa_1} 
+\end{figure}
+Jeżeli zawodnicy którzy dostali się do finału grali ze sobą wcześniej, nie grają ponownie. Przyjęty zostaje wynik z poprzedniej rundy.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/16}
+	\caption{Rozgrywki finałowe}
+	\label {fig:rozgrywka_finalowa_2} 
+\end{figure}
+
+W zakładce "Wyniki turnieju" wyświetlone zostają wyniki z podziałem na miejsca
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/17}
+	\caption{Wyniki turnieju}
+	\label {fig:wyniki_turnieju} 
+\end{figure}
+Po rozpoczęciu turnieju w zakładce "Pokaż lub edytuj dodanych uczestników" po kliknięciu PPM na wiersz z danymi uczestnika możemy wybrać opcję "Dyskwalifikuj". Jeżeli zawodnik rozegrał już jakieś pojedynki to nie zostają one anulowane a kolejne w których miał brać udział przegrywa walkowerem (przeciwnik dostaje 1 punkt)
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=15cm]{fig/18}
+	\caption{Dyskwalifikacja zawodnika}
+	\label {fig:dyskwalifikacja} 
+\end{figure}
