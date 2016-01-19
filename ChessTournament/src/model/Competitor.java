@@ -141,6 +141,7 @@ public class Competitor implements Serializable, Comparable<Competitor> {
     
     @Override
     public String toString() {
+    	if(getIsDisqualified()) return surname+" "+name+" *d";
     	return surname+" "+name;
     }
     
