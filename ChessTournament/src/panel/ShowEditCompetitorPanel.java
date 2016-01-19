@@ -22,6 +22,7 @@ import model.Competitor;
 import model.Database;
 import model.Tournament;
 import res.Strings;
+import tools.Dialogs;
 import tools.MyPlainDocument;
 import tools.ValidatorException;
 
@@ -70,9 +71,10 @@ public class ShowEditCompetitorPanel extends JPanel{
 						});
 	                    popup.add(jmi);
                     }
-                    if(turniej.isDisqualificationAllowed()) {
+                    if(turniej.isDisqualificationAllowed() && !c.getIsDisqualified()) {
                         JMenuItem jmi = new JMenuItem(Strings.disqualify);
                     	jmi.addActionListener(e2 -> {
+                    		if(!Dialogs.czyZdyskwalifikowac(c)) return;		
 							c.setIsDisqualified(true);
 							DB.insertOrUpdateCompetitor(c,turniej.getId());
 							setData();
@@ -117,9 +119,9 @@ public class ShowEditCompetitorPanel extends JPanel{
 			});
 	        
 	        // dla pól imię i nazwisko ustawiony edytor na podstawie powyższego pola tekstowego 
-	        columnModel.getColumn(0).setCellEditor(new DefaultCellEditor(jtf));
 	        columnModel.getColumn(1).setCellEditor(new DefaultCellEditor(jtf));
-	        columnModel.getColumn(3).setCellEditor(new DefaultCellEditor(
+	        columnModel.getColumn(2).setCellEditor(new DefaultCellEditor(jtf));
+	        columnModel.getColumn(4).setCellEditor(new DefaultCellEditor(
 	        	new JComboBox<Integer>(new Integer[]{1,2,3,4,5,6})
 	        ));
 		}
@@ -135,10 +137,10 @@ public class ShowEditCompetitorPanel extends JPanel{
 	
 	protected class EditCompetitorTableModel extends AbstractTableModel {
 		private static final long serialVersionUID = 5974959488451548395L;
-		final String[] columnNames = {"Nazwisko", "Imię", "Wiek", "Kategoria"};
+		final String[] columnNames = {"L.p.", "Nazwisko", "Imię", "Wiek", "Kategoria"};
 		@Override
     	public Class<?> getColumnClass(int c) { 
-    		return (c==2 || c==3) ? Integer.class : String.class;
+    		return (c==3 || c==4) ? Integer.class : String.class;
     	}
     	@Override
     	public boolean isCellEditable(int row, int column) {
@@ -146,7 +148,7 @@ public class ShowEditCompetitorPanel extends JPanel{
     	}
 		@Override
 		public int getColumnCount() {
-			return 4;
+			return 5;
 		}
 		@Override
 		public String getColumnName(int columnIndex) {
@@ -159,10 +161,11 @@ public class ShowEditCompetitorPanel extends JPanel{
 		@Override
 		public Object getValueAt(int row, int col) {
 			Competitor c = competitors.get(row);
-			if(col==0) return c.getSurname();
-			if(col==1) return c.getName();
-			if(col==2) return c.getAge();
-			if(col==3) return c.getChessCategory();
+			if(col==0) return row+1;
+			if(col==1) return c.getSurname();
+			if(col==2) return c.getName();
+			if(col==3) return c.getAge();
+			if(col==4) return c.getChessCategory();
 	        return null;
 		}
 		@Override
@@ -170,10 +173,10 @@ public class ShowEditCompetitorPanel extends JPanel{
 			Competitor c = competitors.get(row);
 			try {
 				switch(column) {
-					case 0: c.setSurname((String)value); 		break;
-					case 1: c.setName((String)value); 			break;
-					case 2: c.setAge((int)value); 				break;
-					case 3: c.setChessCategory((int)value); 	break;
+					case 1: c.setSurname((String)value); 		break;
+					case 2: c.setName((String)value); 			break;
+					case 3: c.setAge((int)value); 				break;
+					case 4: c.setChessCategory((int)value); 	break;
 				}
 				DB.insertOrUpdateCompetitor(c, turniej.getId());
 			} catch(ValidatorException exc) {

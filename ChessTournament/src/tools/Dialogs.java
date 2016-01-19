@@ -2,6 +2,8 @@ package tools;
 
 import javax.swing.JOptionPane;
 
+import model.Competitor;
+
 /**
  * Definiuje okna błędów, ostrzeżeń oraz informacji
  */
@@ -72,4 +74,15 @@ public class Dialogs {
 		return r==JOptionPane.OK_OPTION;
 	}
 	
+	/**
+	 * @return Czy na pewno zdyskwalifikowac
+	 */
+	public static boolean czyZdyskwalifikowac(Competitor c) {
+		int r = JOptionPane.showConfirmDialog(
+			null, 
+			"Czy jesteś pewien, że chcesz zdywkwalifikować zawodnika "+c+"?\nTej operacji nie można cofnąć",
+			"Uwaga!",
+			JOptionPane.OK_CANCEL_OPTION);
+		return r==JOptionPane.OK_OPTION;
+	}
 }
