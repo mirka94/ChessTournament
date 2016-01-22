@@ -147,6 +147,7 @@ public class CompetitorTabbedPane extends JPanel {
 			 Competitor c = new Competitor(null, "", "", 0, 0, false, null);
 			 DB.insertOrUpdateCompetitor(c, turniej.getId());
 			 showPanel.setData();
+			 showPanel.selectLast();
 		});
 		rndC.addActionListener((e) -> {
 			 if(!turniej.isPlayersEditAllowed()) return;

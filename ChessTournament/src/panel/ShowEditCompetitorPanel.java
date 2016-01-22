@@ -98,6 +98,10 @@ public class ShowEditCompetitorPanel extends JPanel{
 		((EditCompetitorTableModel)table.getModel()).fireTableDataChanged();     
 	}
 	
+	public void selectLast() {
+		table.changeSelection(table.getRowCount()-1, 1, false,  false);
+	}
+	
 	public class EditCompetitorJTable extends JTable {
 		private static final long serialVersionUID = -9074329149984999956L;
 
@@ -144,6 +148,7 @@ public class ShowEditCompetitorPanel extends JPanel{
     	}
     	@Override
     	public boolean isCellEditable(int row, int column) {
+    		if(column==1 || column==2 || column==3) return true;
     		return turniej.isPlayersEditAllowed();
     	}
 		@Override

@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,17 @@ public abstract class AbstractGamesPanel extends JPanel{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 	
+	protected void sortGames() {
+		Collections.sort(singleGames, (sg1, sg2)->{
+			if(currentlyPlayedGames==null) return 0;
+			if(currentlyPlayedGames.contains(sg1) && !currentlyPlayedGames.contains(sg2)) return -1; 
+			if(!currentlyPlayedGames.contains(sg1) && currentlyPlayedGames.contains(sg2)) return 1; 
+			return 0;
+		});
+	}
+	
 	protected void setDisqualifiedPlayersScores() {
+		sortGames();
 		for(SingleGame sg : singleGames) {
 			if(sg.getScore()==0) {
 				Competitor cW = competitorMap.get(sg.getCompetitorW());
@@ -72,6 +83,7 @@ public abstract class AbstractGamesPanel extends JPanel{
 				int rowCount = table.getRowCount(), rowSelected = table.getSelectedRow();
 				if(rowSelected>=0 && rowSelected<rowCount && model.isCellEditable(rowSelected, 3)) {
 					model.setValueAt(action, rowSelected, 3);
+					table.changeSelection(rowSelected, 3, false, false);
 				}
 		    }
 		};
@@ -121,6 +133,7 @@ public abstract class AbstractGamesPanel extends JPanel{
 				currentlyPlayedGames.add(sg);
 			}	
 		};
+		sortGames();
 	}
 	
 	class MyCellRenderer extends DefaultTableCellRenderer {
