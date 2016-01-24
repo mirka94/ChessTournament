@@ -1,6 +1,1199 @@
-\chapter{Piotr Jabłoński,\\ Mirosława Pelc}
+\chapter{Piotr Jabłoński}
+	Pierwszym krokiem tworzenia aplikacji do zarządzania turniejem szachowym było wymyślenie, w jaki sposób przechowywać dane o uczestnikach, turniejach, rozgrywkach. Początkowo zastosowałem bazę SQLite. Po licznych testach doszedłem do wniosku, że posługiwanie się tą bazą bardzo spowalnia program, dlatego zmieniłem zapis danych na zapis do plików. Baza danych programu szachowego wygląda następująco:
+\begin{verbatim}
+package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
+import tools.Dialogs;
 
-\textbf{Kod źródłowy z kompilatora Eclipse z komentarzami wygenerowany automatycznie.}
-\url{file:./doc/index.html}
+/**
+ * Klasa odpowiadająca za obsługę bazy danych.
+ * Dane zapisywane są w plikach w postaci serializowanych list obiektów
+ */
+public class Database \{
+	Map<Integer,Tournament> tournaments = new TreeMap<>();
+	Map<Integer,Competitor> competitors = new TreeMap<>();
+	Map<Integer,SingleGame> singleGames = new TreeMap<>();
+	public Database() \{
+		File theDir = new File("data");
+		// if the directory does not exist, create it
+		if (!theDir.exists()) \{
+		    System.out.println("Creating data/ directory");
+		    try\{
+		        theDir.mkdir();
+		    \} 
+		    catch(SecurityException se)\{
+		        System.err.println("Could not create data/ directory");
+		    \}
+		\}
+	\}
+	public void close()\{\}
+	private static Object readObject(String filename) \{
+		Object result = null;
+		try \{
+		    File file = new File("data/"+filename);
+		    FileInputStream f = new FileInputStream(file);
+		    ObjectInputStream s = new ObjectInputStream(f);
+		    result = s.readObject();
+		    s.close();
+		\} catch(FileNotFoundException e) \{
+			System.err.println("Warning: file "+filename+" can not be found");
+		\} catch(IOException | ClassNotFoundException e) \{
+			e.printStackTrace();
+			Dialogs.bladBazy();
+		\}
+		return result;
+	\}
+	public static <T> void writeObject(String filename, Map<Integer,T> o) \{
+		try \{
+	        File file = new File("data/"+filename);
+	        FileOutputStream f = new FileOutputStream(file);
+	        ObjectOutputStream s = new ObjectOutputStream(f);
+	        s.writeObject(new ArrayList<T>(o.values()));
+	        s.close();
+		\} catch(IOException e) \{
+			e.printStackTrace();
+			Dialogs.bladBazy();
+		\}
+	\}
+	@SuppressWarnings("unchecked")
+	public void readTournaments() \{
+		ArrayList<Tournament> rawTournaments = (ArrayList<Tournament>) 
+				readObject("tournaments.data");
+		tournaments = rawTournaments==null ? new TreeMap<>() : rawTournaments.stream()
+				.collect(Collectors.toMap(o->o.getId(),o->o));
+	\}
+	public void writeTournaments() \{
+		writeObject("tournaments.data", tournaments);
+	\}
+	@SuppressWarnings("unchecked")
+	public void readCompetitors(int t) \{
+		ArrayList<Competitor> rawCompetitors = (ArrayList<Competitor>) 
+				readObject("competitors"+t+".data");
+		competitors = rawCompetitors==null ? new TreeMap<>() : rawCompetitors.stream()
+				.collect(Collectors.toMap(o->o.getId(),o->o));
+	\}
+	public void writeCompetitors(int t) \{
+		writeObject("competitors"+t+".data", competitors);
+	\}
+	@SuppressWarnings("unchecked")
+	public void readSingleGames(int t) \{
+		ArrayList<SingleGame> rawGames = (ArrayList<SingleGame>) 
+				readObject("games"+t+".data");
+		singleGames = rawGames==null ? new TreeMap<>() : rawGames.stream()
+				.collect(Collectors.toMap(o->o.getId(),o->o));
+	\}
+	public void writeSingleGames(int t) \{
+		writeObject("games"+t+".data", singleGames);
+	\}
+	public void insertOrUpdateCompetitor(Competitor c, Integer turniej) \{
+		if(c.getId()==null) 
+			if(competitors.isEmpty()) c.setId(0);
+			else c.setId(Collections.max(competitors.keySet())+1);
+		competitors.put(c.getId(), c);
+		writeCompetitors(turniej);
+	\}
+	public void insertOrUpdateTournament(Tournament t) \{
+		if(tournaments.isEmpty()) readTournaments();
+		if(t.getId()==null)
+			if(tournaments.isEmpty()) t.setId(0);
+			else t.setId(Collections.max(tournaments.keySet())+1);
+		tournaments.put(t.getId(), t.copy());
+		writeTournaments();
+	\}
+	public void insertOrUpdateSingleGame(SingleGame g, Integer turniej) \{
+		if(g.getId()==null) 
+			if(singleGames.isEmpty()) g.setId(0);
+			else g.setId(Collections.max(singleGames.keySet())+1);
+		singleGames.put(g.getId(), g);
+		writeSingleGames(turniej);
+	\}
+	public void insertOrUpdateSingleGame(List<SingleGame> insSingleGames, Integer turniej) \{
+		for(SingleGame g : insSingleGames) \{
+			if(g.getId()==null) 
+				if(singleGames.isEmpty()) g.setId(0);
+				else g.setId(Collections.max(singleGames.keySet())+1);
+			singleGames.put(g.getId(), g);
+		\}
+		writeSingleGames(turniej);
+	\}
+	public List<Competitor> getCompetitors(int turniej) \{
+		readCompetitors(turniej);
+		return competitors.values().stream().collect(Collectors.toList());
+	\}
+	public List<Tournament> getTournaments() \{
+		readTournaments();
+		return tournaments.values().stream().collect(Collectors.toList());
+	\}
+	public List<SingleGame> getSingleGames(int turniej, boolean finaly) \{
+		readSingleGames(turniej);
+		if(!finaly) \{
+			return singleGames.values().stream()
+				.filter(sg->sg.getRound()!=-1)
+				.collect(Collectors.toList());
+		\}
+		else \{
+			List<Integer> finaleCompetitorsIds = competitors.values().stream()
+				.filter(c->c.getGoesFinal())
+				.map(c->c.getId())
+				.collect(Collectors.toList());
+			return singleGames.values().stream()
+				.filter(sg->
+					finaleCompetitorsIds.contains(sg.getCompetitorB()) \&\& 
+					finaleCompetitorsIds.contains(sg.getCompetitorW())
+				).collect(Collectors.toList());
+		\}
+	\}
+	public void removeCompetitor(int id, int turniej) \{
+		competitors.remove(id);
+		writeCompetitors(turniej);
+	\}
+\}
+\end{verbatim}
+Na potrzeby klasy odpowiadającej za przechowywanie danych zastosowałem takie kolekcje jak: listę, mapę, treemap, arraylist.
+
+Aby w łatwy sposób przekazywać dane pomiędzy interfejsem użytkownika a bazą danych zastosowałem element wzorca projektowego, którym jest model. Stworzyłem trzy modele: zawodnika, turnieju i rozgrywek. Oto ich kod:
+\begin{verbatim}
+//przechowuje dane użytkowników
+
+package model;
+
+import java.io.Serializable;
+import java.text.Collator;
+import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.Locale;
+
+import res.Strings;
+import tools.ValidatorException;
+
+/**
+ * Przechowuje podstawowe dane o uczestniku: imię, nazwisko, wiek, 
+ * kategoria szachowa, id, grupa, czy uczestnik nie jest zdyskwalifikowany. 
+ * Definiuje sposoby sortowania uczestników
+ */
+public class Competitor implements Serializable, Comparable<Competitor> \{
+	private static final long serialVersionUID = -8356380635352407432L;
+	private String name;
+    private String surname;
+    private int age;
+    private int chessCategory;
+    private Integer id;
+    private boolean isDisqualified;
+    private Integer group;
+    public static EnumMap<SortOption, Comparator<Competitor>> comparators;
+
+    static \{
+    	comparators = new EnumMap<SortOption, Comparator<Competitor>>(SortOption.class);
+    	Collator collator = Collator.getInstance(new Locale(Strings.locale));
+	    comparators.put(SortOption.AGE\_ASC, 
+	    		(c1, c2) -> c1.getAge().compareTo(c2.getAge()));
+		comparators.put(SortOption.AGE\_DESC, 
+				(c2, c1) -> c1.getAge().compareTo(c2.getAge()));
+		comparators.put(SortOption.CHESSCATEGORY\_ASC, 
+				(c1, c2) -> c1.getChessCategory().compareTo(c2.getChessCategory()));
+		comparators.put(SortOption.CHESSCATEGORY\_DESC, 
+				(c2, c1) -> c1.getChessCategory().compareTo(c2.getChessCategory()));
+		comparators.put(SortOption.NAME\_ASC, 
+				(c1, c2) -> collator.compare(c1.getName(), c2.getName()));
+		comparators.put(SortOption.NAME\_DESC, 
+				(c2, c1) -> collator.compare(c1.getName(), c2.getName()));
+		comparators.put(SortOption.SURNAME\_ASC, 
+				(c1, c2) -> c1.getSurname().compareTo(c2.getSurname()));
+		comparators.put(SortOption.SURNAME\_DESC, 
+				(c2, c1) -> c1.getSurname().compareTo(c2.getSurname()));
+    \}
+    
+    public Competitor(Integer id, String name, String surname, int age, int chessCategory, boolean isDisqualified, Integer group) \{
+    	this.id 			= id;
+        this.name 			= name;
+        this.surname 		= surname;
+        this.age 			= age;
+        this.chessCategory 	= chessCategory;
+        this.isDisqualified = isDisqualified;
+        this.group			= group;
+    \}
+    
+    public void setId(Integer id) \{
+    	this.id = id;
+    \}
+    
+    public Integer getId() \{
+        return id;
+    \}
+
+    public String getName() \{
+        return name;
+    \}
+
+    public void setName(String name) throws ValidatorException \{
+        this.name = name;
+    \}
+
+    public void setAge(int age) throws ValidatorException \{
+    	if(age<0) throw new ValidatorException(Strings.negativeAge);
+        this.age = age;
+    \}
+
+    public String getSurname() \{
+        return surname;
+    \}
+
+    public void setSurname(String surname) throws ValidatorException  \{
+        this.surname = surname;
+    \}
+
+    public Integer getAge() \{
+        return age;
+    \}
+
+    public Integer getChessCategory() \{
+        return chessCategory;
+    \}
+
+    public void setChessCategory(int chessCategory) \{
+        this.chessCategory = chessCategory;
+    \}
+    
+    public Boolean getIsDisqualified() \{
+        return this.isDisqualified;
+    \}
+    
+    public void setIsDisqualified(boolean isDisqualified) \{
+        this.isDisqualified = isDisqualified;
+    \}
+    
+    public Integer getRawGroup() \{
+        return group;
+    \}
+    
+    public Integer getGroup() \{
+    	if(group==null) return null;
+        return group\%100;
+    \}
+    
+    public void setGroup(Integer group) \{
+    	this.group = group;
+    \}
+    
+    public void setGoesFinal(boolean goes) \{
+    	group\%=100;
+    	if(goes) group+=100;
+    \}
+    
+    public boolean getGoesFinal() \{
+    	return group>=100;
+    \}
+    
+    /**
+     * Opcje sortowania dla listy uczestników
+     */
+    public enum SortOption \{
+		NAME\_ASC, NAME\_DESC, 
+		SURNAME\_ASC, SURNAME\_DESC, 
+		AGE\_ASC, AGE\_DESC, 
+		CHESSCATEGORY\_ASC, CHESSCATEGORY\_DESC
+	\}
+    
+    @Override
+    public String toString() \{
+    	if(getIsDisqualified()) return surname+" "+name+" *d";
+    	return surname+" "+name;
+    \}
+    
+    @Override
+    public boolean equals(Object obj) \{
+    	if(obj instanceof Competitor) return this.getId() == ((Competitor) obj).getId();
+    	return false;
+    \}
+
+	@Override
+	public int compareTo(Competitor c) \{
+		if(c.getId()-getId()!=0) return c.getId()-getId();
+		return toString().compareTo(c.toString());
+	\}
+\}
+\end{verbatim}
+\begin{verbatim}
+//przechowuje dane użytkowników
+
+package model;
+
+import java.io.Serializable;
+
+/**
+ * Przechowuje dane o turnieju - nazwę, rok, ilość szachownic, rund wszystkich oraz rund już rozegranych
+ */
+public class Tournament implements Serializable \{
+	private static final long serialVersionUID = 7913534186353148249L;
+	private Integer id;
+    private String name;
+    private String year;
+	private int boards;
+    private int rounds;
+    private int roundsCompleted;
+
+    public Tournament(Integer id, String name, String year, int boards, int rounds, int roundsCompleted) \{
+    	this.id 			= id;
+        this.name 			= name;
+        this.year 			= year;
+        this.boards 		= boards;
+        this.rounds 		= rounds;
+        this.roundsCompleted = roundsCompleted;
+    \}
+    
+    public Tournament copy() \{
+    	return new Tournament(id, name, year, boards, rounds, roundsCompleted);
+    \}
+
+    public void setId(Integer id) \{
+    	this.id = id;
+    \}
+    
+    public Integer getId() \{
+        return id;
+    \}
+    
+    public void setId(int newId) \{
+        id = newId;
+    \}
+
+    public String getName() \{
+        return name;
+    \}
+
+    public void setName(String name) \{
+        this.name = name;
+    \}
+    
+    public String getYear() \{
+		return year;
+	\}
+
+	public void setYear(String year) \{
+		this.year = year;
+	\}
+
+	public int getBoards() \{
+		return boards;
+	\}
+
+	public void setBoards(int boards) \{
+		this.boards = boards;
+	\}
+
+	public int getRounds() \{
+		return rounds;
+	\}
+
+	public void setRounds(int rounds) \{
+		this.rounds = rounds;
+	\}
+
+	public int getRoundsCompleted() \{
+		return roundsCompleted;
+	\}
+
+	public void setRoundsCompleted(int roundsCompleted, boolean overRide) \{
+		if(roundsCompleted > this.roundsCompleted || overRide)  
+			this.roundsCompleted = roundsCompleted;
+	\}
+	
+	public void setRoundsCompleted(int roundsCompleted) \{
+		setRoundsCompleted(roundsCompleted, false);
+	\}
+	
+	public boolean isPlayersEditAllowed() \{
+		return roundsCompleted<0;
+	\}
+	public boolean isDisqualificationAllowed() \{
+		return roundsCompleted==0 || roundsCompleted==2;
+	\}
+\}
+\end{verbatim}
+\begin{verbatim}
+package model;
+
+import java.io.Serializable;
+
+/**
+ * Przechowuje dane o pojedynczej rozgrywce - id graczy, wynik, oraz 
+ * informację w której rundzie (czy też w finałach) rozgrywka była zawarta
+ */
+public class SingleGame implements Serializable \{
+	private static final long serialVersionUID = -3007183465072503118L;
+	private Integer id;
+	private final int competitorW, competitorB;
+	private int score;
+	private int board;
+	private final int round;
+	
+	public SingleGame(Integer id, int competitorW, int competitorB, int score,
+			int round, int board) \{
+		this.id = id;
+		this.competitorW = competitorW;
+		this.competitorB = competitorB;
+		this.score = score;
+		this.round = round;
+		this.board = board;
+	\}
+	
+	public SingleGame(Competitor competitorW, Competitor competitorB, int round, int board) \{
+		this.id = null;
+		this.competitorW = competitorW.getId();
+		this.competitorB = competitorB.getId();
+		this.score = 0;
+		this.round = round;
+		this.board = board;
+	\}
+	
+	public SingleGame(Competitor c, int round, int score) \{ // swiss bye / disqualified
+		this.id = null;
+		this.competitorB = c.getId(); 
+		this.competitorW = c.getId();
+		this.score = score;
+		this.round = round;
+	\}
+
+	public Integer getId() \{
+		return id;
+	\}
+	
+	public void setId(int id) \{
+		this.id = id;
+	\}
+
+	public int getCompetitorW() \{
+		return competitorW;
+	\}
+
+	public int getCompetitorB() \{
+		return competitorB;
+	\}
+
+	public int getScore() \{
+		return score;
+	\}
+
+	public void setScore(int score) \{
+		this.score = score;
+	\}
+	
+	public Integer getRound() \{
+		return round;
+	\}
+	
+	public Integer getBoard() \{
+		return board;
+	\}
+	
+	public void setBoard(int board) \{
+		this.board = board;
+	\}
+	
+	@Override
+    public boolean equals(Object obj) \{
+    	if(obj instanceof SingleGame) \{
+    		SingleGame sg1 = this, sg2=(SingleGame)obj;
+    		if(sg1.getCompetitorW()==sg2.getCompetitorW() \&\& sg1.getCompetitorB()==sg2.getCompetitorB()) return true;
+    		if(sg1.getCompetitorW()==sg2.getCompetitorB() \&\& sg1.getCompetitorB()==sg2.getCompetitorW()) return true;
+    	\}
+    	return false;
+    \}
+\}
+\end{verbatim}
+Modele zawierają settery, które przechowują wartości i gettery, które te wartości zwracają.
+
+Na potrzeby programu stworzyłem klasę abstrakcyjną, która zawiera metody wykorzystywane przy rozgrywkach:
+- metoda wykorzystana przy dyskwalifikacji uczestników
+\begin{verbatim}
+protected void setDisqualifiedPlayersScores() \{
+		sortGames();
+		for(SingleGame sg : singleGames) \{
+			if(sg.getScore()==0) \{
+				Competitor cW = competitorMap.get(sg.getCompetitorW());
+				Competitor cB = competitorMap.get(sg.getCompetitorB());
+				if(cW.getIsDisqualified() \&\& cB.getIsDisqualified()) sg.setScore(3);
+				else if(cW.getIsDisqualified()) sg.setScore(2);
+				else if(cB.getIsDisqualified()) sg.setScore(1);
+				if(sg.getScore()!=0) DB.insertOrUpdateSingleGame(sg, turniej.getId());
+			\}
+		\}
+	\}
+\end{verbatim}
+- metoda odpowiedzialna za ustawianie klawiszami wyników, np. B oznacza, że wygrał gracz z białymi pionkami
+\begin{verbatim}
+protected static void mapKeyActions(JTable table) \{
+		InputMap im = table.getInputMap(JTable.WHEN\_FOCUSED);
+		ActionMap am = table.getActionMap();
+
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK\_BACK\_SPACE, 0), 	Strings.notPlayedYet);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK\_DELETE, 0), 		Strings.notPlayedYet);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK\_B, 0), Strings.whiteWon);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK\_C, 0), Strings.blackWon);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK\_R, 0), Strings.tie);
+		am.put(Strings.notPlayedYet,scoreUpdateAction(table, Strings.notPlayedYet));
+		am.put(Strings.whiteWon, 	scoreUpdateAction(table, Strings.whiteWon));
+		am.put(Strings.blackWon, 	scoreUpdateAction(table, Strings.blackWon));
+		am.put(Strings.tie, 	 	scoreUpdateAction(table, Strings.tie));
+	\}
+\end{verbatim}
+- metoda, która odpowiada za aktualizacje wyników
+\begin{verbatim}
+private static Action scoreUpdateAction(JTable table, String action) \{
+		MyTableModel model = (MyTableModel) table.getModel();
+		return new AbstractAction() \{
+			private static final long serialVersionUID = -5143500614268433363L;
+			@Override
+		    public void actionPerformed(ActionEvent e) \{
+				int rowCount = table.getRowCount(), rowSelected = table.getSelectedRow();
+				if(rowSelected>=0 \&\& rowSelected<rowCount \&\& model.isCellEditable(rowSelected, 3)) \{
+					model.setValueAt(action, rowSelected, 3);
+					table.changeSelection(rowSelected, 3, false, false);
+				\}
+		    \}
+		\};
+	\}
+\end{verbatim}
+
+Ważną częścią programu jest są napisane przeze mnie metody, które wyliczają ilość rozgrywek w zależności od ilości zawodników. Oto ich kod:
+\begin{verbatim}
+static void rozgrywek\_finaly(int zawodnikow, int izg) \{
+		System.out.print("Finały: zawodnikow - "+zawodnikow+", "
+				+izg*(izg-1)+" rozgrywek odbylo sie juz w fazie eliminacji, pozostalo rozgrywek "+
+				(zawodnikow*(zawodnikow-1)-(zawodnikow/izg)*izg*(izg-1)));
+	\}
+	public static int rozgrywek\_eliminacje(int zawodnikow, int grup) \{
+		List<Integer> grupy = new ArrayList<Integer>();
+		while(zawodnikow>0) \{
+			int t = zawodnikow/grup;
+			grupy.add(t);
+			zawodnikow-=t;
+			grup--;
+		\}
+		int rozgrywek = 0;
+		for(Integer i : grupy) \{
+			rozgrywek+=i*(i-1)/2;
+		\}
+		return rozgrywek;
+	\}
+	
+	public static void roundRobinTable(int g) \{
+		int gp = (g\%2==1) ? g+1 : g;
+		for(int i=1; i<gp; ++i) \{
+			if(i\%2==1) \{
+				System.out.print((1+i/2)+"-"+gp);
+				for(int j=2; j<=gp/2; ++j) \{
+					System.out.print("\textbackslash\{\}t"+(j+i/2)+"-"+((gp-j+i/2)\%(gp-1)+1));
+				\}
+			\}
+			else \{
+				System.out.print(gp+"-"+(gp/2+i/2));
+				for(int j=2; j<=gp/2; ++j) \{
+					System.out.print("\textbackslash\{\}t"+((gp/2+j+i/2-2)\%(gp-1)+1)+"-"+((gp/2-j+i/2)\%(gp-1)+1));
+				\}
+			\}
+			System.out.print("\textbackslash\{\}n");
+		\}
+	\}
+	
+	static String pad(String toPad) \{
+		return (toPad+"                    ").substring(0, 20);
+	\}
+\end{verbatim}
+
+Na pola tekstowe komórek JTable i nie tylko nałożyłem ograniczenia w postaci walidacji.
+\begin{verbatim}	
+private static final long serialVersionUID = -489930074061735703L;
+
+	@Override
+  	public void insertString(int offs, String str, AttributeSet a)
+  			throws BadLocationException \{
+  		if(str.length()>50-offs) str = str.substring(0, 50-offs);
+  		str = str.replaceAll(Strings.forbiddenCharsRegExp, "");
+  		super.insertString(offs, str, a);
+  	\}
+\end{verbatim}
+
+Poniższy kod wypełnia danymi z bazy pola JTable w zakładce pierwszej:
+\begin{verbatim}
+protected class EditCompetitorTableModel extends AbstractTableModel \{
+		private static final long serialVersionUID = 5974959488451548395L;
+		final String[] columnNames = \{"L.p.", "Nazwisko", "Imię", "Wiek", "Kategoria"\};
+		@Override
+    	public Class<?> getColumnClass(int c) \{ 
+    		return (c==3 || c==4) ? Integer.class : String.class;
+    	\}
+    	@Override
+    	public boolean isCellEditable(int row, int column) \{
+    		if(column==1 || column==2 || column==3) return true;
+    		return turniej.isPlayersEditAllowed();
+    	\}
+		@Override
+		public int getColumnCount() \{
+			return 5;
+		\}
+		@Override
+		public String getColumnName(int columnIndex) \{
+			return columnNames[columnIndex];
+		\}
+		@Override
+		public int getRowCount() \{
+			return competitors.size();
+		\}
+		@Override
+		public Object getValueAt(int row, int col) \{
+			Competitor c = competitors.get(row);
+			if(col==0) return row+1;
+			if(col==1) return c.getSurname();
+			if(col==2) return c.getName();
+			if(col==3) return c.getAge();
+			if(col==4) return c.getChessCategory();
+	        return null;
+		\}
+		@Override
+		public void setValueAt(Object value, int row, int column) \{
+			Competitor c = competitors.get(row);
+			try \{
+				switch(column) \{
+					case 1: c.setSurname((String)value); 		break;
+					case 2: c.setName((String)value); 			break;
+					case 3: c.setAge((int)value); 				break;
+					case 4: c.setChessCategory((int)value); 	break;
+				\}
+				DB.insertOrUpdateCompetitor(c, turniej.getId());
+			\} catch(ValidatorException exc) \{
+				System.out.print("Błąd walidacji\textbackslash\{\}n"+exc.getMessage());
+			\}
+		\}
+	\}
+\end{verbatim} 
+
+Do tabeli dodałem opcje „Usuń” i „Dyskwalifikuj”, które można wybrać po kliknięciu prawym przyciskiem myszy na wiersz tabeli. Wówczas pojawi się tzw. PopupMenu.
+\begin{verbatim}
+table.addMouseListener(new MouseAdapter() \{
+            @Override
+            public void mouseReleased(MouseEvent e) \{
+                int r = table.rowAtPoint(e.getPoint());
+                if(r >= 0 \&\& r < table.getRowCount()) 
+                    table.setRowSelectionInterval(r, r);
+                else 
+                	table.clearSelection();
+
+                final int rowindex = table.getSelectedRow();
+                if(rowindex < 0) return;
+                if(e.isPopupTrigger() \&\& e.getComponent() instanceof JTable ) \{
+                    JPopupMenu popup = new JPopupMenu();
+					Competitor c = competitors.get(rowindex);
+                    if(turniej.isPlayersEditAllowed()) \{
+                        JMenuItem jmi = new JMenuItem(Strings.remove);
+                        jmi.addActionListener(e2 -> \{
+							DB.removeCompetitor(c.getId(), turniej.getId());
+							setData();
+						\});
+	                    popup.add(jmi);
+                    \}
+                    if(turniej.isDisqualificationAllowed() \&\& !c.getIsDisqualified()) \{
+                        JMenuItem jmi = new JMenuItem(Strings.disqualify);
+                    	jmi.addActionListener(e2 -> \{
+                    		if(!Dialogs.czyZdyskwalifikowac(c)) return;		
+							c.setIsDisqualified(true);
+							DB.insertOrUpdateCompetitor(c,turniej.getId());
+							setData();
+                    	\});
+	                    popup.add(jmi);
+                    \}
+                    if(popup.getComponentCount()>0) popup.show(e.getComponent(), e.getX(), e.getY());
+                \}
+            \}
+        \});
+\end{verbatim}
+
+Poniższe metody odświeżają widok JTable danymi pobranymi z bazy.
+\begin{verbatim}
+public void setData() \{
+		competitors=DB.getCompetitors(turniej.getId());
+		((EditCompetitorTableModel)table.getModel()).fireTableDataChanged();     
+	\}
+	
+	public void selectLast() \{
+		table.changeSelection(table.getRowCount()-1, 1, false,  false);
+	\}
+\end{verbatim}
+
+Stworzyłem również klasę odpowiadającą za grupowanie graczy. Skorzystałem z zaprogramowanego przez programistę interfejsu graficznego naszej grupy panelu. Połączyłem interfejs graficzny oraz stworzone przeze mnie metody w jedną całość. Dodałem możliwość sortowania graczy przed przydzieleniem do grup, możliwość przydzielenia już dopasowanego gracza do innej grupy (prawy przycisk myszy na wiersz tabeli). Zaprogramowałem mechanizm grania każdy z każdym. Jest to specyficzny rodzaj turnieju kołowego, którego autorem jest zamawiający program.
+\begin{verbatim}
+public GroupsPanel(Tournament t, Database db, onTournamentStartListener listener)\{
+		this.turniej = t;
+		this.DB = db;
+		this.setLayout(new BorderLayout());
+		container.setLayout(new BoxLayout(container, BoxLayout.Y\_AXIS));
+		add(new JScrollPane(container));
+		initComponents();
+		startTournament.setVisible(isEditAllowed());
+		startTournament.addActionListener(e -> \{
+			Tools.checkGroups(turniej.getRounds(), competitors);
+			if(competitors.stream().filter(c->c.getGroup()==null).count()>0)
+				Dialogs.graczBezGrupy();
+			else \{
+				competitors.forEach(c->DB.insertOrUpdateCompetitor(c, turniej.getId())); // słaba wydajność w tym punkcie
+				int min = competitors.size();
+				int max = 0;
+				TreeMap<Integer, List<Competitor>> groupsList = Tools.groupsList(competitors);
+				for(List<Competitor> groupL : groupsList.values() ) \{
+					int size = groupL.size();
+					min = Math.min(min, size);
+					max = Math.max(max, size);
+				\}
+				if(max>min+1)
+					Dialogs.nierownomiernyPodzial(min, max);
+				else \{
+					DB.insertOrUpdateSingleGame(
+						Tools.generateSingleGames(groupsList, turniej.getBoards()), 
+						turniej.getId());
+					startTournament.setVisible(false);
+					listener.onTournamentStart();
+				\}
+			\}		
+		\});
+	\}
+	
+	@FunctionalInterface 
+	public interface onTournamentStartListener \{
+		public void onTournamentStart();
+	\}
+	
+	public void initComponents() \{
+		competitors = DB.getCompetitors(turniej.getId());
+		sortDefault();
+		final int groups = turniej.getRounds();
+		Tools.checkGroups(groups, competitors);
+		container.removeAll();
+		tables.clear();
+		label = new JLabel(Strings.players, JLabel.CENTER);
+		label.setAlignmentX(JLabel.CENTER\_ALIGNMENT);
+		container.add(label);
+		container.add(Box.createRigidArea(new Dimension(0, 10)));
+		tableN = new JTable(new MyTableModel(null));
+		tables.put(null, tableN);
+		tableN.addMouseListener(new MyMouseListener(tableN, groups));
+        container.add(tableNHeader = tableN.getTableHeader());
+        container.add(tableN);
+        container.add(rigridAfterN = Box.createRigidArea(new Dimension(0, 20)));
+        
+		for(int i=0; i<groups; ++i) \{
+			container.add(new JLabel(Strings.group+(i+1), JLabel.CENTER));
+			container.add(Box.createRigidArea(new Dimension(0, 10)));
+			JTable table = new JTable(new MyTableModel(i));
+			container.add(table.getTableHeader());
+			container.add(table);
+			tables.put(i, table);
+			container.add(Box.createRigidArea(new Dimension(0, 20)));
+	        table.addMouseListener(new MyMouseListener(table, groups));
+		\}
+		
+		container.add(Box.createRigidArea(new Dimension(0, 30)));
+		container.add(startTournament);
+		updateTables();
+	\}
+	
+	void autoGroup() \{
+		int groups = turniej.getRounds(), i = groups, n = -1;
+		List<List<Competitor>> groupsLists = new ArrayList<>();
+		for(Competitor c : competitors) \{
+			if(++i>=groups) \{
+				i = 0;
+				groupsLists.add(new ArrayList<>());
+				n++;
+			\}
+			groupsLists.get(n).add(c);
+		\}
+		while(++i<groups) \{ // dopełnienie ostatniej grupy wartościami "pustymi"
+			groupsLists.get(n).add(new Competitor(null, "", "", 0, 0, false, 0)); //dodać 0
+		\}
+		for(List<Competitor> l : groupsLists) \{
+			Collections.shuffle(l);
+			int g = 0;
+			for(Competitor c : l) c.setGroup(g++);
+		\}
+		updateTables();
+	\}
+	
+	void sortDefault() \{
+		stableSort(Competitor.SortOption.NAME\_ASC);
+		stableSort(Competitor.SortOption.SURNAME\_ASC);
+		stableSort(Competitor.SortOption.AGE\_DESC);
+		stableSort(Competitor.SortOption.CHESSCATEGORY\_ASC);
+	\}
+	
+	void stableSort(Competitor.SortOption o) \{
+		competitors.sort(Competitor.comparators.get(o));
+		updateTables();
+	\}
+	
+	void shuffle() \{
+		Collections.shuffle(competitors);
+	\}
+	
+	void updateTables() \{
+		tables.values().forEach((t) -> ((AbstractTableModel)t.getModel()).fireTableDataChanged());
+		if(tableN!=null \&\& rigridAfterN!=null \&\& tableNHeader!=null) \{
+			boolean allHaveGroup = (((MyTableModel)tableN.getModel()).rawGetRowCount()==0);
+			tableN.setVisible(!allHaveGroup);
+			rigridAfterN.setVisible(!allHaveGroup);
+			tableNHeader.setVisible(!allHaveGroup);
+			label.setText(allHaveGroup?"Kompletny podział na grupy":"Uczestnicy nieprzydzieleni do grup");
+		\}
+	\}
+	
+	public boolean isEditAllowed() \{
+		return turniej.getRoundsCompleted()<0;
+	\}
+	
+	class MyMouseListener extends MouseAdapter \{
+		final int groups;
+		final JTable table;
+		MyMouseListener(JTable table, int groups) \{
+			super();
+			this.table = table;
+			this.groups = groups;
+		\}
+		@Override
+        public void mouseReleased(MouseEvent e) \{
+			if(!isEditAllowed()) return;
+            int r = table.rowAtPoint(e.getPoint());
+            if(r >= 0 \&\& r < table.getRowCount()) 
+                table.setRowSelectionInterval(r, r);
+            else 
+            	table.clearSelection();
+
+            final int rowindex = table.getSelectedRow();
+            if(rowindex < 0) return;
+            if(e.isPopupTrigger() \&\& e.getComponent() instanceof JTable) \{
+                JPopupMenu popup = new JPopupMenu();
+                if(((MyTableModel) table.getModel()).competitors.isEmpty()) return;
+                Competitor c = ((MyTableModel) table.getModel()).competitors.get(rowindex);
+                if(c.getGroup()!=null) \{
+                	MoveToAnotherGroupMenuItem jmiNull = new MoveToAnotherGroupMenuItem(null, c);
+                	popup.add(jmiNull);
+                \}
+                for(int i=0; i<groups; ++i) \{
+                	if(c.getGroup()!=null \&\& c.getGroup()==i) continue;
+                	MoveToAnotherGroupMenuItem jmi = new MoveToAnotherGroupMenuItem(i, c);
+                    popup.add(jmi);
+                \}
+                popup.show(e.getComponent(), e.getX(), e.getY());
+            \}
+        \}
+	\}
+	
+	class MoveToAnotherGroupMenuItem extends JMenuItem \{
+		private static final long serialVersionUID = -70690392582608352L;
+
+		public MoveToAnotherGroupMenuItem(Integer group, Competitor c) \{
+			super(group==null?"Usuń z grupy":"Przenieś do grupy "+(group+1));
+			addActionListener(new ActionListener() \{
+				@Override
+				public void actionPerformed(ActionEvent e) \{
+					Integer oldGroup = c.getGroup();
+					c.setGroup(group);
+					DB.insertOrUpdateCompetitor(c, turniej.getId());
+					((AbstractTableModel)tables.get(oldGroup)	.getModel()).fireTableDataChanged();
+					((AbstractTableModel)tables.get(group)		.getModel()).fireTableDataChanged();
+				\}
+			\});
+		\}
+	\}
+\end{verbatim}
+
+Ważną częścią każdego turnieju szachowego są fazy eliminacyjne. W programie zaimplementowałem wymyślony przeze mnie algorytm odpowiedzialny za rozgrywki eliminacyjne. Oto jak wygląda kod:
+\begin{verbatim}
+public GamesPanel(Tournament t, Database db, onEliminationsEndListener listener)\{
+		super(t,db);
+		this.listener = listener;
+	\}
+	
+	public void initComponents() \{
+		removeAll();
+		competitors = DB.getCompetitors(turniej.getId());
+		singleGames = DB.getSingleGames(turniej.getId(), false);
+		competitorMap = competitors.stream()
+				.collect(Collectors.toMap(c->c.getId(), c->c));
+		setDisqualifiedPlayersScores();
+		recalcColors();
+		JTable table = new JTable(new MyTableModel());
+		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(
+        		new JComboBox<String>(new String[] \{Strings.notPlayedYet, Strings.whiteWon, Strings.blackWon, Strings.tie\})
+        ));
+		table.setDefaultRenderer(String.class, new MyCellRenderer());
+		add(new JScrollPane(table));
+		add(Box.createRigidArea(new Dimension(0, 20)));
+		finishB.addActionListener((e)->\{
+			if(singleGames.stream().filter(sg->sg.getScore()==0).count()>0) \{
+				Dialogs.gryBezWyniku();
+			\}
+			else \{
+				finishB.setVisible(false);
+				listener.onEliminationsEnd();
+			\}
+		\});
+		if(turniej.getRoundsCompleted()<1) add(finishB);
+		mapKeyActions(table);
+	\}
+	
+	@FunctionalInterface 
+	public interface onEliminationsEndListener \{
+		public void onEliminationsEnd();
+	\}
+\end{verbatim}
+
+Następną rzeczą było stworzenie mechanizmu wybierania graczy do finałów. Gracze, którzy pomyślnie przeszli eliminacje mają możliwość zagrania w finałach, ale to od użytkownika aplikacji zależy ilu zawodników z danej grupy przejdzie do finału. Może się zdarzyć, że z jednej grupy przejdą wszyscy a z drugiej żaden zawodnik. Na bieżąco aktualizowana jest zawartość tabel.
+\begin{verbatim}
+public GroupsChoosePanel(Tournament t, Database db, onFinaleStartListener listener)\{
+		this.turniej = t;
+		this.DB = db;
+		this.setLayout(new BorderLayout());
+		container.setLayout(new BoxLayout(container, BoxLayout.Y\_AXIS));
+		add(new JScrollPane(container));
+		initComponents();
+		startFinales.setVisible(turniej.getRoundsCompleted()==1);
+		startFinales.addActionListener(e->\{
+			boolean everyGroupHasSelectedPlayers=true;
+			for(Set<Competitor> s : competitors.stream()
+				.collect(Collectors.groupingBy(c->c.getGroup(), Collectors.toSet())).values())\{
+					if(s.stream().filter(c->c.getGoesFinal()).count()==0)
+						everyGroupHasSelectedPlayers=false;
+			\};
+			if(!everyGroupHasSelectedPlayers) \{
+				if(!Dialogs.niktZGrupyDoFinalow()) return;			
+			\}
+			List<Competitor> finaleCompetitors = 
+				competitors.stream()
+					.filter(c->c.getGoesFinal())
+					.collect(Collectors.toList());
+				DB.insertOrUpdateSingleGame(
+					Tools.generateFinaleSingleGames(finaleCompetitors, singleGames, turniej.getBoards()), 
+					turniej.getId());
+			startFinales.setVisible(false);
+			listener.onFinaleStart();
+		\});
+	\}
+	
+	@FunctionalInterface 
+	public interface onFinaleStartListener \{
+		public void onFinaleStart();
+	\}
+	
+	public void initComponents() \{
+		competitors = DB.getCompetitors(turniej.getId());
+		competitorMap = competitors.stream()
+				.collect(Collectors.toMap(c->c.getId(), c->c));
+		singleGames = DB.getSingleGames(turniej.getId(), false);
+		for(Competitor c : competitors) \{
+			competitorGames.put(c, new LinkedList<>());
+		\}
+		for(SingleGame sg : singleGames) \{
+			competitorGames.get(competitorMap.get(sg.getCompetitorW())).add(sg);
+			competitorGames.get(competitorMap.get(sg.getCompetitorB())).add(sg);
+		\}
+		final int groups = turniej.getRounds();
+		container.removeAll();
+		tables.clear();
+		JLabel label = new JLabel(Strings.chooseForFinales, JLabel.CENTER);
+		label.setAlignmentX(JLabel.CENTER\_ALIGNMENT);
+        
+		for(int i=0; i<groups; ++i) \{
+			container.add(Box.createRigidArea(new Dimension(0, 20)));
+			container.add(new JLabel(Strings.group+(i+1), JLabel.CENTER));
+			container.add(Box.createRigidArea(new Dimension(0, 10)));
+			JTable table = new JTable(new MyTableModel(i));
+			container.add(table.getTableHeader());
+			container.add(table);
+			tables.put(i, table);
+		\}
+		container.add(Box.createRigidArea(new Dimension(0, 50)));
+		container.add(startFinales);
+		updateTables();
+	\}	
+	
+	void updateTables() \{
+		for(Competitor c : competitors) \{
+			competitorWon.put(c, 0);
+			competitorLost.put(c, 0);
+			competitorTie.put(c, 0);
+			for(SingleGame sg : competitorGames.get(c)) \{
+				Competitor c1 = competitorMap.get(sg.getCompetitorW()); // gra białymi
+				Competitor c2 = competitorMap.get(sg.getCompetitorB()); // gra czarnymi
+				int score = sg.getScore(); // 1 - wygrały białe, 2 - czarne, 3 - remis;
+				if(score==1 \&\& c.equals(c1)) competitorWon.put(c, competitorWon.get(c)+1);
+				if(score==2 \&\& c.equals(c2)) competitorWon.put(c, competitorWon.get(c)+1);
+				
+				if(score==1 \&\& c.equals(c2)) competitorLost.put(c, competitorLost.get(c)+1);
+				if(score==2 \&\& c.equals(c1)) competitorLost.put(c, competitorLost.get(c)+1);
+				
+				if(score==3) competitorTie.put(c, competitorTie.get(c)+1);
+			\}
+			float points = 1.0f*competitorWon.get(c)+0.5f*competitorTie.get(c);
+			competitorPoints.put(c,points);
+		\}
+		for(Competitor c : competitors) \{
+			float SBPoints = 0.0f;
+			for(SingleGame sg : competitorGames.get(c)) \{
+				Competitor c1 = competitorMap.get(sg.getCompetitorW()); // gra białymi
+				Competitor c2 = competitorMap.get(sg.getCompetitorB()); // gra czarnymi
+				int score = sg.getScore(); // 1 - wygrały białe, 2 - czarne, 3 - remis;
+				if(score==1 \&\& c.equals(c1)) SBPoints+=competitorPoints.get(c2);
+				if(score==2 \&\& c.equals(c2)) SBPoints+=competitorPoints.get(c1);
+				if(score==3 \&\& c.equals(c1)) SBPoints+=0.5f*competitorPoints.get(c2);
+				if(score==3 \&\& c.equals(c2)) SBPoints+=0.5f*competitorPoints.get(c1);
+			\}
+			competitorSBPoints.put(c, SBPoints);
+		\}
+		competitors.sort((c1,c2)->(int)(4.*(competitorSBPoints.get(c2)-competitorSBPoints.get(c1))));
+		competitors.sort((c1,c2)->(int)(2.*(competitorPoints.get(c2)-competitorPoints.get(c1))));
+		tables.values().forEach((t) -> ((AbstractTableModel)t.getModel()).fireTableDataChanged());
+	\}
+	
+	public boolean isEditAllowed() \{
+		return turniej.getRoundsCompleted()<0;
+	\}
+	
+\end{verbatim}
+
+Wreszcie nadszedł czas, aby wymyśleć sposób na rozgrywki finałowe. Algorytm jest podobny do tego z rozgrywek eliminacyjnych.
+\begin{verbatim}
+public FinaleGamesPanel(Tournament t, Database db, onFinalesEndListener listener)\{
+		super(t,db);
+		this.listener = listener;
+		initComponents();
+	\}
+	
+	public void initComponents() \{
+		removeAll();
+		competitors = DB.getCompetitors(turniej.getId()).stream()
+				.filter(c->c.getGoesFinal()).collect(Collectors.toList());
+		competitorMap = competitors.stream()
+				.collect(Collectors.toMap(c->c.getId(), c->c));
+		singleGames = DB.getSingleGames(turniej.getId(), true).stream()
+				.filter(sg->competitorMap.containsKey(sg.getCompetitorW())\&\&
+							competitorMap.containsKey(sg.getCompetitorB()))
+				.collect(Collectors.toList());
+		setDisqualifiedPlayersScores();
+		// filtrowanie powyżej, bo baza zwraca również gry, 
+		// gdzie grali (dostał się do finałów) vs (nie dostał się)
+		recalcColors();
+		JTable table = new JTable(new MyTableModel());
+		table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(
+        		new JComboBox<String>(new String[] \{Strings.notPlayedYet, Strings.whiteWon, Strings.blackWon, Strings.tie\})
+        ));
+		table.setDefaultRenderer(String.class, new MyCellRenderer());
+	    add(new JScrollPane(table));
+		add(Box.createRigidArea(new Dimension(0, 20)));
+		finishFinales.addActionListener((e)->\{
+			if(singleGames.stream().filter(sg->sg.getScore()==0).count()>0) \{
+				Dialogs.gryBezWyniku();
+			\}
+			else \{
+				finishFinales.setVisible(false);
+				listener.onFinalesEnd();
+			\}
+		\});
+		if(turniej.getRoundsCompleted()<3) add(finishFinales);
+		mapKeyActions(table);
+	\}
+	
+	@FunctionalInterface 
+	public interface onFinalesEndListener \{
+		public void onFinalesEnd();
+	\}
+\end{verbatim}
+
+Na sam koniec zaprogramowałem sposób przydzielania punktów graczom w zależności od ilości wygranych, przegranych bądź remisów. Dzięki temu w łatwy sposób można wyłonić zwycięzców. 
+\begin{verbatim}
+public FinaleScorePanel(Tournament t, Database db)\{
+		this.turniej = t;
+		this.DB = db;
+		this.setLayout(new BorderLayout());
+		initComponents();
+	\}
+	
+	public void initComponents() \{
+		competitors = DB.getCompetitors(turniej.getId()).stream()
+				.filter(c->c.getGoesFinal()).collect(Collectors.toList());
+		competitorMap = competitors.stream()
+				.collect(Collectors.toMap(c->c.getId(), c->c));
+		singleGames = DB.getSingleGames(turniej.getId(), true).stream()
+				.filter(sg->competitorMap.containsKey(sg.getCompetitorW())\&\&
+							competitorMap.containsKey(sg.getCompetitorB()))
+				.collect(Collectors.toList());
+		// filtrowanie powyżej, bo baza zwraca również gry, 
+		// gdzie grali (dostał się do finałów) vs (nie dostał się)
+		// można to naprawić w bazie
+		for(Competitor c : competitors) \{
+			competitorGames.put(c, new LinkedList<>());
+		\}
+		for(SingleGame sg : singleGames) \{
+			competitorGames.get(competitorMap.get(sg.getCompetitorW())).add(sg);
+			competitorGames.get(competitorMap.get(sg.getCompetitorB())).add(sg);
+		\}
+		removeAll();
+		table = new JTable(new MyTableModel());
+		add(new JScrollPane(table));
+		updateTables();
+	\}	
+	
+	void updateTables() \{
+		for(Competitor c : competitors) \{
+			competitorWon.put(c, 0);
+			competitorLost.put(c, 0);
+			competitorTie.put(c, 0);
+			for(SingleGame sg : competitorGames.get(c)) \{
+				Competitor c1 = competitorMap.get(sg.getCompetitorW()); // gra białymi
+				Competitor c2 = competitorMap.get(sg.getCompetitorB()); // gra czarnymi
+				int score = sg.getScore(); // 1 - wygrały białe, 2 - czarne, 3 - remis;
+				if(score==1 \&\& c.equals(c1)) competitorWon.put(c, competitorWon.get(c)+1);
+				if(score==2 \&\& c.equals(c2)) competitorWon.put(c, competitorWon.get(c)+1);
+				
+				if(score==1 \&\& c.equals(c2)) competitorLost.put(c, competitorLost.get(c)+1);
+				if(score==2 \&\& c.equals(c1)) competitorLost.put(c, competitorLost.get(c)+1);
+				
+				if(score==3) competitorTie.put(c, competitorTie.get(c)+1);
+			\}
+			float points = 1.0f*competitorWon.get(c)+0.5f*competitorTie.get(c);
+			competitorPoints.put(c,points);
+		\}
+		for(Competitor c : competitors) \{
+			float SBPoints = 0.0f;
+			for(SingleGame sg : competitorGames.get(c)) \{
+				Competitor c1 = competitorMap.get(sg.getCompetitorW()); // gra białymi
+				Competitor c2 = competitorMap.get(sg.getCompetitorB()); // gra czarnymi
+				int score = sg.getScore(); // 1 - wygrały białe, 2 - czarne, 3 - remis;
+				if(score==1 \&\& c.equals(c1)) SBPoints+=competitorPoints.get(c2);
+				if(score==2 \&\& c.equals(c2)) SBPoints+=competitorPoints.get(c1);
+				if(score==3 \&\& c.equals(c1)) SBPoints+=0.5f*competitorPoints.get(c2);
+				if(score==3 \&\& c.equals(c2)) SBPoints+=0.5f*competitorPoints.get(c1);
+			\}
+			competitorSBPoints.put(c, SBPoints);
+		\}
+		competitors.sort((c1,c2)->(int)(4.*(competitorSBPoints.get(c2)-competitorSBPoints.get(c1))));
+		competitors.sort((c1,c2)->(int)(2.*(competitorPoints.get(c2)-competitorPoints.get(c1))));
+		((AbstractTableModel)table.getModel()).fireTableDataChanged();
+	\}
+	
+	public boolean isEditAllowed() \{
+		return turniej.getRoundsCompleted()<0;
+	\}
+\end{verbatim}

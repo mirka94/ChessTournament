@@ -1,1 +1,711 @@
 \chapter{Mirosława Pelc}
+
+Mirosława Pelc
+Swing to biblioteka graficzna używana w języku programowania Java. To właśnie z tej biblioteki skorzystałam tworząc interfejs graficzny. Tworzenie GUI rozpoczęłam od „bazy” czyli okna głównego, zwanego JFrame w środowisku programistycznym. W tym celu należało rozszerzyć klasę odpowiadającą za okno główne dodając słowo extends a zaraz po nim JFrame.
+\begin{verbatim}
+public class MainWindow extends JFrame \{
+private static final long serialVersionUID = -4321522332774571523L;
+
+public static void main (String[]args)\{
+new MainWindow().setVisible(true);
+\}
+
+public MainWindow() \{
+setMinimumSize(new Dimension(700, 500));
+setDefaultCloseOperation(JFrame.DISPOSE\_ON\_CLOSE);
+setLayout(new BorderLayout());
+
+setJMenuBar(Tools.aboutMenu(new JMenuBar(), MainWindow.this));
+
+try \{
+InputStream imgIS = getClass().getResourceAsStream("/szachy.png");
+add(new JLabel(new ImageIcon(ImageIO.read(imgIS))), BorderLayout.CENTER);
+\} catch (IOException e1) \{
+e1.printStackTrace();
+\}
+\}
+\}
+\end{verbatim}
+W powyższym kodzie ustawiłam rozmiar okna komendą setMinimumSize, dodałam obrazek startowy używając InputStream oraz ImageIcon. Stworzyłam pasek menu używając takich komponentów jak JMenu, JMenuItem, MenuBar. Tworzenie paska menu:
+\begin{verbatim}
+JMenu 	mnTurniej 	 = new JMenu("Turniej"),
+mnOProgramie = new JMenu("O programie");
+menuBar.add(mnTurniej);
+menuBar.add(mnOProgramie);
+
+JMenuItem 	mntmPomoc 		= new JMenuItem("Pomoc"),
+dodajTurniej 	= new JMenuItem("Dodaj turniej"),
+wybierzTurniej	= new JMenuItem("Wybierz turniej"),
+mntmAutorzy 	= new JMenuItem("Autorzy"),
+mntmOpis 		= new JMenuItem("Opis");
+
+mntmPomoc.setAlignmentY(Component.TOP\_ALIGNMENT);
+
+mnTurniej.add(dodajTurniej);
+mnTurniej.add(wybierzTurniej);
+mnOProgramie.add(mntmPomoc);
+mnOProgramie.add(mntmAutorzy);
+mnOProgramie.add(mntmOpis);
+
+dodajTurniej.setAccelerator(KeyStroke.getKeyStroke(
+java.awt.event.KeyEvent.VK\_F2, 0));
+wybierzTurniej.setAccelerator(KeyStroke.getKeyStroke(
+java.awt.event.KeyEvent.VK\_F3, 0));
+
+dodajTurniej.addActionListener(e -> \{
+frame.getContentPane().removeAll();
+frame.add(new AddTPanel(frame), BorderLayout.CENTER);
+frame.pack();
+\});
+wybierzTurniej.addActionListener(e -> \{
+frame.getContentPane().removeAll();
+frame.add(new ShowTPanel(frame), BorderLayout.CENTER);
+frame.pack();
+\});
+// otwieranie pdf z instrukcją po wybraniu pomocy
+mntmPomoc.addActionListener(e->\{
+if(Desktop.isDesktopSupported()) \{
+try \{
+File myFile = new File("turniej.pdf");
+Desktop.getDesktop().open(myFile);
+\} catch (IOException ex) \{
+System.out.println(e);
+\}
+\}
+\});
+\end{verbatim}
+Dodane zostały skróty klawiszowe dla poszczególnych JMenuItem. Okno po wykonaniu czynności wygląda następująco:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{fig/m1}
+	\caption{Skróty klawiszowe dla poszczególnych JMenuItem}
+	\label {fig:JMenuItem} 
+\end{figure}
+Aby utworzyć nowy turniej potrzebnym było stworzenie nowego panelu, który łączy się z bazą danych. Oto jego kod:
+\begin{verbatim}
+package window;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import model.Database;
+import model.Tournament;
+import panel.CompetitorTabbedPane;
+
+/**
+* Panel "nowy turniej"
+*/
+public class AddTPanel extends JPanel \{
+private static final long serialVersionUID = -4930339429679727134L;
+private JTextField textField;
+private String nazwa;
+
+public AddTPanel(final JFrame jframe)\{
+setLayout(null);
+
+JLabel nameTour = new JLabel("Nazwa turnieju");
+nameTour.setFont(new Font("Consolas", Font.PLAIN, 16));
+nameTour.setHorizontalTextPosition(SwingConstants.CENTER);
+nameTour.setHorizontalAlignment(SwingConstants.CENTER);
+nameTour.setBounds(100, 100, 484, 30);
+add(nameTour);
+
+textField = new JTextField();
+textField.setBounds(100, 141, 484, 25);
+textField.setColumns(10);
+add(textField);
+
+JButton addButton = new JButton("Utwórz");
+addButton.setFont(new Font("Consolas", Font.PLAIN, 16));
+addButton.setBounds(100, 293, 484, 30);
+addButton.addActionListener(new ActionListener() \{
+public void actionPerformed(ActionEvent e) \{
+nazwa=textField.getText();
+String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+Tournament t = new Tournament(null,nazwa,year,8,5,-1);
+Database db = new Database();
+db.insertOrUpdateTournament(t);
+jframe.getContentPane().removeAll();
+new CompetitorTabbedPane(t, jframe);
+db.close();
+\}
+\});
+
+// po naciśnięciu enter aktywuje się guzik DODAJ
+jframe.getRootPane().setDefaultButton(addButton);
+
+add(addButton);
+\}
+\}
+\end{verbatim}
+Panel zawiera takie komponenty jak JPanel, etykietę JLabel, pole tekstowe JTextField oraz guzik JButton. Stworzony panel wygląda następująco:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{fig/m2}
+	\caption{Komponenty panelu}
+	\label {fig:panel} 
+\end{figure}
+
+Kolejnym krokiem było utworzenie panelu, który odpowiadałby za wybór wcześniej utworzonego turnieju. Kod tego panelu przedstawia się następująco:
+\begin{verbatim}
+package window;
+
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import model.Database;
+import model.Tournament;
+import panel.CompetitorTabbedPane;
+
+/**
+* Panel "dodaj turniej"
+*/
+public class ShowTPanel extends JPanel \{
+private static final long serialVersionUID = -1094699102373510646L;
+private Database db;
+
+public ShowTPanel(final JFrame jframe) \{
+db = new Database();
+setLayout(null);
+
+final JComboBox<String> comboBox = new JComboBox<String>();
+comboBox.setFont(new Font("Consolas", Font.PLAIN, 15));
+comboBox.setBounds(10, 100, 664, 30);
+
+for(Tournament t: db.getTournaments())\{
+String nazwa = t.getName();
+comboBox.addItem(nazwa);
+\}
+
+comboBox.addActionListener (new ActionListener () \{
+public void actionPerformed(ActionEvent e) \{
+int sIndex = comboBox.getSelectedIndex();
+jframe.getContentPane().removeAll();
+new CompetitorTabbedPane(db.getTournaments().get(sIndex),jframe);
+db.close();
+\}
+\});
+
+add(comboBox);
+
+JLabel wybierz = new JLabel("Wybierz turniej");
+wybierz.setFont(new Font("Consolas", Font.PLAIN, 16));
+wybierz.setHorizontalTextPosition(SwingConstants.CENTER);
+wybierz.setHorizontalAlignment(SwingConstants.CENTER);
+wybierz.setBounds(10, 59, 664, 30);
+add(wybierz);		
+\}	
+\}
+\end{verbatim}
+Użyte komponenty to w tym przypadku etykieta JLabel oraz JComboBox czyli wysuwana lista, która zawiera nazwy zapisanych turniejów. Oto graficzna reprezentacja panelu wyboru turnieju:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{fig/m3}
+	\caption{Graficzna reprezentacja panelu wyboru turnieju}
+	\label {fig:G} 
+\end{figure}
+
+Po zatwierdzeniu utworzonego turnieju lub po wybraniu już istniejącego pojawia się okno odpowiadające za rozgrywki. Początkowo są trzy zakładki, których kod jest następujący:
+\begin{verbatim}
+public CompetitorTabbedPane(Tournament turniej, JFrame frame)\{
+this.turniej = turniej;
+this.DB = new Database();
+showPanel = new ShowEditCompetitorPanel(turniej, DB);
+tournamentPanel = new TournamentPanel(turniej, DB);
+[…]
+groupsPanel = new GroupsPanel(turniej, DB, tStartlistener);
+setMenu(frame);
+tabbedPane.add(Strings.showOrEditComp, showPanel);
+tabbedPane.add(Strings.tournament, tournamentPanel);
+tabbedPane.add(Strings.prepGroups, groupsPanel);
+tabbedPane.addChangeListener((e) -> \{
+int i = tabbedPane.getSelectedIndex();
+if(i==0) showPanel.setData();
+if(i==1) tournamentPanel.setSBBounds();
+if(i==2) groupsPanel.initComponents();
+if(i==3) gamesPanel.initComponents();
+if(i==5) finaleGamesPanel.initComponents();
+comp.setVisible( turniej.isPlayersEditAllowed() \&\& i==0);
+group.setVisible(turniej.isPlayersEditAllowed() \&\& i==2 );
+sort.setVisible(i==2);
+\});
+
+frame.add(tabbedPane);
+setVisible(true);
+\end{verbatim}
+Użyty został komponent JTabbedPane, który odpowiada za panel z zakładkami. 
+
+Jak można łatwo zauważyć, program ma wiele tabelek. JTable to kolejny komponent biblioteki Swing. Przykładowe tabele:
+\begin{verbatim}
+private JTable table;
+[…]
+table = new EditCompetitorJTable();
+[…]
+public class EditCompetitorJTable extends JTable \{
+private static final long serialVersionUID = -9074329149984999956L;
+
+public EditCompetitorJTable() \{
+super();
+setIntercellSpacing(new Dimension(25, 2));
+setRowHeight(20);
+setModel(new EditCompetitorTableModel());
+
+setSelectionMode(javax.swing.ListSelectionModel.SINGLE\_SELECTION); 
+// pole tekstowe akceptujące tylko znaki a-Z, - i spację
+final JTextField jtf = new JTextField(new MyPlainDocument(), null, 0);
+// przy rozpoczęciu edyji zaznaczenie wszystkiego
+jtf.addFocusListener(new FocusAdapter() \{
+@Override
+public void focusGained(FocusEvent e) \{
+jtf.selectAll();
+\}
+\});
+
+// dla pól imię i nazwisko ustawiony edytor na podstawie powyższego pola tekstowego 
+columnModel.getColumn(1).setCellEditor(new DefaultCellEditor(jtf));
+columnModel.getColumn(2).setCellEditor(new DefaultCellEditor(jtf));
+columnModel.getColumn(4).setCellEditor(new DefaultCellEditor(
+new JComboBox<Integer>(new Integer[]\{1,2,3,4,5,6\})
+));
+\}
+
+// po przejśiu do komórki (również tabulatorem) rozpoczęcie edycji
+public void changeSelection(int row, int column, boolean toggle, boolean extend) \{
+super.changeSelection(row, column, toggle, extend);
+if(editCellAt(row, column)) \{
+getEditorComponent().requestFocusInWindow();
+\}
+\}
+\}
+\end{verbatim}
+\begin{verbatim}
+JTable table = new JTable(new MyTableModel());
+table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(
+new JComboBox<String>(new String[] \{Strings.notPlayedYet, Strings.whiteWon, Strings.blackWon, Strings.tie\})
+));
+table.setDefaultRenderer(String.class, new MyCellRenderer());
+add(new JScrollPane(table));
+\end{verbatim}
+A oto kod odpowiadający za formatowanie JTable
+\begin{verbatim}
+public class EditCompetitorJTable extends JTable \{
+private static final long serialVersionUID = -9074329149984999956L;
+
+public EditCompetitorJTable() \{
+super();
+setIntercellSpacing(new Dimension(25, 2));
+setRowHeight(20);
+setModel(new EditCompetitorTableModel());
+
+setSelectionMode(javax.swing.ListSelectionModel.SINGLE\_SELECTION); 
+// pole tekstowe akceptujące tylko znaki a-Z, - i spację
+final JTextField jtf = new JTextField(new MyPlainDocument(), null, 0);
+// przy rozpoczęciu edyji zaznaczenie wszystkiego
+jtf.addFocusListener(new FocusAdapter() \{
+@Override
+public void focusGained(FocusEvent e) \{
+jtf.selectAll();
+\}
+\});
+
+// dla pól imię i nazwisko ustawiony edytor na podstawie powyższego pola tekstowego 
+columnModel.getColumn(1).setCellEditor(new DefaultCellEditor(jtf));
+columnModel.getColumn(2).setCellEditor(new DefaultCellEditor(jtf));
+columnModel.getColumn(4).setCellEditor(new DefaultCellEditor(
+new JComboBox<Integer>(new Integer[]\{1,2,3,4,5,6\})
+));
+\}
+
+// po przejśiu do komórki (również tabulatorem) rozpoczęcie edycji
+public void changeSelection(int row, int column, boolean toggle, boolean extend) \{
+super.changeSelection(row, column, toggle, extend);
+if(editCellAt(row, column)) \{
+getEditorComponent().requestFocusInWindow();
+\}
+\}
+\}
+\end{verbatim}
+
+Aby nie powielać kodu przy formatowaniu modelu JTable stworzyłam klasę abstrakcyjną modelu rozszerzającą AbstractTableModel, którą przypisuję do tabeli.
+\begin{verbatim}
+protected abstract class MyTableModel extends AbstractTableModel \{
+private static final long serialVersionUID = -8079013606990307646L;
+final String[] columnNames = \{Strings.board, Strings.playsWithWhite, Strings.playsWithBlack, Strings.score\};
+@Override
+public Class<?> getColumnClass(int columnIndex) \{
+return String.class;
+\}
+@Override
+public int getColumnCount() \{
+return 4;
+\}
+@Override
+public String getColumnName(int columnIndex) \{
+return columnNames[columnIndex];
+\}
+@Override
+public int getRowCount() \{
+return singleGames.size();
+\}
+@Override
+public Object getValueAt(int row, int col) \{
+SingleGame sg = singleGames.get(row);
+if(col==0 \&\& sg.getBoard()==-1) return " - ";
+if(col==0) return sg.getBoard()+1;
+if(col==1) return competitorMap.get(sg.getCompetitorW());
+if(col==2) return competitorMap.get(sg.getCompetitorB());
+if(col==3) \{
+if(sg.getScore()==0) return Strings.notPlayedYet;
+if(sg.getScore()==1) return Strings.whiteWon;
+if(sg.getScore()==2) return Strings.blackWon;
+if(sg.getScore()==3) return Strings.tie;
+\}
+return null;
+\}
+public abstract void setValueAt(Object aValue, int row, int col);
+\}
+\}
+\end{verbatim}
+
+W celu ułatwienia użytkownikowi programu przydzielanie zawodników do szachownic, komórki  JTable zostały pokolorowane. Oto jak wygląda to w kodzie programu:
+\begin{verbatim}
+final void recalcColors() \{
+currentlyPlayedGames = new ArrayList<>(turniej.getBoards());
+currentlyPlayedGames.clear();;
+List<Integer> 	playingCompetitors 	= new ArrayList<>(2*turniej.getBoards()),
+freeBoards 			= new LinkedList<>();
+for(int i=0; i<turniej.getBoards(); ++i) freeBoards.add(i);
+for(SingleGame sg : singleGames.stream().filter(g->g.getScore()==0\&\&g.getBoard()>=0)
+.collect(Collectors.toList()))\{
+freeBoards.remove(sg.getBoard());
+playingCompetitors.add(sg.getCompetitorW());
+playingCompetitors.add(sg.getCompetitorB());
+currentlyPlayedGames.add(sg);
+\};
+for(SingleGame sg : singleGames.stream().filter(g->g.getScore()==0\&\&g.getBoard()<0)
+.collect(Collectors.toList()))\{
+if(freeBoards.isEmpty()) break;
+if(!playingCompetitors.contains(sg.getCompetitorW()) \&\&
+!playingCompetitors.contains(sg.getCompetitorB())) 
+\{
+int board = freeBoards.get(0);
+sg.setBoard(board);
+freeBoards.remove(0);
+playingCompetitors.add(sg.getCompetitorW());
+playingCompetitors.add(sg.getCompetitorB());
+currentlyPlayedGames.add(sg);
+\}	
+\};
+sortGames();
+\}
+\end{verbatim}
+\begin{verbatim}
+package res;
+
+import java.awt.Color;
+
+public final class Colors \{
+public final static Color 
+selInProgress 	= Color.decode("\#5BFFB5"),
+selNormal		= Color.decode("\#84D4FF"),
+InProgress		= Color.decode("\#5BFF8C"),
+normal 			= Color.decode("\#FFFFFF");
+\}
+\end{verbatim}
+
+Druga zakładka w oknie turnieju to edycja turnieju, czyli: zmiana tytułu, ustawienie roku rozgrywania turnieju, suwaki odpowiedzialne za ilość szachownic, czas rozgrywki, ilość grup. Użyte komponenty to etykieta JLabel, pole tekstowe JTextField, suwak ScrollBar. Layout panelu ustawiony jest na GridLayout(0,2,…) co oznacza, że panel podzielony jest na dwie kolumny a komponenty dodawane są raz do jednej kolumny, raz do drugiej. Oto kod TournamentPanel:
+\begin{verbatim}
+package panel;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.Scrollbar;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import model.Database;
+import model.Tournament;
+import res.Strings;
+import tools.MyPlainDocument;
+import tools.Simulator;
+
+/**
+* Zakładka danych o turnieju
+*/
+public class TournamentPanel extends JPanel\{
+private static final long serialVersionUID = -3657045958131642437L;
+private final Tournament turniej;
+private final Database DB;
+private final JLabel nameL, yearL, sgTimeL, groupsL, boardsL, stats1L, stats2L;
+final JTextField nameTF, yearTF;
+final Scrollbar groupsSB, sgTimeSB, boardsSB;
+final JPanel panel = new JPanel();
+/**
+* @param t - id turnieju
+* @param db - baza danych
+*/
+public TournamentPanel(Tournament t, Database db)\{
+this.turniej = t;
+this.DB = db;
+nameL 	= new JLabel("Nazwa turnieju: ");
+yearL 	= new JLabel("Rok: ");
+sgTimeL = new JLabel(Strings.sgTimeT+"10 min");
+groupsL = new JLabel(Strings.groupsT+"2");
+boardsL = new JLabel(Strings.boardsT);
+stats1L = new JLabel(Strings.gamesT);
+stats2L = new JLabel(Strings.timeRRET);
+nameTF 	= new JTextField();
+yearTF  = new JTextField();
+groupsSB 	= new Scrollbar(Scrollbar.HORIZONTAL, 2, 1, 2, 9+1);
+sgTimeSB 	= new Scrollbar(Scrollbar.HORIZONTAL, 20, 4, 2, 40+4);
+boardsSB 	= new Scrollbar(Scrollbar.HORIZONTAL, 8, 1, 2, 20+1);
+
+setLayout(new BorderLayout());
+setBorder(new EmptyBorder(10, 10, 10, 10));
+panel.setLayout(new GridLayout(0, 2, 10, 20));
+add(panel, BorderLayout.NORTH);
+nameTF.setDocument(new MyPlainDocument());
+yearTF.setDocument(new MyPlainDocument());
+
+setComponentsActions();
+
+Component[] cs = \{
+nameL, nameTF, yearL, yearTF, sgTimeL, sgTimeSB, groupsL, groupsSB, boardsL, boardsSB, stats1L, stats2L
+\};
+for(Component c : cs) panel.add(c);
+
+nameTF.setText(turniej.getName());
+yearTF.setText(turniej.getYear());
+setSBBounds();
+recalcStats();
+\}
+
+private void setComponentsActions() \{
+nameTF.getDocument().addDocumentListener(new MyDocumentListener() \{			
+@Override
+public void action() \{
+turniej.setName(nameTF.getText());
+DB.insertOrUpdateTournament(turniej);
+\}
+\});
+yearTF.getDocument().addDocumentListener(new MyDocumentListener() \{
+@Override
+public void action() \{
+turniej.setYear(yearTF.getText());
+DB.insertOrUpdateTournament(turniej);
+\}
+\});
+groupsSB.addAdjustmentListener(e -> \{
+if(!turniej.isPlayersEditAllowed()) \{
+groupsSB.setValue(turniej.getRounds());
+return;
+\}
+int g = groupsSB.getValue();
+turniej.setRounds(g);
+DB.insertOrUpdateTournament(turniej);
+recalcStats();
+\});
+boardsSB.addAdjustmentListener(e -> \{
+if(!turniej.isPlayersEditAllowed()) \{
+boardsSB.setValue(turniej.getBoards());
+return;
+\}
+int g = boardsSB.getValue();
+turniej.setBoards(g);
+DB.insertOrUpdateTournament(turniej);
+recalcStats();
+\});
+sgTimeSB.addAdjustmentListener(e -> \{
+recalcStats();
+\});
+\}
+
+private abstract class MyDocumentListener implements DocumentListener \{
+public abstract void action();
+@Override public final void removeUpdate(DocumentEvent e) \{ action(); \}
+@Override public final void insertUpdate(DocumentEvent e) \{ action(); \}
+@Override public final void changedUpdate(DocumentEvent e)\{ action(); \}
+\}
+
+public void recalcStats() \{ // TODO - poprawić przewidywany czas turnieju
+groupsL.setText(Strings.groupsT+groupsSB.getValue());
+boardsL.setText(Strings.boardsT+boardsSB.getValue());
+sgTimeL.setText(Strings.sgTimeT+(sgTimeSB.getValue()/2f)+" min");
+int graczy = DB.getCompetitors(turniej.getId()).size();
+if(turniej.getBoards()<1 || graczy<2) return;
+float czasSG = sgTimeSB.getValue()/2f;
+int grup = groupsSB.getValue();
+int rozgrywek = Simulator.rozgrywek\_eliminacje(graczy, grup);
+stats1L.setText(Strings.gamesT+String.valueOf(rozgrywek));
+int gier\_naraz = (int)Math.min(Math.floor(graczy/2), turniej.getBoards());
+stats2L.setText(Strings.timeRRET+Math.ceil(rozgrywek/gier\_naraz)*czasSG+" min");
+\}
+public void setSBBounds() \{
+int graczy = DB.getCompetitors(turniej.getId()).size();
+groupsSB.setMinimum(2);
+groupsSB.setMaximum((int)Math.ceil(graczy/2)+2);
+groupsSB.setValue(turniej.getRounds());
+recalcStats();
+\}
+\}
+\end{verbatim}
+Poniższy rysunek przedstawia kod po skompilowaniu: 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{fig/m4}
+	\caption{Edycja turnieju}
+	\label {fig:EdycjaTurnieju} 
+\end{figure}
+
+Program nie dopuszcza do zaistnienia pewnych zdarzeń, jeśli użytkownik wprowadzi błędne dane lub dobierze zawodników źle w grupy wówczas wyskoczy błąd. Za wiadomości o błędach odpowiada JOptionPane. Na potrzemy programu stworzyłam kilka wiadomości o błędach. Kod:
+\begin{verbatim}
+package tools;
+
+import javax.swing.JOptionPane;
+
+import model.Competitor;
+
+/**
+* Definiuje okna błędów, ostrzeżeń oraz informacji
+*/
+public class Dialogs \{
+public static void bladBazy() \{
+JOptionPane.showMessageDialog(
+null, 
+"Błąd odczytu / zapisu", 
+"Błąd bazy", 
+JOptionPane.ERROR\_MESSAGE);
+\}
+
+public static void graczBezGrupy() \{
+JOptionPane.showMessageDialog(
+null, 
+"Aby móc rozpocząć turniej, każdy gracz musi być przydzielony do grupy", 
+"Gracz bez grupy", 
+JOptionPane.ERROR\_MESSAGE);
+\}
+
+public static void nierownomiernyPodzial(int min, int max) \{
+JOptionPane.showMessageDialog(
+null, 
+"Największa grupa: "+max+" uczestników, \textbackslash\{\}n"+
+"Najmniejsza grupa: "+min+" uczestników \textbackslash\{\}n"+
+"Różnica pomiędzy tymi wartościami nie może być większa od 1", 
+"Nierównomierny podział", 
+JOptionPane.ERROR\_MESSAGE);
+\}
+
+public static void gryBezWyniku() \{
+JOptionPane.showMessageDialog(
+null, 
+"Aby zakończyć eliminacje, wszystkie gry tej fazy muszą być ukończone", 
+"Nieukończone rozgrywki", 
+JOptionPane.ERROR\_MESSAGE);
+\}
+
+public static void autorzy() \{
+JOptionPane.showMessageDialog(
+null,
+"Autorzy: \textbackslash\{\}n"+
+"Piotr Jabłoński\textbackslash\{\}n"+
+"Mirosława Pelc\textbackslash\{\}n"+
+"Mariusz Lorek",
+"Autorzy", JOptionPane.UNDEFINED\_CONDITION);
+\}
+
+public static void opis() \{
+JOptionPane.showMessageDialog(
+null,
+"Program powstał w ramach zaliczenia Zespołowych Przedsięwzięć Inżynierskich"+
+"na Państwowej Wyższej Szkole Zawodowej w Nowym Sączu.\textbackslash\{\}nProwadzący przedmiot: "+
+"dr Antoni Ligęza\textbackslash\{\}nProgram obsługuje turniej szachowy odbywający się podczas "+
+"Małopolskiej Nocy Naukowców.",
+"Opis", JOptionPane.UNDEFINED\_CONDITION);
+\}
+
+/**
+* @return Czy kontynuować mimo ostrzeżenia
+*/
+public static boolean niktZGrupyDoFinalow() \{
+int r = JOptionPane.showConfirmDialog(
+null, 
+"Istnieje grupa, w której nie wybrano graczy przechodzących do finału. Kontynuować?",
+"Uwaga!",
+JOptionPane.OK\_CANCEL\_OPTION);
+return r==JOptionPane.OK\_OPTION;
+\}
+
+/**
+* @return Czy na pewno zdyskwalifikowac
+*/
+public static boolean czyZdyskwalifikowac(Competitor c) \{
+int r = JOptionPane.showConfirmDialog(
+null, 
+"Czy jesteś pewien, że chcesz zdywkwalifikować zawodnika "+c+"?\textbackslash\{\}nTej operacji nie można cofnąć",
+"Uwaga!",
+JOptionPane.OK\_CANCEL\_OPTION);
+return r==JOptionPane.OK\_OPTION;
+\}
+\}
+\end{verbatim}
+Tak wygląda przykładowe okno informujące o błędzie:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=10cm]{fig/m5}
+	\caption{Okno informujące o błędzie}
+	\label {fig:OknoBledu} 
+\end{figure}
+
+Podczas generowania losowych graczy imiona i nazwiska pobierane są z plików imiona.txt oraz nazwiska.txt, które zawarte są w pliku jar. Poniżej pokazałam jak to się odbywa w programie:
+\begin{verbatim}
+public static Competitor RandomPlayer() throws IOException \{
+Random rn = new Random();
+int a = 10+rn.nextInt(10)+rn.nextInt(10);
+int c = rn.nextInt(6)+1;
+
+int randomInt = rn.nextInt(300);
+String imie = null, nazwisko = null;
+
+InputStream imionaIS = JFrame.class.getResourceAsStream("/imiona.txt");
+InputStream nazwiskaIS = JFrame.class.getResourceAsStream("/nazwiska.txt");
+
+imieReader = new BufferedReader(new InputStreamReader(imionaIS, "UTF-8"));
+nazwiskoReader = new BufferedReader(new InputStreamReader(nazwiskaIS, "UTF-8"));
+
+imieReader.mark(0);
+nazwiskoReader.mark(0);
+
+do \{
+imieReader.reset();
+nazwiskoReader.reset();
+for (int i = 0; i < randomInt; i++) \{
+imie = imieReader.readLine();
+nazwisko = nazwiskoReader.readLine();
+\}
+\} while(imie==null || nazwisko==null || (imie.endsWith("a") \&\& nazwisko.endsWith("ki")));
+return new Competitor(null, imie, nazwisko, a, c, false, null);
+\}
+\end{verbatim}
+
