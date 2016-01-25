@@ -86,7 +86,7 @@ Program przeznaczony dla organizatorów turniejów szachowych lub gier o zbliżo
 \end{enumerate}
 \item Tworzenie programu/aplikacji
 \begin{enumerate}
-\item Opracowanie narzędzi bazodanowych przechowujących informacje dotyczące turniejów
+\item Opracowanie narzędzi przechowujących informacje dotyczące turniejów
 \item Przygotowanie elementów środowiska graficznego
 \item Integracja narzędzi bazodanowych z elementami środowiska graficznego
 \item Wstępna wersja programu
@@ -108,7 +108,7 @@ Program przeznaczony dla organizatorów turniejów szachowych lub gier o zbliżo
 \item Obowiązują przepisy gry międzynarodowej federacji szachowej (fide).
 \item Każdy z zawodników powinien się kierować zasadami fair play.
 \item Zasady rozgrywki:
-\begin{enumerate}
+\begin{itemize}
 \item Turniej rozgrywany jest w dwóch fazach: grupowej i finałowej.\\
 \item Tworzona jest lista startowa według przyjętych przez prowadzącego turniej kryteriów, domyślnie:
 \begin{itemize}
@@ -146,7 +146,7 @@ Program przeznaczony dla organizatorów turniejów szachowych lub gier o zbliżo
 		\item Porażka - Nie są przyznawane punkty pomocnicze
 	\end{itemize}
 	\end{itemize}
-\end{enumerate}
+\end{itemize}
 \item W razie rezygnacji lub dyskwalifikacji zawodnika z turnieju, rozgrywki, które rozegrał nie zostają anulowane, a osoby, które się z nim spotykają w kolejnych rozgrywkach wygrywają walkowerem (otrzymują 1pkt za zwycięstwo)
 \item W Sali zostało wydzielone pięć części:
 \begin{enumerate}
@@ -194,9 +194,6 @@ Ogromną zaletą systemu szwajcarskiego jest \textbf{możliwość rozegrania tur
 Wadą systemu szwajcarskiego jest \textbf{spory wpływ czynnika losowego}, którego znaczenie ogranicza się poprzez ustalenie początkowej kolejności zawodników według siły gry (zazwyczaj na podstawie rankingu). System szwajcarski jest również \textbf{znacznie mniej obiektywny od systemu kołowego.} Zawodnik, który przegrywając w pierwszych rundach, w końcowych zdobywał punkty na słabszych przeciwnikach może w ostatecznej klasyfikacji wyprzedzić zawodnika, który dobrze grał z silniejszymi, lecz w końcowych rundach zdobył mało punktów. \textbf{Decydujące znaczenie ostatniej rundy stanowi o specyficznej atrakcyjności systemu szwajcarskiego.}
 System ten nie sprawdza się też dobrze, w momencie \textbf{gdy liczba zawodników jest niewiele większa od liczby rund do rozegrania.} Wówczas w końcowych rundach spotkać się mogą zawodnicy, których różnica punktów jest spora.
 
-%Diagram sieciowy ukazuje zależności czasowe, węzły (aktywności), krawędzie (zależności czasowe).
-
-
 \section{Harmonogram}
 \subsection{Harmonogram prac poszczególnych członków zespołu}
 \textbf{Mirosława Pelc oraz Piotr Jabłoński wspólna praca programistyczna\\
@@ -205,94 +202,63 @@ Piotr Jabłoński - Programowanie, algorytmy\\}
 \begin{tabular}{|p{9cm}|l|p{3cm}|} \hline
 Zadanie & Data rozpoczecia & Data zakończenia\\ \hline
 Przygotowanie klas odpowiadających za uczestnika, turniej, rozgrywkęzygotowanie klas odpowiadających za uczestnika, turniej, rozgrywkę & 6.10.2015 & 20.10.2015 \\ \hline
-Wyszukikawanie możliwych do wykorzystania elementów dostępnych w bibliotekach graficznych dla języka JAVA& 6.10.2015 & 20.10.2015 - zadanie ciągłe wykonywane przez cały czas trwania projektu\\ \hline
+Wyszukikawanie możliwych do wykorzystania elementów dostępnych w bibliotekach graficznych dla języka JAVA& 6.10.2015 & 20.10.2015\\ \hline
 Integracja z bazą danych SQLite do przechowywania uczestników& &\\
 Integracja z bazą danych SQLite do przechowywania turniejów&20.10.2015&27.10.2015\\
 Integracja z bazą danych SQLite do przechowywania wyników pojedynczych rozgrywek&&\\ \hline
-tabela - lista uczestników&27.10.2015&3.11.2015\\ \hline
-dodawanie nowego uczestnika&27.10.2015&3.11.2015\\ \hline
-usuwanie uczestnika&3.11.2015&10.11.2015\\ \hline
-edycja uczestnika&3.11.2015&10.11.2015\\ \hline
-dodawanie losowego uczestnika&10.11.2015&17.11.2015\\ \hline
-symulacja ilości rozgrywek dla danej liczby uczestników, typu turnieju (systemem szwajcarskim / eliminacje grup)&10.11.2015&17.11.2015\\ \hline
-podział graczy na grupy wg listy sortowanej po ustalanych przez prowadzącego turniej (dynamicznie w programie) warunkach takich, jak: kategoria zawodnika, wiek, nazwisko, imię lub przydział manualny&17.11.2015&24.11.2015\\ \hline
-tworzenie początkowej listy graczy (sortowanie) do turnieju rozgrywanego systemem szwajcarskim (sortowanie po kategorii, wieku, nazwisko, imię)&17.11.2015&24.11.2015\\ \hline
-dobieranie zawodników w pary dla systemu kołowego z eliminacjami w grupach - eliminacje
+Tabela - lista uczestników&27.10.2015&3.11.2015\\ \hline
+Dodawanie nowego uczestnika&27.10.2015&3.11.2015\\ \hline
+Usuwanie uczestnika&3.11.2015&10.11.2015\\ \hline
+Edycja uczestnika&3.11.2015&10.11.2015\\ \hline
+Dodawanie losowego uczestnika&10.11.2015&17.11.2015\\ \hline
+Symulacja ilości rozgrywek dla danej liczby uczestników, typu turnieju (systemem szwajcarskim / eliminacje grup)&10.11.2015&17.11.2015\\ \hline
+Podział graczy na grupy wg listy sortowanej po ustalanych przez prowadzącego turniej (dynamicznie w programie) warunkach takich, jak: kategoria zawodnika, wiek, nazwisko, imię lub przydział manualny&17.11.2015&24.11.2015\\ \hline
+Tworzenie początkowej listy graczy (sortowanie) do turnieju rozgrywanego systemem szwajcarskim (sortowanie po kategorii, wieku, nazwisko, imię)&17.11.2015&24.11.2015\\ \hline
+Dobieranie zawodników w pary dla systemu kołowego z eliminacjami w grupach - eliminacje
 wybór zawodników przechodzących do finałów w rozgrywkach z eliminacjami
 dobieranie zawodników w pary dla systemu kołowego z eliminacjami w grupach - finały&24.11.2015&1.12.2015\\ \hline
-dobór zawodników w systemie kołowym (4 tyg!)&&\\ \hline 
-lista wyników dla turnieju rozgrywanego systemem kołowym z eliminacjami&1.12.2015&8.12.2015\\ \hline
-lista wyników dla turnieju rozgrywanego systemem szwajcarskim&&\\ \hline 
-zastosowanie programu do prowadzednia kilku turniejów jednocześnie&&\\ \hline
-usprawnienia ergonomii interfejsu&&praca ciągła do końca trwania projektu\\ \hline
-usprawnienia estetyczne interfejsu&&praca ciągła do końca trwania projektu\\ \hline
+Dobór zawodników w systemie kołowym&1.12.2015&22.12.2015\\ \hline 
+Lista wyników dla turnieju rozgrywanego systemem kołowym z eliminacjami&1.12.2015&8.12.2015\\ \hline
+Usprawnienia ergonomii interfejsu& - &26.01.2016\\ \hline
+Usprawnienia estetyczne interfejsu& - &26.01.2016\\ \hline
+Usuwanie błedów wykrytych podczas testowania programu&8.12.2015&26.01.2016\\ \hline
 
 \end{tabular}
-
+\textbf{Mariusz Lorek}\\
 \begin{tabular}{|p{9cm}|l|p{3cm}|} \hline
-Zadanie & Data rozpoczecia & Data zakończenia\\ \hline
-Przygotowanie dokumentacji dla projektu&&cały czas trwania projektu\\ \hline
-Rozmowa ze zleceniodawcą na temat projektu &&20.10.2015\\ \hline
-Wybór systemu w którym przeprowadzany będzie turniej &&27.10.2015\\ \hline
-Okreslenie regulaminu turnieju (czas trwania,  system rozgrywego, określenie zasad uczestnictwa w turnieju, powody do dyskwalifikacji) &&3.11.2015\\ \hline
-Opis repozytorium GitHub wykorzystywanego do pracy w projekcie &&17.11.2015\\ \hline
-Przygotowywanie kolejnych części dokumentacji na podstawie informacji dostarczonych przez pozostałych członków zespołu&&\\ \hline
-Testowanie kolejnych wersji  programu, wyszukiwanie błędów sugestie na temat usprawnień - praca ciągła, do końca trwania projektu&&\\ \hline
-Konsultację ze zleceniodawcą na temat ewentualnych poprawek, dodawania nowych funkcjonalności wymaganych przez zleceniodawcę.&&\\ \hline 
+\textbf{Zadanie} & \textbf{Data rozpoczecia} & \textbf{Data zakończenia}\\ \hline
+Przygotowanie dokumentacji dla projektu&6.10.2015&26.01.2016\\ \hline
+Rozmowa ze zleceniodawcą na temat projektu &20.10.2015&20.10.2015\\ \hline
+Wybór systemu w którym przeprowadzany będzie turniej &27.10.2015&27.10.2015\\ \hline
+Okreslenie regulaminu turnieju (czas trwania,  system rozgrywego, określenie zasad uczestnictwa w turnieju, powody do dyskwalifikacji) &27.10.2015&3.11.2015\\ \hline
+Opis repozytorium GitHub wykorzystywanego do pracy w projekcie &3.11.2015&17.11.2015\\ \hline
+Przygotowywanie kolejnych części dokumentacji na podstawie informacji dostarczonych przez pozostałych członków zespołu&17.11.2015&1.12.2015\\ \hline
+Testowanie kolejnych wersji  programu, wyszukiwanie błędów sugestie na temat usprawnień&1.12.2015&26.01.2016\\ \hline
+Konsultację ze zleceniodawcą na temat ewentualnych poprawek, dodawania nowych funkcjonalności wymaganych przez zleceniodawcę.&1.12.2015&26.01.2016\\ \hline 
 \end{tabular}
-
-%\section{Dokumentacja}
-Przygotowanie środowiska do równoległego opracowania dokumentacji projektu i realizacji przydzielonych zadań poszczególnym członkom zespołu projektowego.
-
-%\subsection[Edycja plików dokumentacyjnych]{Edycja plików dokumentacyjnych - każdy członek zespoły niezależnie}
-%Każdy z członków zespołu edytuje swój plik \LaTeX{} (czlonkowie/nrCzlonka/main.tex) i~umieszcza w nim całość analiz i wyników, które pozwoliły mu zrealizować przydzielone zadanie. Wszystkie pliki graficzne, każdy niezależnie umieszcza w swoim katalogu (czlonkowie/nrCzlonka).
-
-%Pierwszą linia w pliku (czlonkowie/nrCzlonka/main.tex), zawiera imię i nazwisko opracowującego członka zespołu:
-%\item Rodzaj zadania [Przygotowanie przestrzeni do zespołowej pracy]
-%\item Data rozpoczęcia [2014-11-01]
-%\item Data zakończenia [2014-11-02]
-%\item Aktualny status [zaplanowane do realizacji, w trakcie realizacji, zakończone]
-%\item dokładny opis realizowanego zadania [powinien zawierać opis, rysunki, tabele, kody napisanych programów]
-%\end{itemize}
-
-%Poniżej znajduje się przykładowy listing dla skróconych dwóch zadań:
-%\begin{lstlisting}
-%\zadanieprojektowe{Przygotowanie dokumentacji}{2014-11-01}{2014-11-02}{w trakcie do realizacji}
-
-%Poniżej opisujemy całe zadanie zgodnie z konwencją poznaną na NI.
-%Poniżej opisujemy całe zadanie zgodnie z konwencją poznaną na NI.
-
-%Poniżej opisujemy całe zadanie zgodnie z konwencją poznaną na NI. 
-
-%następne zadanie
-%\zadanieprojektowe{Przygotowanie dokumentacji}{2014-11-03}{2014-11-03}{zakończone}
-%\begin{figure}[H]
-%\includegraphics[width=\textwidth]{czlonkowie/1/studzienkizDziura.jpg}
-%\end{figure}
-%\end{lstlisting}
 
 
 \subsubsection{Obsługa GitHuba}
 Repozytorium wykorzystywane w projekcie to "GitHub" aby zacząć korzystać z tego repozytorium należy najpierw założyć konto w serwisie \href{https://github.com}{https://github.com}
-Wybieramy opcję "Sing up" i wypełnamy formularz rejestracyjny
+Wybieramy opcję "Sing up" i wypełnamy formularz rejestracyjny rys. \ref{fig:rejestracja}
 \begin{figure}[H]
 	\centering
-	\includegraphics {fig/rejestracja}
+	\includegraphics [width=15cm] {fig/rejestracja}
 	\caption{Formularz rejestracyjny repozytorium GitHub}
 	\label{fig:rejestracja}
 \end{figure}
-Nastepnie z menu na górze po prawej stronie wybieramy opcję "New repository"
+Nastepnie z menu na górze po prawej stronie wybieramy opcję "New repository" rys. \ref{fig:new_project}
 \begin{figure}[H]
 	\centering
 	\includegraphics{fig/new_project}
 	\caption{Tworzenie nowego repozytorium}
 	\label{fig:new_project}
 \end{figure}
-Uzupełniamy dane dotyczące projektu. Musimy mu nadać nazwę, możemy opcjonalnie dodać opis tworzonego repozytorium, oraz zdecydować czy projekt będzie publiczny czy prywatny
+Uzupełniamy dane dotyczące projektu. Musimy mu nadać nazwę, możemy opcjonalnie dodać opis tworzonego repozytorium, oraz zdecydować czy projekt będzie publiczny czy prywatny rys. \ref{fig:new_project2}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics{fig/new_project_2}
+	\includegraphics [width=15cm]{fig/new_project_2}
 	\caption{Uzupełniamy dane na temat projektu}
 	\label{fig:new_project2}
 \end{figure}
@@ -306,7 +272,7 @@ Uczestników możemy wyszukiwać  według róznych kryteriów
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics{fig/add_collaborator}
+	\includegraphics[width=15cm]{fig/add_collaborator}
 	\caption{Mamy możliwość wyszukiwania nowych członków według różnych kryteriów}
 	\label{fig:add_collaborator}
 \end{figure}
@@ -317,7 +283,7 @@ Aby mieć możliwość wysyłania plików do repozytorium musimy zainstalować p
 \item Windows 10
 \end{enumerate}
 Starsze wersję systemów operacyjnych nie są wspierane\\
-Dostępna jest również wersja dla komputerów MAC z systemem OS X 10.9 lub nowszym
+Dostępna jest również wersja dla komputerów MAC z systemem OS X 10.9 lub nowszym rys.\ref{fig:gitdownload}
 \begin{figure}[H]
 	\centering
 	\includegraphics{fig/gitdownload}

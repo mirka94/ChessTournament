@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  24 JAN 2016 12:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/W32TeX) (preloaded format=pdflatex 2015.10.11)  25 JAN 2016 23:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -825,159 +825,129 @@ Underfull \hbox (badness 10000) in paragraph at lines 177--179
 
 [8]
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <10.95> on input line 205.
+(Font)              <10.95> on input line 202.
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <8> on input line 205.
+(Font)              <8> on input line 202.
 
-Underfull \hbox (badness 1077) in paragraph at lines 208--208
-\OT4/cmr/m/n/10.95 nie ci°-g™e wy-ko-
+Overfull \hbox (44.97203pt too wide) in paragraph at lines 201--239
+[]
  []
 
 
-Underfull \hbox (badness 3536) in paragraph at lines 227--227
-[]|\OT4/cmr/m/n/10.95 praca ci°-g™a do
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 227--227
-\OT4/cmr/m/n/10.95 ko´-ca trwa-nia
- []
-
-
-Underfull \hbox (badness 3536) in paragraph at lines 228--228
-[]|\OT4/cmr/m/n/10.95 praca ci°-g™a do
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 228--228
-\OT4/cmr/m/n/10.95 ko´-ca trwa-nia
- []
-
-
-Overfull \hbox (44.97203pt too wide) in paragraph at lines 204--231
+Overfull \hbox (57.214pt too wide) in paragraph at lines 201--239
 [] 
  []
 
-[9]
-Overfull \vbox (39.83786pt too high) has occurred while \output is active []
-
-
-[10]
-Overfull \hbox (61.39706pt too wide) in paragraph at lines 232--243
-[][] 
- []
-
-<fig/rejestracja.png, id=218, 507.39563pt x 494.59781pt>
+[9] [10] <fig/rejestracja.png, id=203, 507.39563pt x 494.59781pt>
 File: fig/rejestracja.png Graphic file (type png)
 
 <use fig/rejestracja.png>
-Package pdftex.def Info: fig/rejestracja.png used on input line 280.
-(pdftex.def)             Requested size: 507.3944pt x 494.59659pt.
+Package pdftex.def Info: fig/rejestracja.png used on input line 246.
+(pdftex.def)             Requested size: 426.79134pt x 416.04044pt.
 
-Overfull \hbox (91.32996pt too wide) in paragraph at lines 280--281
+Overfull \hbox (10.7269pt too wide) in paragraph at lines 246--247
  [][] 
  []
 
-[11] <fig/new_project.png, id=223, 256.70906pt x 127.97812pt>
+[11] <fig/new_project.png, id=210, 256.70906pt x 127.97812pt>
 File: fig/new_project.png Graphic file (type png)
 
 <use fig/new_project.png>
-Package pdftex.def Info: fig/new_project.png used on input line 287.
+Package pdftex.def Info: fig/new_project.png used on input line 253.
 (pdftex.def)             Requested size: 256.70842pt x 127.9778pt.
  [12pdfTeX warning (ext4): destination with the same identifier (name{figure.1.
 1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.291 U
+l.257 U
        zupe≈Çniamy dane dotyczƒÖce projektu. Musimy mu nadaƒá nazwƒô, mo≈ºem...
  <./fig/rejestracja.png>]
-<fig/new_project_2.png, id=229, 752.8125pt x 578.91281pt>
+<fig/new_project_2.png, id=217, 752.8125pt x 578.91281pt>
 File: fig/new_project_2.png Graphic file (type png)
 
 <use fig/new_project_2.png>
-Package pdftex.def Info: fig/new_project_2.png used on input line 295.
-(pdftex.def)             Requested size: 752.81065pt x 578.91139pt.
+Package pdftex.def Info: fig/new_project_2.png used on input line 261.
+(pdftex.def)             Requested size: 426.79134pt x 328.20819pt.
 
-Overfull \hbox (336.74622pt too wide) in paragraph at lines 295--296
+Overfull \hbox (10.7269pt too wide) in paragraph at lines 261--262
  [][] 
  []
 
+<fig/collaborator.png, id=218, 194.22563pt x 213.04594pt>
+File: fig/collaborator.png Graphic file (type png)
+
+<use fig/collaborator.png>
+Package pdftex.def Info: fig/collaborator.png used on input line 269.
+(pdftex.def)             Requested size: 194.22514pt x 213.04541pt.
+
+<fig/add_collaborator.png, id=219, 720.44156pt x 76.78688pt>
+File: fig/add_collaborator.png Graphic file (type png)
+
+<use fig/add_collaborator.png>
+Package pdftex.def Info: fig/add_collaborator.png used on input line 275.
+(pdftex.def)             Requested size: 426.79134pt x 45.48781pt.
+
+Overfull \hbox (10.7269pt too wide) in paragraph at lines 275--276
+ [][] 
+ []
+
+LaTeX Font Info:    External font `plex10' loaded for size
+(Font)              <10> on input line 276.
+LaTeX Font Info:    External font `plex10' loaded for size
+(Font)              <7> on input line 276.
 [13pdfTeX warning (ext4): destination with the same identifier (name{figure.1.2
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.299 T
-       eraz mo≈ºemy dodaƒá kolejnych uczestnik√≥w projektu wybierajƒÖc z men...
- <./fig/new_project.png>]
-<fig/collaborator.png, id=236, 194.22563pt x 213.04594pt>
-File: fig/collaborator.png Graphic file (type png)
-
-<use fig/collaborator.png>
-Package pdftex.def Info: fig/collaborator.png used on input line 303.
-(pdftex.def)             Requested size: 194.22514pt x 213.04541pt.
- [14pdfTeX warning (ext4): destination with the same identifier (name{figure.1.
-3}) has been already used, duplicate ignored
+l.278 \end{figure}
+                  pdfTeX warning (ext4): destination with the same identifier (
+name{figure.1.3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.306 \end{figure}
-                   <./fig/new_project_2.png>]
-<fig/add_collaborator.png, id=242, 720.44156pt x 76.78688pt>
-File: fig/add_collaborator.png Graphic file (type png)
-
-<use fig/add_collaborator.png>
-Package pdftex.def Info: fig/add_collaborator.png used on input line 309.
-(pdftex.def)             Requested size: 720.43979pt x 76.78668pt.
-
-Overfull \hbox (304.37535pt too wide) in paragraph at lines 309--310
- [][] 
- []
-
-LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <10> on input line 310.
-LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <7> on input line 310.
-<fig/gitdownload.png, id=244, 331.2375pt x 57.96657pt>
+l.278 \end{figure}
+                   <./fig/new_project.png> <./fig/new_project_2.png>]
+<fig/gitdownload.png, id=228, 331.2375pt x 57.96657pt>
 File: fig/gitdownload.png Graphic file (type png)
 
 <use fig/gitdownload.png>
-Package pdftex.def Info: fig/gitdownload.png used on input line 323.
+Package pdftex.def Info: fig/gitdownload.png used on input line 289.
 (pdftex.def)             Requested size: 331.23668pt x 57.96642pt.
- [15pdfTeX warning (ext4): destination with the same identifier (name{figure.1.
-4}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.327 
-      pdfTeX warning (ext4): destination with the same identifier (name{figure.
-1.5}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.327 
-       <./fig/collaborator.png> <./fig/add_collaborator.png>]) (./chapter_2.tex
-[16pdfTeX warning (ext4): destination with the same identifier (name{figure.1.6
-}) has been already used, duplicate ignored
+) (./chapter_2.tex [14pdfTeX warning (ext4): destination with the same identifi
+er (name{figure.1.4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.1 \chapter
-            {Obs≈Çuga programu} <./fig/gitdownload.png>]
+            {Obs≈Çuga programu}pdfTeX warning (ext4): destination with the same
+ identifier (name{figure.1.5}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Obs≈Çuga programu}pdfTeX warning (ext4): destination with the same
+ identifier (name{figure.1.6}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1 \chapter
+            {Obs≈Çuga programu} <./fig/collaborator.png> <./fig/add_collaborato
+r.png> <./fig/gitdownload.png>]
  2.
-<fig/1.png, id=263, 511.9125pt x 369.63094pt>
+<fig/1.png, id=243, 511.9125pt x 369.63094pt>
 File: fig/1.png Graphic file (type png)
  <use fig/1.png>
 Package pdftex.def Info: fig/1.png used on input line 5.
 (pdftex.def)             Requested size: 284.52756pt x 205.44652pt.
 
-<fig/2.png, id=264, 517.935pt x 374.90062pt>
+<fig/2.png, id=245, 517.935pt x 374.90062pt>
 File: fig/2.png Graphic file (type png)
  <use fig/2.png>
 Package pdftex.def Info: fig/2.png used on input line 12.
 (pdftex.def)             Requested size: 284.52756pt x 205.96143pt.
- [17
+ [15
 
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1}) 
 has been already used, duplicate ignored
@@ -985,19 +955,19 @@ has been already used, duplicate ignored
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.16 J
-      e≈ºeli wybierzemy opcjƒô "Dodaj turniej" musimy nadaƒá mu nazwƒô <./fig/1
-.png>] <fig/3.png, id=270, 516.42938pt x 371.88937pt>
+      e≈ºeli wybierzemy opcjƒô "Dodaj turniej" musimy nadaƒá mu nazwƒô rys.\...
+ <./fig/1.png>] <fig/3.png, id=253, 516.42938pt x 371.88937pt>
 File: fig/3.png Graphic file (type png)
  <use fig/3.png>
 Package pdftex.def Info: fig/3.png used on input line 19.
 (pdftex.def)             Requested size: 284.52756pt x 204.89728pt.
 
-<fig/4.png, id=271, 515.67656pt x 374.14781pt>
+<fig/4.png, id=255, 515.67656pt x 374.14781pt>
 File: fig/4.png Graphic file (type png)
  <use fig/4.png>
 Package pdftex.def Info: fig/4.png used on input line 30.
 (pdftex.def)             Requested size: 284.52756pt x 206.44417pt.
- [18pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+ [16pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
 2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1011,57 +981,57 @@ eady used, duplicate ignored
                                                   \fi \fi 
 l.34 W
       pisujemy dane u≈ºytkownika, kategorie mo≈ºemy wybraƒá z listy <./fig/2.pn
-g> <./fig/3.png>] <fig/5.png, id=280, 513.41812pt x 371.88937pt>
+g> <./fig/3.png>] <fig/5.png, id=265, 513.41812pt x 371.88937pt>
 File: fig/5.png Graphic file (type png)
 
 <use fig/5.png>
 Package pdftex.def Info: fig/5.png used on input line 37.
 (pdftex.def)             Requested size: 284.52756pt x 206.0946pt.
- <fig/6.png, id=281, 514.17094pt x 371.13657pt>
+ <fig/6.png, id=267, 514.17094pt x 371.13657pt>
 File: fig/6.png Graphic file (type png)
  <use fig/6.png>
 Package pdftex.def Info: fig/6.png used on input line 45.
 (pdftex.def)             Requested size: 284.52756pt x 205.37727pt.
 
-[19pdfTeX warning (ext4): destination with the same identifier (name{figure.2.4
+[17pdfTeX warning (ext4): destination with the same identifier (name{figure.2.4
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.49 W
-       zak≈Çadce turniej mo≈ºemy ustawic parametry turnieju takie jak:pdfTeX wa
-rning (ext4): destination with the same identifier (name{figure.2.5}) has been 
-already used, duplicate ignored
+       zak≈Çadce turniej rys.\ref{fig:zakladka_turniej} mo≈ºemy ustawic para...
+pdfTeX warning (ext4): destination with the same identifier (name{figure.2.5}) 
+has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.49 W
-       zak≈Çadce turniej mo≈ºemy ustawic parametry turnieju takie jak: <./fig/4
-.png> <./fig/5.png>] <fig/7.png, id=289, 517.18219pt x 371.13657pt>
+       zak≈Çadce turniej rys.\ref{fig:zakladka_turniej} mo≈ºemy ustawic para...
+ <./fig/4.png> <./fig/5.png>] <fig/7.png, id=275, 517.18219pt x 371.13657pt>
 File: fig/7.png Graphic file (type png)
 
 <use fig/7.png>
 Package pdftex.def Info: fig/7.png used on input line 67.
 (pdftex.def)             Requested size: 284.52756pt x 204.18803pt.
- [20pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+ [18pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
 6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.71 W
        zak≈Çadce "Podzia≈Ç na grupy" z menu "Sortowanie graczy" mo≈ºemy wybr...
- <./fig/6.png>] <fig/8.png, id=300, 517.935pt x 374.90062pt>
+ <./fig/6.png>] <fig/8.png, id=286, 517.935pt x 374.90062pt>
 File: fig/8.png Graphic file (type png)
  <use fig/8.png>
 Package pdftex.def Info: fig/8.png used on input line 74.
 (pdftex.def)             Requested size: 284.52756pt x 205.96143pt.
 
-<fig/9.png, id=301, 514.92375pt x 370.38374pt>
+<fig/9.png, id=287, 514.92375pt x 370.38374pt>
 File: fig/9.png Graphic file (type png)
  <use fig/9.png>
 Package pdftex.def Info: fig/9.png used on input line 81.
 (pdftex.def)             Requested size: 284.52756pt x 204.66115pt.
- [21pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+ [19pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
 7}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1075,19 +1045,19 @@ has been already used, duplicate ignored
                                                   \fi \fi 
 l.85 Z
       awodnika do grupy mo≈ºemy przydzieliƒá rƒôcznie klikajƒÖc PPM i wybier...
- <./fig/7.png> <./fig/8.png>] <fig/10.png, id=308, 517.18219pt x 371.88937pt>
+ <./fig/7.png> <./fig/8.png>] <fig/10.png, id=294, 517.18219pt x 371.88937pt>
 File: fig/10.png Graphic file (type png)
 
 <use fig/10.png>
 Package pdftex.def Info: fig/10.png used on input line 88.
 (pdftex.def)             Requested size: 284.52756pt x 204.6022pt.
- <fig/11.png, id=309, 515.67656pt x 370.38374pt>
+ <fig/11.png, id=295, 515.67656pt x 370.38374pt>
 File: fig/11.png Graphic file (type png)
 
 <use fig/11.png>
 Package pdftex.def Info: fig/11.png used on input line 95.
 (pdftex.def)             Requested size: 284.52756pt x 204.36726pt.
- [22pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+ [20pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
 9}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1101,19 +1071,19 @@ eX warning (ext4): destination with the same identifier (name{figure.2.10}) has
                                                   \fi \fi 
 l.99 R
       ozgrywki kt√≥re mogƒÖ siƒô odbyƒá zostajƒÖ pod≈õwietlone na zielono\\ <./
-fig/9.png> <./fig/10.png>] <fig/12.png, id=316, 515.67656pt x 371.88937pt>
+fig/9.png> <./fig/10.png>] <fig/12.png, id=302, 515.67656pt x 371.88937pt>
 File: fig/12.png Graphic file (type png)
 
 <use fig/12.png>
 Package pdftex.def Info: fig/12.png used on input line 109.
 (pdftex.def)             Requested size: 284.52756pt x 205.19803pt.
- <fig/13.png, id=317, 516.42938pt x 371.88937pt>
+ <fig/13.png, id=303, 516.42938pt x 371.88937pt>
 File: fig/13.png Graphic file (type png)
 
 <use fig/13.png>
 Package pdftex.def Info: fig/13.png used on input line 116.
 (pdftex.def)             Requested size: 284.52756pt x 204.89728pt.
- [23pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+ [21pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
 11}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1128,18 +1098,18 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2.12})
 l.120 P
        o ustaleniu wynik√≥w wszystkich rozgrywek mo≈ºemy zako≈Ñczyƒá eliminacje
  <./fig/11.png> <./fig/12.png>]
-<fig/14.png, id=324, 516.42938pt x 374.14781pt>
+<fig/14.png, id=310, 516.42938pt x 374.14781pt>
 File: fig/14.png Graphic file (type png)
  <use fig/14.png>
 Package pdftex.def Info: fig/14.png used on input line 123.
 (pdftex.def)             Requested size: 284.52756pt x 206.14159pt.
 
-<fig/15.png, id=325, 517.935pt x 371.88937pt>
+<fig/15.png, id=311, 517.935pt x 371.88937pt>
 File: fig/15.png Graphic file (type png)
  <use fig/15.png>
 Package pdftex.def Info: fig/15.png used on input line 131.
 (pdftex.def)             Requested size: 284.52756pt x 204.30713pt.
- [24pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+ [22pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
 13}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1153,19 +1123,19 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2.14})
                                                   \fi \fi 
 l.135 J
        e≈ºeli zawodnicy kt√≥rzy dostali siƒô do fina≈Çu grali ze sobƒÖ wcze≈...
- <./fig/13.png> <./fig/14.png>] <fig/16.png, id=332, 514.17094pt x 373.395pt>
+ <./fig/13.png> <./fig/14.png>] <fig/16.png, id=318, 514.17094pt x 373.395pt>
 File: fig/16.png Graphic file (type png)
 
 <use fig/16.png>
 Package pdftex.def Info: fig/16.png used on input line 138.
 (pdftex.def)             Requested size: 284.52756pt x 206.62704pt.
- <fig/17.png, id=333, 511.15968pt x 372.64218pt>
+ <fig/17.png, id=319, 511.15968pt x 372.64218pt>
 File: fig/17.png Graphic file (type png)
 
 <use fig/17.png>
 Package pdftex.def Info: fig/17.png used on input line 146.
 (pdftex.def)             Requested size: 284.52756pt x 207.42157pt.
- [25pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+ [23pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
 15}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1180,18 +1150,18 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2.16})
 l.150 P
        o rozpoczƒôciu turnieju w zak≈Çadce "Poka≈º lub edytuj dodanych uczes...
  <./fig/15.png> <./fig/16.png>]
-<fig/18.png, id=341, 515.67656pt x 366.61969pt>
+<fig/18.png, id=326, 515.67656pt x 366.61969pt>
 File: fig/18.png Graphic file (type png)
  <use fig/18.png>
 Package pdftex.def Info: fig/18.png used on input line 153.
 (pdftex.def)             Requested size: 284.52756pt x 202.29037pt.
 
-<fig/19.png, id=342, 513.41812pt x 368.1253pt>
+<fig/19.png, id=327, 513.41812pt x 368.1253pt>
 File: fig/19.png Graphic file (type png)
  <use fig/19.png>
 Package pdftex.def Info: fig/19.png used on input line 160.
 (pdftex.def)             Requested size: 284.52756pt x 204.00864pt.
- [26pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
+ [24pdfTeX warning (ext4): destination with the same identifier (name{figure.2.
 17}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1206,13 +1176,13 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2.18})
 l.164 J
        e≈ºeli zawodnik rozegra≈Ç ju≈º jakie≈õ pojedynki to nie zostajƒÖ one ...
  <./fig/17.png> <./fig/18.png>]
-<fig/20.png, id=349, 512.66531pt x 371.88937pt>
+<fig/20.png, id=334, 512.66531pt x 371.88937pt>
 File: fig/20.png Graphic file (type png)
  <use fig/20.png>
 Package pdftex.def Info: fig/20.png used on input line 167.
 (pdftex.def)             Requested size: 284.52756pt x 206.39537pt.
 )
-(./czlonkowie/PJablonski/PJ.tex [27pdfTeX warning (ext4): destination with the 
+(./czlonkowie/PJablonski/PJ.tex [25pdfTeX warning (ext4): destination with the 
 same identifier (name{figure.2.19}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1229,27 +1199,41 @@ l.1 \chapter
 LaTeX Font Info:    Try loading font information for OT4+cmtt on input line 3.
 (c:/texlive/2015/texmf-dist/tex/latex/polski/ot4cmtt.fd
 File: ot4cmtt.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
-) [28
+) [26
 
 ]
-Overfull \hbox (32.3332pt too wide) in paragraph at lines 165--165
+Overfull \hbox (32.3332pt too wide) in paragraph at lines 329--329
 []\OT4/cmtt/m/n/10.95 tournaments = rawTournaments==null ? new TreeMap<>() : ra
 wTournaments.stream()[] 
  []
 
-[29]
-Overfull \hbox (32.3332pt too wide) in paragraph at lines 165--165
+[27]
+Overfull \hbox (32.3332pt too wide) in paragraph at lines 329--329
 []\OT4/cmtt/m/n/10.95 competitors = rawCompetitors==null ? new TreeMap<>() : ra
 wCompetitors.stream()[] 
  []
 
 
-Overfull \hbox (95.56877pt too wide) in paragraph at lines 165--165
+Overfull \hbox (95.56877pt too wide) in paragraph at lines 329--329
 []\OT4/cmtt/m/n/10.95 public void insertOrUpdateSingleGame(List<SingleGame> ins
 SingleGames, Integer turniej) \{[] 
  []
 
-[30] [31]
+[28]
+Overfull \hbox (291.02415pt too wide) in paragraph at lines 329--329
+[]\OT4/cmtt/m/n/10.95 Na potrzeby klasy odpowiadaj°cej za przechowywanie danych
+ zastosowa™em takie kolekcje jak: list¶, map¶, treemap, arraylist.[] 
+ []
+
+
+Overfull \hbox (808.40605pt too wide) in paragraph at lines 329--329
+[]\OT4/cmtt/m/n/10.95 Aby w ™atwy sposÛb przekazywa¢ dane pomi¶dzy interfejsem 
+uªytkownika a baz° danych zastosowa™em element wzorca projektowego, ktÛrym jest
+ model. Stworzy™em trzy modele: zawodnika, turnieju i rozgrywek. Oto ich kod:[]
+ 
+ []
+
+[29]
 Overfull \hbox (15.08714pt too wide) in paragraph at lines 329--329
 [] \OT4/cmtt/m/n/10.95 * kategoria szachowa, id, grupa, czy uczestnik nie jest 
 zdyskwalifikowany.[] 
@@ -1279,13 +1263,13 @@ Overfull \hbox (9.33846pt too wide) in paragraph at lines 329--329
 Strings.locale));[] 
  []
 
-[32]
+[30]
 Overfull \hbox (342.76234pt too wide) in paragraph at lines 329--329
 []    \OT4/cmtt/m/n/10.95 public Competitor(Integer id, String name, String sur
 name, int age, int chessCategory, boolean isDisqualified, Integer group) \{[] 
  []
 
-[33] [34]
+[31] [32]
 Overfull \hbox (72.57402pt too wide) in paragraph at lines 329--329
 []     \OT4/cmtt/m/n/10.95 if(obj instanceof Competitor) return this.getId() ==
  ((Competitor) obj).getId();[] 
@@ -1303,13 +1287,13 @@ Overfull \hbox (199.04515pt too wide) in paragraph at lines 426--426
 r, int boards, int rounds, int roundsCompleted) \{[] 
  []
 
-[35]
+[33]
 Overfull \hbox (20.83583pt too wide) in paragraph at lines 426--426
 []     \OT4/cmtt/m/n/10.95 return new Tournament(id, name, year, boards, rounds
 , roundsCompleted);[] 
  []
 
-[36]
+[34]
 Overfull \hbox (9.33846pt too wide) in paragraph at lines 517--517
 [] \OT4/cmtt/m/n/10.95 * informacj¶ w ktÛrej rundzie (czy teª w fina™ach) rozgr
 ywka by™a zawarta[] 
@@ -1321,7 +1305,7 @@ Overfull \hbox (9.33846pt too wide) in paragraph at lines 517--517
 itorB, int score,[] 
  []
 
-[37]
+[35]
 Overfull \hbox (101.31746pt too wide) in paragraph at lines 517--517
 []\OT4/cmtt/m/n/10.95 public SingleGame(Competitor competitorW, Competitor comp
 etitorB, int round, int board) \{[] 
@@ -1333,7 +1317,7 @@ Overfull \hbox (66.82533pt too wide) in paragraph at lines 517--517
 // swiss bye / disqualified[] 
  []
 
-[38]
+[36]
 Overfull \hbox (227.78859pt too wide) in paragraph at lines 517--517
 []     \OT4/cmtt/m/n/10.95 if(sg1.getCompetitorW()==sg2.getCompetitorW() \&\& s
 g1.getCompetitorB()==sg2.getCompetitorB()) return true;[] 
@@ -1357,7 +1341,7 @@ Overfull \hbox (32.3332pt too wide) in paragraph at lines 553--553
 trings.notPlayedYet);[] 
  []
 
-[39]
+[37]
 Overfull \hbox (20.83583pt too wide) in paragraph at lines 553--553
 []\OT4/cmtt/m/n/10.95 am.put(Strings.notPlayedYet,scoreUpdateAction(table, Stri
 ngs.notPlayedYet));[] 
@@ -1381,7 +1365,7 @@ Overfull \hbox (55.32796pt too wide) in paragraph at lines 616--616
 i, pozostalo rozgrywek "+[] 
  []
 
-[40]
+[38]
 Overfull \hbox (15.08714pt too wide) in paragraph at lines 616--616
 []\OT4/cmtt/m/n/10.95 System.out.print("\textbackslash\{\}t"+(j+i/2)+"-"+((gp-j
 +i/2)\%(gp-1)+1));[] 
@@ -1399,7 +1383,7 @@ Overfull \hbox (49.57927pt too wide) in paragraph at lines 683--683
 , "Wiek", "Kategoria"\};[] 
  []
 
-[41] [42]
+[39] [40]
 Overfull \hbox (55.32796pt too wide) in paragraph at lines 723--723
 []                \OT4/cmtt/m/n/10.95 if(e.isPopupTrigger() \&\& e.getComponent
 () instanceof JTable ) \{[] 
@@ -1423,7 +1407,7 @@ Overfull \hbox (164.55302pt too wide) in paragraph at lines 723--723
 .show(e.getComponent(), e.getX(), e.getY());[] 
  []
 
-[43]
+[41]
 Overfull \hbox (61.07664pt too wide) in paragraph at lines 920--920
 []\OT4/cmtt/m/n/10.95 public GroupsPanel(Tournament t, Database db, onTournamen
 tStartListener listener)\{[] 
@@ -1441,7 +1425,7 @@ Overfull \hbox (32.3332pt too wide) in paragraph at lines 920--920
 upsList(competitors);[] 
  []
 
-[44]
+[42]
 Overfull \hbox (43.83058pt too wide) in paragraph at lines 920--920
 []        \OT4/cmtt/m/n/10.95 container.add(rigridAfterN = Box.createRigidArea(
 new Dimension(0, 20)));[] 
@@ -1453,7 +1437,7 @@ Overfull \hbox (3.58977pt too wide) in paragraph at lines 920--920
 ±ciami "pustymi"[] 
  []
 
-[45]
+[43]
 Overfull \hbox (38.0819pt too wide) in paragraph at lines 920--920
 []\OT4/cmtt/m/n/10.95 groupsLists.get(n).add(new Competitor(null, "", "", 0, 0,
  false, 0)); //doda¢ 0[] 
@@ -1477,7 +1461,7 @@ Overfull \hbox (124.31221pt too wide) in paragraph at lines 920--920
 Uczestnicy nieprzydzieleni do grup");[] 
  []
 
-[46]
+[44]
 Overfull \hbox (26.58452pt too wide) in paragraph at lines 920--920
 []            \OT4/cmtt/m/n/10.95 if(e.isPopupTrigger() \&\& e.getComponent() i
 nstanceof JTable) \{[] 
@@ -1519,7 +1503,7 @@ Overfull \hbox (15.08714pt too wide) in paragraph at lines 920--920
 ableDataChanged();[] 
  []
 
-[47]
+[45]
 Overfull \hbox (55.32796pt too wide) in paragraph at lines 961--961
 []\OT4/cmtt/m/n/10.95 public GamesPanel(Tournament t, Database db, onEliminatio
 nsEndListener listener)\{[] 
@@ -1531,7 +1515,7 @@ Overfull \hbox (262.28072pt too wide) in paragraph at lines 961--961
 PlayedYet, Strings.whiteWon, Strings.blackWon, Strings.tie\})[] 
  []
 
-[48]
+[46]
 Overfull \hbox (72.57402pt too wide) in paragraph at lines 1074--1074
 []\OT4/cmtt/m/n/10.95 public GroupsChoosePanel(Tournament t, Database db, onFin
 aleStartListener listener)\{[] 
@@ -1549,7 +1533,7 @@ Overfull \hbox (72.57402pt too wide) in paragraph at lines 1074--1074
 Games, turniej.getBoards()),[] 
  []
 
-[49]
+[47]
 Overfull \hbox (20.83583pt too wide) in paragraph at lines 1074--1074
 []\OT4/cmtt/m/n/10.95 if(score==1 \&\& c.equals(c1)) competitorWon.put(c, compe
 titorWon.get(c)+1);[] 
@@ -1573,7 +1557,7 @@ Overfull \hbox (32.3332pt too wide) in paragraph at lines 1074--1074
 etitorLost.get(c)+1);[] 
  []
 
-[50]
+[48]
 Overfull \hbox (118.56352pt too wide) in paragraph at lines 1074--1074
 []\OT4/cmtt/m/n/10.95 competitors.sort((c1,c2)->(int)(4.*(competitorSBPoints.ge
 t(c2)-competitorSBPoints.get(c1))));[] 
@@ -1597,13 +1581,13 @@ Overfull \hbox (61.07664pt too wide) in paragraph at lines 1122--1122
 lesEndListener listener)\{[] 
  []
 
-[51]
+[49]
 Overfull \hbox (262.28072pt too wide) in paragraph at lines 1122--1122
 []         \OT4/cmtt/m/n/10.95 new JComboBox<String>(new String[] \{Strings.not
 PlayedYet, Strings.whiteWon, Strings.blackWon, Strings.tie\})[] 
  []
 
-[52]
+[50]
 Overfull \hbox (20.83583pt too wide) in paragraph at lines 1199--1199
 []\OT4/cmtt/m/n/10.95 if(score==1 \&\& c.equals(c1)) competitorWon.put(c, compe
 titorWon.get(c)+1);[] 
@@ -1633,13 +1617,13 @@ Overfull \hbox (118.56352pt too wide) in paragraph at lines 1199--1199
 t(c2)-competitorSBPoints.get(c1))));[] 
  []
 
-[53]
+[51]
 Overfull \hbox (95.56877pt too wide) in paragraph at lines 1199--1199
 []\OT4/cmtt/m/n/10.95 competitors.sort((c1,c2)->(int)(2.*(competitorPoints.get(
 c2)-competitorPoints.get(c1))));[] 
  []
 
-) (./czlonkowie/MPelc/Mpelc.tex [54]
+) (./czlonkowie/MPelc/Mpelc.tex [52]
  4.
 
 Overfull \hbox (3.58977pt too wide) in paragraph at lines 28--28
@@ -1647,45 +1631,45 @@ Overfull \hbox (3.58977pt too wide) in paragraph at lines 28--28
 rLayout.CENTER);[] 
  []
 
-[55
+[53
 
-] <fig/m1.jpg, id=475, 517.18219pt x 371.13657pt>
+] <fig/m1.jpg, id=460, 517.18219pt x 371.13657pt>
 File: fig/m1.jpg Graphic file (type jpg)
  <use fig/m1.jpg>
 Package pdftex.def Info: fig/m1.jpg used on input line 80.
 (pdftex.def)             Requested size: 284.52756pt x 204.18803pt.
- [56]
-[57pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1
+ [54]
+[55pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.149 \end{verbatim}
                      <./fig/m1.jpg>]
-<fig/m2.jpg, id=485, 408.77719pt x 233.37187pt>
+<fig/m2.jpg, id=471, 408.77719pt x 233.37187pt>
 File: fig/m2.jpg Graphic file (type jpg)
  <use fig/m2.jpg>
 Package pdftex.def Info: fig/m2.jpg used on input line 153.
 (pdftex.def)             Requested size: 284.52756pt x 162.44757pt.
- [58] [59pdfTeX warning (ext4): destination with the same identifier (name{figu
+ [56] [57pdfTeX warning (ext4): destination with the same identifier (name{figu
 re.4.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.215 \end{verbatim}
                      <./fig/m2.jpg>]
-<fig/m3.jpg, id=495, 508.90125pt x 99.37125pt>
+<fig/m3.jpg, id=481, 508.90125pt x 99.37125pt>
 File: fig/m3.jpg Graphic file (type jpg)
  <use fig/m3.jpg>
 Package pdftex.def Info: fig/m3.jpg used on input line 219.
 (pdftex.def)             Requested size: 284.52756pt x 55.56108pt.
- [60pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
+ [58pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
 3}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
 l.251 \end{verbatim}
-                     <./fig/m3.jpg>] [61]
+                     <./fig/m3.jpg>] [59]
 Overfull \hbox (61.07664pt too wide) in paragraph at lines 296--296
 []\OT4/cmtt/m/n/10.95 // dla pÛl imi¶ i nazwisko ustawiony edytor na podstawie 
 powyªszego pola tekstowego[] 
@@ -1709,7 +1693,7 @@ Overfull \hbox (61.07664pt too wide) in paragraph at lines 343--343
 powyªszego pola tekstowego[] 
  []
 
-[62]
+[60]
 Overfull \hbox (61.07664pt too wide) in paragraph at lines 343--343
 []\OT4/cmtt/m/n/10.95 public void changeSelection(int row, int column, boolean 
 toggle, boolean extend) \{[] 
@@ -1721,7 +1705,7 @@ Overfull \hbox (216.29121pt too wide) in paragraph at lines 384--384
 ysWithWhite, Strings.playsWithBlack, Strings.score\};[] 
  []
 
-[63]
+[61]
 Overfull \hbox (20.83583pt too wide) in paragraph at lines 417--417
 []\OT4/cmtt/m/n/10.95 List<Integer>  playingCompetitors  = new ArrayList<>(2*tu
 rniej.getBoards()),[] 
@@ -1739,19 +1723,19 @@ Overfull \hbox (72.57402pt too wide) in paragraph at lines 417--417
 core()==0\&\&g.getBoard()<0)[] 
  []
 
-[64]
+[62]
 Overfull \hbox (38.0819pt too wide) in paragraph at lines 573--573
 []\OT4/cmtt/m/n/10.95 private final JLabel nameL, yearL, sgTimeL, groupsL, boar
 dsL, stats1L, stats2L;[] 
  []
 
-[65]
+[63]
 Overfull \hbox (176.0504pt too wide) in paragraph at lines 573--573
 []\OT4/cmtt/m/n/10.95 nameL, nameTF, yearL, yearTF, sgTimeL, sgTimeSB, groupsL,
  groupsSB, boardsL, boardsSB, stats1L, stats2L[] 
  []
 
-[66]
+[64]
 Overfull \hbox (3.58977pt too wide) in paragraph at lines 573--573
 []\OT4/cmtt/m/n/10.95 @Override public final void removeUpdate(DocumentEvent e)
  \{ action(); \}[] 
@@ -1775,7 +1759,7 @@ Overfull \hbox (9.33846pt too wide) in paragraph at lines 573--573
 any czas turnieju[] 
  []
 
-[67]
+[65]
 Overfull \hbox (15.08714pt too wide) in paragraph at lines 573--573
 []\OT4/cmtt/m/n/10.95 int gier\_naraz = (int)Math.min(Math.floor(graczy/2), tur
 niej.getBoards());[] 
@@ -1787,12 +1771,12 @@ Overfull \hbox (49.57927pt too wide) in paragraph at lines 573--573
 \_naraz)*czasSG+" min");[] 
  []
 
-<fig/m4.jpg, id=531, 499.11469pt x 170.88844pt>
+<fig/m4.jpg, id=516, 499.11469pt x 170.88844pt>
 File: fig/m4.jpg Graphic file (type jpg)
  <use fig/m4.jpg>
 Package pdftex.def Info: fig/m4.jpg used on input line 577.
 (pdftex.def)             Requested size: 284.52756pt x 97.42046pt.
- [68pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
+ [66pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
 4}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1810,7 +1794,7 @@ Overfull \hbox (141.55827pt too wide) in paragraph at lines 672--672
 xtbackslash\{\}nProwadz°cy przedmiot: "+[] 
  []
 
-[69]
+[67]
 Overfull \hbox (135.80959pt too wide) in paragraph at lines 672--672
 []\OT4/cmtt/m/n/10.95 "dr Antoni Lig¶za\textbackslash\{\}nProgram obs™uguje tur
 niej szachowy odbywaj°cy si¶ podczas "+[] 
@@ -1828,12 +1812,12 @@ Overfull \hbox (233.53728pt too wide) in paragraph at lines 672--672
 "+c+"?\textbackslash\{\}nTej operacji nie moªna cofn°¢",[] 
  []
 
-<fig/m5.jpg, id=541, 320.69812pt x 103.88812pt>
+<fig/m5.jpg, id=527, 320.69812pt x 103.88812pt>
 File: fig/m5.jpg Graphic file (type jpg)
  <use fig/m5.jpg>
 Package pdftex.def Info: fig/m5.jpg used on input line 676.
 (pdftex.def)             Requested size: 284.52756pt x 92.1732pt.
- [70pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
+ [68pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
 5}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
@@ -1865,7 +1849,7 @@ a") \&\& nazwisko.endsWith("ki")));[]
 
 )
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 44.
- [71]
+ [69]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 44.
  (./dokumentacja_szachy.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 44.
@@ -1875,13 +1859,13 @@ Package rerunfilecheck Info: File `dokumentacja_szachy.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 44.
  ) 
 Here is how much of TeX's memory you used:
- 9174 strings out of 493054
- 127876 string characters out of 6138326
- 250573 words of memory out of 5000000
- 12290 multiletter control sequences out of 15000+600000
+ 9157 strings out of 493054
+ 127774 string characters out of 6138326
+ 253573 words of memory out of 5000000
+ 12291 multiletter control sequences out of 15000+600000
  18686 words of font info for 59 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 34i,12n,52p,819b,597s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,12n,52p,819b,529s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2015/texmf-dist/fonts/enc/dvips/pl/pltt.enc}{c:/texlive/2015/texm
 f-dist/fonts/enc/dvips/pl/plrm.enc}<c:/texlive/2015/texmf-dist/fonts/type1/publ
 ic/amsfonts/cm/cmsy10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/pl/plb
@@ -1889,10 +1873,10 @@ x10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/pl/plbx12.pfb><c:/texliv
 e/2015/texmf-dist/fonts/type1/public/pl/plbx9.pfb><c:/texlive/2015/texmf-dist/f
 onts/type1/public/pl/plr10.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/p
 l/plr9.pfb><c:/texlive/2015/texmf-dist/fonts/type1/public/pl/pltt10.pfb>
-Output written on dokumentacja_szachy.pdf (71 pages, 935631 bytes).
+Output written on dokumentacja_szachy.pdf (69 pages, 934541 bytes).
 PDF statistics:
- 625 PDF objects out of 1000 (max. 8388607)
- 505 compressed objects within 6 object streams
- 205 named destinations out of 1000 (max. 500000)
+ 607 PDF objects out of 1000 (max. 8388607)
+ 490 compressed objects within 5 object streams
+ 187 named destinations out of 1000 (max. 500000)
  300 words of extra memory for PDF output out of 10000 (max. 10000000)
 
