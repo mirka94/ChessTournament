@@ -1,0 +1,775 @@
+%%
+%% This is file `pracadok.sty',
+%%
+%% 
+%% Copyright 2005 Antoni Lig/eza
+%% Zestaw makr do sk/ladu prac dyplomowych
+%% dla student/ow PWSZ w Nowym S/aczu
+%%
+%% Author: Antoni Lig/eza
+%%         now at: ANTi@interia.pl
+%% Last update: 10.04.2008
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{pracadok}[2009/06/19 macros for preparing thesis]
+%\hyphenation{Pre-zen-ta-cja zwią-zku dzia-łki ukła-du zmie-nna}
+%\DeclareOption{blue}{\setcounter{scheme}{0}} 
+
+
+
+%Ustawia uk/lad ca/lej strony
+\def\ustawieniewymiarustrony{%
+%Szerokosc tekstu idealnie dopasowana do wymiaru kartki
+\setlength{\textwidth}{\paperwidth}%
+%
+%Lewy margines 1in plus to co w argumencie
+\addtolength{\textwidth}{-1in}%
+\setlength{\oddsidemargin}{3.5cm}%
+
+\hoffset=-.95in
+\addtolength{\textwidth}{-\hoffset}
+
+
+%
+%Tu trzeba odj/ac aby nie wystawa/l poza prawa kraw/edz kartki
+\addtolength{\textwidth}{-\oddsidemargin}%
+%
+%Prawy margines
+\addtolength{\textwidth}{-2.75cm}%
+%%Wysokosc, na poczatku, tekstu dopasowana do kartki 
+\setlength{\textheight}{\paperheight}%
+%
+%Bo te jest gdzie/s  zarezerwowane 
+\addtolength{\textheight}{-2in}%
+%
+\setlength{\marginparwidth}{2.5cm}%
+%%\setlength{\marginparpush}{0cm}
+%%\setlength{\marginparsep}{0cm}
+\setlength{\topmargin}{0cm}%
+\setlength{\headsep}{1cm}%
+\setlength{\headheight}{15pt}%
+%
+\addtolength{\textheight}{-\headheight}%
+\addtolength{\textheight}{-\headsep}%
+\addtolength{\textheight}{-\footskip}%
+}
+
+%!!!!!Ustawia uk/lad ca/lej strony Wyklad
+\def\ustawieniewymiarustronyWyklad{%
+%Szerokosc tekstu idealnie dopasowana do wymiaru kartki
+\setlength{\textwidth}{\paperwidth}%
+%
+%Lewy margines 1in plus to co w argumencie
+\addtolength{\textwidth}{-1in}%
+\setlength{\oddsidemargin}{.5cm}%
+
+\hoffset=-.95in
+\addtolength{\textwidth}{-\hoffset}
+
+
+%
+%Tu trzeba odj/ac aby nie wystawa/l poza prawa kraw/edz kartki
+\addtolength{\textwidth}{-\oddsidemargin}%
+%
+%Prawy margines
+\addtolength{\textwidth}{-.5cm}%
+%%Wysokosc, na poczatku, tekstu dopasowana do kartki 
+\setlength{\textheight}{\paperheight}%
+
+\setlength{\textheight}{\paperheight}%
+%
+%Bo te jest gdzie/s  zarezerwowane 
+\addtolength{\textheight}{-2in}%
+%
+\setlength{\marginparwidth}{2.5cm}%
+%%\setlength{\marginparpush}{0cm}
+%%\setlength{\marginparsep}{0cm}
+\setlength{\topmargin}{0cm}%
+\setlength{\headsep}{1cm}%
+\setlength{\headheight}{15pt}%
+%
+\addtolength{\textheight}{-\headheight}%
+\addtolength{\textheight}{-\headsep}%
+\addtolength{\textheight}{-\footskip}}
+
+
+%!!!!!!!!!!!!Ustawia uk/lad ca/lej strony
+\def\ustawieniewymiarustronyslide{%
+%Szerokosc tekstu idealnie dopasowana do wymiaru kartki
+\setlength{\textwidth}{\paperwidth}%
+%
+%Lewy margines 1in plus to co w argumencie
+\addtolength{\textwidth}{-1in}%
+\setlength{\oddsidemargin}{.5cm}%
+
+\hoffset=-.95in
+\addtolength{\textwidth}{-\hoffset}
+
+
+%
+%Tu trzeba odj/ac aby nie wystawa/l poza prawa kraw/edz kartki
+\addtolength{\textwidth}{-\oddsidemargin}%
+%
+%Prawy margines
+\addtolength{\textwidth}{-.5cm}%
+%
+%Wysokosc, na poczatku, tekstu dopasowana do kartki 
+\setlength{\textheight}{\paperheight}%
+%
+
+
+\voffset=-.95in
+\addtolength{\textheight}{-\voffset}
+
+
+%Bo te jest gdzie/s  zarezerwowane 
+\addtolength{\textheight}{-1in}%
+%
+\setlength{\marginparwidth}{0.5cm}%
+%%\setlength{\marginparpush}{0cm}
+%%\setlength{\marginparsep}{0cm}
+\setlength{\topmargin}{0cm}%
+\setlength{\headsep}{.1cm}%
+\setlength{\headheight}{15pt}%
+%
+\addtolength{\textheight}{-\headheight}%
+\addtolength{\textheight}{-\headsep}%
+\addtolength{\textheight}{-\footskip}%
+}
+
+
+\RequirePackage{geometry}
+%Pakiet  AMS do sk/ladu r/owna/n matematycznych
+\RequirePackage{amssymb,amsmath}
+
+
+%Nie u/zywaj babela!!!!!
+
+%\RequirePackage[T1]{fontenc}  
+
+\RequirePackage{polski}
+
+\RequirePackage{graphicx}
+
+%Pakiet do listowania kod/ow /xrod/lowych program/ow
+\RequirePackage{listings}
+
+%Pakiet do rysowania diagram/ow utworzonych w latexcad
+%\RequirePackage{latexcad}   
+%Ustawiam dla /srodowiska picture jednostk/e podstawow/a
+\setlength{\unitlength}{1mm}
+
+
+%Pakiet do wstawiania rysnk/ow (a) (b) ...
+%\RequirePackage{subfigure}
+
+%Pakiet do ustawienia nag/l/owk/ow
+\RequirePackage{fancyhdr}
+
+
+
+
+
+\def\poziomkontekstu{3}
+
+\setcounter{secnumdepth}{\poziomkontekstu}
+%Jak gleboko zageszczone naglowki umieszczasc w spisie
+\setcounter{tocdepth}{\poziomkontekstu}
+
+
+%Wci/ecie akapitu zgodne z polsk/a norm/a
+\setlength{\parindent}{1.5em}
+
+\newdimen\mathindent
+\setlength{\mathindent}{1.5em} 
+%Odstepy miedzy akapitami
+\parskip=0em
+
+%\pretolerance
+\tolerance=300\relax%tex i latex ustawiaja na 200
+
+%Jak duze moga byc odstepy pomiedzy slowami
+%\setlength{\emergencystretch}{13em}
+
+\hyphenpenalty=100
+\exhyphenpenalty=10000
+\widowpenalty 10000 %b/ekarty w tekscie
+\clubpenalty  5000 %szewce
+\displaywidowpenalty 5000
+
+
+%Nie stosujemy dodatkowych kar pomi/edzy zwyk/lymi liniami
+\interlinepenalty 0 
+
+
+
+%Powoduje /ze pierwsza linia po sekcji ma wci/ecie
+\renewcommand{\@afterindentfalse}{\@afterindenttrue}
+
+
+\gdef\figurename{Rys.}
+\gdef\tablename{Tab.}
+\gdef\chaptername{}
+
+
+
+%Kropki w spisie tre/sci po numerze
+\def\numberline#1{\hb@xt@\@tempdima{#1.\hfill}}
+
+%Dodano po numerze przypisu nawias okr/ag/ly
+\def\thefootnote{\@arabic\c@footnote)}
+
+%Dotyczy podpis/ow  w tabelach i rysunkach  
+\long\def\@makecaption#1#2{%
+\small\vskip\abovecaptionskip%
+\sbox\@tempboxa{#1.\hspace{1ex}#2}%
+\ifdim \wd \@tempboxa >.9\hsize%
+%
+\ifdim \wd \@tempboxa <1.8\hsize%
+\def\mojaszerokosc{.7\hsize}%
+\else%
+\def\mojaszerokosc{\hsize}
+\fi%\ifdim \wd \@tempboxa >2\hsize%
+\centering
+\begin{minipage}{\mojaszerokosc}
+\settowidth{\hangindent}{#1.\hspace{1ex}}#1.\hspace{1ex}#2
+\end{minipage}
+\else%
+%
+\global\@minipagefalse%
+\hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+\fi\vskip\belowcaptionskip%
+}
+\setlength{\abovecaptionskip}{.4em}
+\setlength{\belowcaptionskip}{.4em}
+
+
+
+%Format chapter
+\def\@AAAmakechapterhead#1%
+{%
+ \vspace*{50\p@}%
+ {%
+  \parindent \z@ \normalfont \raggedright%\flushleft 
+  \ifnum \c@secnumdepth >\m@ne%
+   \if@mainmatter%
+    \Huge\bfseries%
+    \settowidth{\hangindent}{\thechapter.\hspace{1ex}}%
+    \@chapapp\arabic{chapter}.\hspace{1ex}%
+   \fi%
+  \fi%
+  \interlinepenalty\@M\Huge\bfseries#1%
+  %\vskip 4\p@%
+  %\hrule
+  %\vskip 4\p@%
+  %\hrule
+  \par\nobreak\vskip 40\p@%
+ }%
+}
+
+\def\@makechapterhead#1%
+{%
+ \vspace*{50\p@}%
+ {%
+  \parindent \z@ \normalfont \raggedright\flushright 
+  \ifnum \c@secnumdepth >\m@ne%
+   \if@mainmatter%
+    \Huge\bfseries%
+    \settowidth{\hangindent}{\thechapter.\hspace{1ex}}%
+    {\color{black}\normalsize\@chapapp\hspace{1ex}{\Huge\arabic{chapter}}}\break%
+   \fi%
+  \fi%
+  \interlinepenalty\@M\Huge\bfseries#1%
+  %\vskip 4\p@%
+  %\hrule
+  %\vskip 4\p@%
+  %\hrule
+  \par\nobreak\vskip 40\p@%
+ }%
+}
+
+
+\newcounter{paragrafnumer}
+\newcommand\pg%
+{%  
+ \@startsection{paragrafnumer}{1}{\z@}%
+               {-3.5ex \@plus -1ex \@minus -.2ex}%
+               {2.3ex \@plus.2ex}%
+               {\centering\normalfont x}%               
+}
+
+%%%%%
+%W sekcjach zmieniono wielkosc czcionek  
+%oraz dodano \raggedright blokuj/a /lamanie s/l/ow
+\renewcommand\section%
+{%  
+ \@startsection{section}{1}{\z@}%
+               {-3.5ex \@plus -1ex \@minus -.2ex}%
+               {2.3ex \@plus.2ex}%
+               {\raggedright\normalfont\large\bfseries}%               
+}
+
+\renewcommand\subsection%
+{% 
+ \@startsection{subsection}{2}{\z@}%
+               {-3.25ex\@plus -1ex \@minus -.2ex}%
+               {1.5ex \@plus .2ex}%
+               {\raggedright\normalfont\normalsize\bfseries}%
+}
+
+\renewcommand\subsubsection%
+{% 
+ \@startsection{subsubsection}{3}{\z@}%
+               {-3.25ex\@plus -1ex \@minus -.2ex}%
+               {1.5ex \@plus .2ex}%
+               {\raggedright\normalfont\normalsize\bfseries}%
+}
+
+\renewcommand\paragraph%
+{%
+ \@startsection{paragraph}{4}{\z@}%
+               {3.25ex \@plus1ex \@minus.2ex}%
+               {-1em}%
+               {\normalfont\normalsize\bfseries}%
+}
+
+\renewcommand\subparagraph%
+{%
+ \@startsection{subparagraph}
+               {5}{\parindent$\circ$}%
+               {3.25ex \@plus1ex \@minus .2ex}%
+               {-1em}%
+               {\normalfont\normalsize\bfseries}%
+}
+
+%\let\vcite=\cite
+%\def\cite[#1]#2{\footnote{\vcite[#1]{#2}}}
+                                      
+%Odst/ep po numerze section subsec itd.
+%oraz kropka
+\def\@seccntformat#1{\csname the#1\endcsname.\hspace{1ex}}
+
+
+%Zmodyfikowano tak aby by/ly w spisie tre/sci 
+%spis rysunkow i tabel
+\renewcommand\listoffigures{%
+    %\newpage
+    \chapter*{\listfigurename}%
+    \addcontentsline{toc}{chapter}{\listfigurename}%
+          \@mkboth{\MakeUppercase\listfigurename}%            
+           {\MakeUppercase\listfigurename}%
+               \@starttoc{lof}%
+               }
+\renewcommand\listoftables{%
+    \chapter*{\listtablename}%
+    \addcontentsline{toc}{chapter}{\listtablename}%
+          \@mkboth{%
+                    \MakeUppercase\listtablename}%
+                             {\MakeUppercase\listtablename}%
+                                 \@starttoc{lot}%
+                                     }
+
+\renewenvironment{thebibliography}[1]
+     {\chapter{\bibname}%
+      \@mkboth{\MakeUppercase\bibname}{\MakeUppercase\bibname}%
+      \list{\@biblabel{\@arabic\c@enumiv}}%
+           {\settowidth\labelwidth{\@biblabel{#1}}%
+            \leftmargin\labelwidth
+            \advance\leftmargin\labelsep
+            \@openbib@code
+            \usecounter{enumiv}%
+            \let\p@enumiv\@empty
+            \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+      \sloppy
+      \clubpenalty4000
+      \@clubpenalty \clubpenalty
+      \widowpenalty4000%
+      \sfcode`\.\@m}
+     {\def\@noitemerr
+       {\@latex@warning{Empty `thebibliography' environment}}%
+      \endlist}
+
+
+
+
+%zrobic funkcje ktora za : wprowadza :\nopagebreak ??przmysl
+
+%Funkcje uzyte w dokumencie
+\def\odstepwpion{\vskip 12pt \noindent}
+\def\mysl#1{}%uwaga, mysl niedrukowana
+\def\JWRN{\mbox{\tt JWRN}}
+
+
+\newcommand{\przyklad}{%
+\begin{flushleft}%
+\framebox{\textbf{$\diamond$ Przykład}}%
+\end{flushleft}%
+}
+
+
+
+%Odwo/lanie do r/ownania jest w nawiasach okr/ag/lych
+%W nowych dokumentach u/zywac \eqref z pakietu AMS
+\newcommand{\refeq}[1]{(\ref{#1})}
+
+%Funkcja warto/s/c bezwzgl/edna |x|
+\newcommand{\abs}[1]{\left| #1 \right|}
+
+%Oznaczenie zmiennych wektorow
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+%Oznaczenie macierzy sta/lych wsp/o/lczynnik/ow
+\newcommand{\mat}[1]{\mathbf{#1}}
+
+%arcus tanges
+\DeclareMathOperator*{\atan}{atan}
+%Norma kwadratowa ||x||
+\newcommand{\norma}[1]{\left\|#1\right\|}
+
+%Moc zbioru
+\newcommand{\moc}[1]{\overline{#1}}
+
+%Symbol promila 20.5
+\def\promil{\hbox{\%\kern -.1em\char24}}
+
+\DeclareMathOperator*{\rowny}{=}
+
+\newcommand{\poz}{\mbox{ --}~}%funkcja powodujaca ze wyrazenie x -- opis nie bedzie lamane przed opisem
+
+\newcommand{\punkt}[1]{%
+\vskip 4\p@\noindent%
+\textbf{#1}\par\nobreak\vskip 4\p@}
+
+
+
+%Opis angielskich odpowiednikow
+\newcommand{\ang}[1]{(ang.~\emph{#1})}
+
+
+
+\newcommand{\klawisz}[1]{\fbox{#1}}
+
+\newcounter{num}\newenvironment{varlist}[2]   {\begin{list}{\textrm{#1 #2{num}:}}{\usecounter{num}
+\setlength{\labelsep}{5mm}       \settowidth{\leftmargin}{\textrm{#1 #2{num}:}}       \addtolength{\leftmargin}{1cm}}}{\end{list}} 
+
+\newenvironment{vvarlist}[1]
+ {
+  gdzie:
+  \begin{list}{}
+   {
+    \usecounter{num}
+    \setlength{\labelsep}{5mm}
+    \settowidth{\leftmargin}{\textrm{#1:}}
+    \addtolength{\leftmargin}{1cm}
+   }
+ }
+ {\end{list}} 
+
+
+
+\newenvironment{where}[1]%
+ {%  
+  \noindent #1:  
+  \begin{itemize}
+  \abovedisplayskip=0pt
+  \topsep=0pt
+  \parskip=0pt
+  
+  %Odstep miedzy punktami listy
+  \parsep=0pt
+  \itemsep=0pt
+    
+  %Odst/ep po \item[]
+  \setlength{\labelsep}{1ex}
+  
+  %\settowidth{\leftskip}{#1}
+  \settowidth{\leftskip}{aaaaaaaaaaa}%to tylko dla Przanowskiego
+  
+  \addtolength{\leftskip}{-\leftmargin}
+  \addtolength{\leftskip}{+\labelsep}
+    %\settowidth{\labelwidth}{#1}%
+    %\leftmargin=2\labelwidth%
+    % \advance \leftmargin\labelsep		  
+		  
+  
+  
+  
+  %\listparindent=0pt
+    
+  
+  %\parskip=0em  
+  
+  %\labelwidth=0pt
+  %\leftmargin=0pt
+  
+  
+  %\baselineskip=0pt
+  %\settowidth{\leftmargin}{#1:wwwwwwwwwwww}    
+  %\addtolength{\leftmargin}{4cm}
+  %\item [#1]
+ }%
+ {
+  \end{itemize}
+ }
+ 
+\newenvironment{qwhere}[1]{%
+\noindent #1   
+    \begin{list}{}
+    		 {\renewcommand{\makelabel}[1]{%
+		 				##1\hfill}%
+		  \settowidth{\labelwidth}{#1}%
+		  \leftmargin=2\labelwidth%
+		  \advance \leftmargin\labelsep}}%
+    {\end{list}}
+
+
+
+%W definicji newtheorem dodano tylko korpke po numerze
+%Czyli jest: Twierdzenie 1.2. W przestrzeni unitarnej...
+\def\newtheorem#1{%
+  \@ifnextchar[{\@othm{#1}}{\@nthm{#1}}}
+\def\@nthm#1#2{%
+  \@ifnextchar[{\@xnthm{#1}{#2}}{\@ynthm{#1}{#2}}}
+\def\@xnthm#1#2[#3]{%
+  \expandafter\@ifdefinable\csname #1\endcsname
+    {\@definecounter{#1}\@newctr{#1}[#3]%
+     \expandafter\xdef\csname the#1\endcsname{%
+       \expandafter\noexpand\csname the#3\endcsname  \@thmcountersep
+          \@thmcounter{#1}.}%
+     \global\@namedef{#1}{\@thm{#1}{#2}}%
+     \global\@namedef{end#1}{\@endtheorem}}}
+
+
+
+
+
+%Definicja twierdzenia. W etykietach uzywac skrotu tw:
+%\label{tw:nawzatwierdzenia}
+\newtheorem{twierdzenie}{Twierdzenie}[chapter]
+
+
+%\label{def:nawzadefinicji}
+\newtheorem{definicja@}{Definicja}[chapter]
+\newenvironment{definicja}
+ {
+  \begin{definicja@}
+  %\hrule
+  \small
+  \normalfont  
+ }
+ {
+  \end{definicja@}
+ } 
+
+\newtheorem{lemat@}{Lemat}[chapter]
+\newenvironment{lemat}
+ {
+  \begin{lemat@}
+  %\hrule
+  \small
+  \normalfont  
+ }
+ {
+  \end{lemat@}
+ } 
+
+
+%\newcounter{projekt}
+\newtheorem{projektZadanie@}{\underline{Czynność}}
+\newenvironment{projektZadanie} 
+	{	 
+  \begin{projektZadanie@}
+  \begin{samepage}
+  	\normalfont
+  
+  }
+ 		{
+ 
+  	\vspace{1.ex}
+  	\hrule
+  	\vspace{.30ex}
+  	\hrule
+  	\vspace{2.40ex}
+  \end{samepage}
+  \end{projektZadanie@} 
+ 		}
+ 
+\newcommand{\osoba}[1]{\chapter{#1}\setcounter{projektZadanie@}{0}}
+ 
+\newcounter{zadanie}
+\newcounter{rozwiazanie}[zadanie]
+%\setcounter{zadanie}{0}
+
+ %\if\samepage
+  %\nopagebreak
+  %\else
+  %\pagebreak 
+  %\noskipsec
+  %\end{epage}
+  %\nopagebreak 
+  %\fi 
+
+%\nopagebreak
+
+
+%Srodowisko dla zadan
+\newtheorem{zadanie@}{Zadanie}[chapter]
+\newenvironment{zadanie}
+ {
+
+  \stepcounter{zadanie}
+  \begin{zadanie@}
+  \hrule
+  \vspace{.5ex}
+  \small
+  \normalfont  
+ }
+ {
+  \vspace{.5ex}
+  \hrule
+  \vspace{.15ex}
+  \hrule
+  \end{zadanie@}
+ } 
+
+\newtheorem{rozwiazaniee}{Rozwiązanie}[zadanie]
+
+
+
+\newenvironment{rozwiazanie}
+ {
+  \stepcounter{rozwiazanie}
+  %\addvspace{2em}
+  \newpage
+  \if@noskipsec \leavevmode \fi  
+  \par
+  \nobreak  
+  \relax 
+  \noindent$\vartriangleright$\textbf{Rozwiązanie \therozwiazanie. }
+  %\hrule
+  \small
+  \normalfont  
+ }
+ {
+  
+ } 
+
+%Srodowisko dla przykladow
+%\label{exa:nawzaprzykladu}
+\newtheorem{example@}{Przykład}[chapter]
+\newenvironment{example}
+ {
+  \begin{example@}
+  %\hrule
+  \small
+  \normalfont  
+ }
+ {
+  \end{example@}
+ } 
+
+\DeclareOption{slide}%
+{%
+ %\geometry{screen,margin=2cm}
+ %\def\normalsize{\Large\bf} \let\large\LARGE \let\Large\LARGE \let\LARGE\Huge
+ \setlength\paperheight{112mm}%
+ \setlength\paperwidth{150mm}%
+ \ustawieniewymiarustronyslide%
+%3/4 
+}
+\DeclareOption{wyklad}%
+{%
+ %\geometry{screen,margin=2cm}
+ %\def\normalsize{\Large\bf} \let\large\LARGE \let\Large\LARGE \let\LARGE\Huge
+  \setlength\paperwidth{170mm}%
+  \setlength\paperheight{4096mm}%
+ \ustawieniewymiarustronyWyklad%
+%3/4 
+}
+
+\DeclareOption{zaloczniki}%
+{%
+ %\geometry{screen,margin=2cm}
+ %\def\normalsize{\Large\bf} \let\large\LARGE \let\Large\LARGE \let\LARGE\Huge
+  \setlength\paperwidth{170mm}%
+  \setlength\paperheight{4096mm}%
+\pagestyle{fancy}
+
+\fancyhf{} % usun biezace ustawienia pagin
+
+%\fancyhead[LO,RO]{\small\thepage}
+
+\fancyfoot[CO]{\small\thepage}
+
+%\fancyhead[LO]{\small \leftmark }
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\addtolength{\headheight}{0pt} % pionowy odstep nad kreska
+\fancypagestyle{plain}%
+{%
+	\fancyhead{} % usun p. gorne na stronach pozbawionych numeracji (plain)
+	\renewcommand{\headrulewidth}{0pt}% pozioma kreska
+}
+\lhead{}
+\ifnum \thechapter >0%
+ \renewcommand{\chaptermark}[1]
+ {
+  \markboth{}{}
+ }
+\fi% 
+%3/4 
+}
+% A4 is default paper size, if there is nothing set in the documentclass-statement
+
+\DeclareOption{margdok}%
+{%
+ 
+ 
+ \ustawieniewymiarustrony%
+ %%
+ \pagestyle{fancy}
+
+ \fancyhf{} % usun biezace ustawienia pagin
+ \addtolength{\footskip}{0.8cm}
+%\fancyfoot[CO]{\slshape Program wspomagania systemu ratownictwa na terenie miasta Nowy Sącz - 2013}
+\fancyhead[LO,RO]{\small\thepage}
+\fancyhead[LO]{\small \leftmark }
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.0pt}
+	\addtolength{\headheight}{1.6pt} % pionowy odstep nad kreska
+
+\fancypagestyle{plain}%
+{%
+	\fancyhead{} % usun p. gorne na stronach pozbawionych numeracji (plain)
+	\renewcommand{\headrulewidth}{0pt}% pozioma kreska
+}
+\lhead{\small\nouppercase{\leftmark}}
+\ifnum \thechapter >0%
+ \renewcommand{\chaptermark}[1]
+ {
+  \markboth{\thechapter.\hspace{1ex}#1}{}
+ }
+\fi%
+%%
+%Koniec ustawienia naglowkow
+%%
+
+}
+
+%Gdy nie ustawiono /zadnej opcji to ta jest domy/slna
+\ExecuteOptions{margdok}
+\ProcessOptions
+
+
+%%
+%Ustawienie naglowkow
+
+%ZPI
+\newcommand{\zadanieprojektowe}[4]{\section{Zadanie projektowe} %
+\begin{itemize} %
+\item[\textbf{Rodzaj zadania:\quad}]#1 %
+\item[\textbf{Data rozpoczęcia:\quad}]#2%
+\item[\textbf{Data zakończenie:\quad}]#3 %
+\item[\textbf{Aktualny status:\quad}]#4 %
+\end{itemize}}
+
+\endinput
